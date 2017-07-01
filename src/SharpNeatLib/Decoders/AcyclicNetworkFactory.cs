@@ -80,15 +80,13 @@ namespace SharpNeat.Decoders
             // Note. 'inputAndBiasCount' holds the index of the first output node.
             Array.Copy(newIdxByDefinitionIdx, inputAndBiasCount, outputNeuronIdxArr, 0, outputCount);
 
-            // Construct arrays with additional 'per node' data/refs (activation functions, activation fn auxiliary data).
+            // Construct activation function array.
             IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
             IActivationFunction[] nodeActivationFnArr = new IActivationFunction[nodeCount];
-            double[][] nodeAuxArgsArray = new double[nodeCount][];
             for(int i=0; i<nodeCount; i++) 
             {
                 int definitionIdx = nodeInfoByDepth[i]._definitionIdx;
                 nodeActivationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId);
-                nodeAuxArgsArray[i] = nodeList[definitionIdx].AuxState;
             }
 
 
@@ -157,8 +155,8 @@ namespace SharpNeat.Decoders
                 layerInfoArr[currDepth]._endConnectionIdx = connIdx;
             }
 
-            return new AcyclicNetwork(nodeActivationFnArr, nodeAuxArgsArray, connInfoArr, layerInfoArr, outputNeuronIdxArr,
-                                          nodeCount, networkDef.InputNodeCount, networkDef.OutputNodeCount, boundedOutput);
+            return new AcyclicNetwork(nodeActivationFnArr, connInfoArr, layerInfoArr, outputNeuronIdxArr,
+                                      nodeCount, networkDef.InputNodeCount, networkDef.OutputNodeCount, boundedOutput);
         }
 
         #endregion

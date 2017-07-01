@@ -29,9 +29,7 @@ namespace SharpNeat.Network
 
         public string FunctionDescription => "Leaky Rectified Linear Unit (ReLU)";
 
-        public bool AcceptsAuxArgs => false;
-
-        public double Calculate(double x, double[] auxArgs)
+        public double Calculate(double x)
         {
             double y;
             if (x > 0.0) {
@@ -42,7 +40,7 @@ namespace SharpNeat.Network
             return y;
         }
 
-        public float Calculate(float x, float[] auxArgs)
+        public float Calculate(float x)
         {
             float y;
             if (x > 0.0) {
@@ -51,16 +49,6 @@ namespace SharpNeat.Network
                 y = 0;
             }
             return y;
-        }
-
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
-        {
-            throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
-        }
-
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
-        {
-            throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
     }
 }

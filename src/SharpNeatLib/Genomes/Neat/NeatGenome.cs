@@ -63,7 +63,6 @@ namespace SharpNeat.Genomes.Neat
         readonly int _outputNeuronCount;
         readonly int _inputAndBiasNeuronCount;
         readonly int _inputBiasOutputNeuronCount;
-        int _auxStateNeuronCount;
 
         // Created in a just-in-time manner and cached for possible re-use.
         NetworkConnectivityData _networkConnectivityData;
@@ -101,12 +100,9 @@ namespace SharpNeat.Genomes.Neat
                 RebuildNeuronGeneConnectionInfo();
             }
 
-            // If we have a factory then create the evaluation info object now, also count the nodes that have auxiliary state.
-            // Otherwise wait until the factory is provided through the property setter.
-            if(null != _genomeFactory) 
-            {
+            // If we have a factory then create the evaluation info object now.
+            if(null != _genomeFactory) {
                 _evalInfo = new EvaluationInfo(genomeFactory.NeatGenomeParameters.FitnessHistoryLength);
-                _auxStateNeuronCount = CountAuxStateNodes();
             }
 
             Debug.Assert(PerformIntegrityCheck());
@@ -128,7 +124,6 @@ namespace SharpNeat.Genomes.Neat
             // Copy pre-calculated values.
             _inputNeuronCount = copyFrom._inputNeuronCount;
             _outputNeuronCount = copyFrom._outputNeuronCount;
-            _auxStateNeuronCount = copyFrom._auxStateNeuronCount;
             _inputAndBiasNeuronCount = copyFrom._inputAndBiasNeuronCount;
             _inputBiasOutputNeuronCount = copyFrom._inputBiasOutputNeuronCount;
             
@@ -416,7 +411,6 @@ namespace SharpNeat.Genomes.Neat
                 }
                 _genomeFactory = value;
                 _evalInfo = new EvaluationInfo(_genomeFactory.NeatGenomeParameters.FitnessHistoryLength);
-                _auxStateNeuronCount = CountAuxStateNodes();
             }
         }
         
@@ -503,9 +497,6 @@ namespace SharpNeat.Genomes.Neat
                         success = structureChange = (null != Mutate_AddConnection());
                         break;
                     case 3:
-                        success = Mutate_NodeAuxState();
-                        break;
-                    case 4:
                         success = structureChange = (null != Mutate_DeleteConnection());
                         break;
                     default:
@@ -611,10 +602,7 @@ namespace SharpNeat.Genomes.Neat
             newNeuronGene.SourceNeurons.Add(connectionToReplace.SourceNodeId);
             newNeuronGene.TargetNeurons.Add(connectionToReplace.TargetNodeId);
 
-            // Track aux state node count and update stats.
-            if(_genomeFactory.ActivationFnLibrary.GetFunction(newNeuronGene.ActivationFnId).AcceptsAuxArgs) {
-                _auxStateNeuronCount++;
-            }
+            // Update stats.
             _genomeFactory.Stats._mutationCountAddNode++;
 
             // Indicate success.
@@ -868,49 +856,6 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Mutate a neuron's auxiliary state. Returns true if successful (failure can occur if there are no neuron's with auxiliary state).
-        /// </summary>
-        private bool Mutate_NodeAuxState()
-        {
-            if(_auxStateNeuronCount == 0)
-            {   // No nodes with aux state. Indicate failure.
-                return false;
-            }
-
-            // ENHANCEMENT: Target for performance improvement.
-            // Select neuron to mutate. Depending on the genome type it may be the case that not all genomes have mutable state, hence
-            // we may have to scan for mutable neurons.
-            int auxStateNodeIdx = _genomeFactory.Rng.Next(_auxStateNeuronCount) + 1;
-
-            IActivationFunctionLibrary fnLib = _genomeFactory.ActivationFnLibrary;
-            NeuronGene gene;
-            if(_auxStateNeuronCount == _neuronGeneList.Count)
-            {
-                gene = _neuronGeneList[auxStateNodeIdx];
-            }
-            else
-            {
-                // Scan for selected gene.
-                int i=0;
-                for(int j=0; j<auxStateNodeIdx; i++)
-                {
-                    if(fnLib.GetFunction(_neuronGeneList[i].ActivationFnId).AcceptsAuxArgs) {
-                        j++;
-                    }
-                }
-                gene = _neuronGeneList[i-1];
-            }
-
-            Debug.Assert(fnLib.GetFunction(gene.ActivationFnId).AcceptsAuxArgs);
-
-            // Invoke mutation method (specific to each activation function).
-            fnLib.GetFunction(gene.ActivationFnId).MutateAuxArgs(gene.AuxState, _genomeFactory.Rng, _genomeFactory.GaussianSampler,
-                                                                 _genomeFactory.NeatGenomeParameters.ConnectionWeightRange);
-            // Indicate success.
-            return true;
-        }
-
-        /// <summary>
         /// Attempt to perform a connection deletion mutation. Returns the deleted connection gene if successful.
         /// </summary>
         private ConnectionGene Mutate_DeleteConnection()
@@ -937,11 +882,6 @@ namespace SharpNeat.Genomes.Neat
             {   
                 // Remove neuron.
                 _neuronGeneList.RemoveAt(srcNeuronIdx);
-
-                // Track aux state node count.
-                if(_genomeFactory.ActivationFnLibrary.GetFunction(srcNeuronGene.ActivationFnId).AcceptsAuxArgs) {
-                    _auxStateNeuronCount--;
-                } 
             }
 
             // Target neuron.
@@ -955,11 +895,6 @@ namespace SharpNeat.Genomes.Neat
             {   
                 // Remove neuron.
                 _neuronGeneList.RemoveAt(tgtNeuronIdx);
-
-                // Track aux state node count.
-                if(_genomeFactory.ActivationFnLibrary.GetFunction(tgtNeuronGene.ActivationFnId).AcceptsAuxArgs) {
-                    _auxStateNeuronCount--;
-                } 
             }
 
             _genomeFactory.Stats._mutationCountDeleteConnection++;
@@ -1212,20 +1147,6 @@ namespace SharpNeat.Genomes.Neat
 
         #region Private Methods [Initialisation]
 
-        private int CountAuxStateNodes()
-        {
-            IActivationFunctionLibrary fnLib = _genomeFactory.ActivationFnLibrary;
-            int auxNodeCount = 0;
-            int nodeCount = _neuronGeneList.Count;
-            for(int i=0; i<nodeCount; i++)
-            {
-                if(fnLib.GetFunction(_neuronGeneList[i].ActivationFnId).AcceptsAuxArgs) {
-                    auxNodeCount++;
-                }
-            }
-            return auxNodeCount;
-        }
-
         /// <summary>
         /// Rebuild the connection info on each neuron gene. This info is created by genome factories and maintained during evolution,
         /// but requires building after loading genomes from storage.
@@ -1338,22 +1259,6 @@ namespace SharpNeat.Genomes.Neat
                 }
 
                 prevId = _neuronGeneList[idx].InnovationId;
-            }
-
-            // Count nodes with aux state (can only do this if we have a genome factory).
-            if(null != _genomeFactory)
-            {
-                IActivationFunctionLibrary fnLib = _genomeFactory.ActivationFnLibrary;
-                int auxStateNodeCount = 0;
-                for(int i=0; i<count; i++) {
-                    if(fnLib.GetFunction(_neuronGeneList[i].ActivationFnId).AcceptsAuxArgs) {
-                        auxStateNodeCount++;
-                    }
-                }
-                if(_auxStateNeuronCount != auxStateNodeCount) {
-                    Debug.WriteLine("Aux state neuron count is incorrect.");
-                    return false;
-                }
             }
 
             // Check connection genes.

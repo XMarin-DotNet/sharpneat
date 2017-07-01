@@ -45,10 +45,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// </summary>
         readonly IActivationFunction[] _nodeActivationFnArr;
         /// <summary>
-        /// Array of node activation function auxiliary arguments.
-        /// </summary>
-        readonly double[][] _nodeAuxArgsArr;
-        /// <summary>
         /// Array of connections.
         /// </summary>
         readonly ConnectionInfo[] _connectionArr;
@@ -81,7 +77,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// Construct an AcyclicNetwork with provided network definition data structures.
         /// </summary>
         /// <param name="nodeActivationFnArr">Array of neuron activation functions.</param>
-        /// <param name="nodeAuxArgsArr">Array of neuron activation function arguments.</param>
         /// <param name="connInfoArr">Array of connections.</param>
         /// <param name="layerInfoArr">Array of layer information.</param>
         /// <param name="outputNodeIdxArr">An array that specifies the index of each output neuron within _activationArr.
@@ -93,7 +88,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public AcyclicNetwork(IActivationFunction[] nodeActivationFnArr,
-                                  double[][] nodeAuxArgsArr,
                                   ConnectionInfo[] connInfoArr,
                                   LayerInfo[] layerInfoArr,
                                   int[] outputNodeIdxArr,
@@ -104,7 +98,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         {
             // Store refs to network structure data.
             _nodeActivationFnArr = nodeActivationFnArr;
-            _nodeAuxArgsArr = nodeAuxArgsArr;
             _connectionArr = connInfoArr;
             _layerInfoArr = layerInfoArr;
 
@@ -202,13 +195,12 @@ namespace SharpNeat.Phenomes.NeuralNets
 
                 // TODO: Performance tune the activation function method call.
                 // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
-                // The obvious/simplest performance improvement would be to pass an array of values to Calculate(), but the auxargs parameter
-                // currently thwarts the performance boost of that approach.
+                // The obvious/simplest performance improvement would be to pass an array of values to Calculate().
                 // 
                 // Activate current layer's nodes.
                 layerInfo = _layerInfoArr[layerIdx];
                 for(; nodeIdx < layerInfo._endNodeIdx; nodeIdx++) {
-                    _activationArr[nodeIdx] = _nodeActivationFnArr[nodeIdx].Calculate(_activationArr[nodeIdx], _nodeAuxArgsArr[nodeIdx]);
+                    _activationArr[nodeIdx] = _nodeActivationFnArr[nodeIdx].Calculate(_activationArr[nodeIdx]);
                 }
             }
         }

@@ -52,17 +52,9 @@ namespace SharpNeat.Network
         }       
 
         /// <summary>
-        /// Gets a flag that indicates if the activation function accepts auxiliary arguments.
+        /// Calculates the output value for the specified input value.
         /// </summary>
-        public bool AcceptsAuxArgs 
-        { 
-            get { return false; }
-        } 
-
-        /// <summary>
-        /// Calculates the output value for the specified input value and optional activation function auxiliary arguments.
-        /// </summary>
-        public double Calculate(double x, double[] auxArgs)
+        public double Calculate(double x)
         {
             if(x < -1.0) {
                 return -1.0;
@@ -74,11 +66,11 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
-        /// Calculates the output value for the specified input value and optional activation function auxiliary arguments.
+        /// Calculates the output value for the specified input value.
         /// This single precision overload of Calculate() will be used in neural network code 
         /// that has been specifically written to use floats instead of doubles.
         /// </summary>
-        public float Calculate(float x, float[] auxArgs)
+        public float Calculate(float x)
         {   
             if(x < -1f) {
                 return -1f;
@@ -87,23 +79,6 @@ namespace SharpNeat.Network
                 return 1f;
             }
             return x;
-        }
-
-        /// <summary>
-        /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
-        /// added nodes (from an 'add neuron' mutation).
-        /// </summary>
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
-        {
-            throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
-        }
-
-        /// <summary>
-        /// Genetic mutation for auxiliary argument data.
-        /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
-        {
-            throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
     }
 }

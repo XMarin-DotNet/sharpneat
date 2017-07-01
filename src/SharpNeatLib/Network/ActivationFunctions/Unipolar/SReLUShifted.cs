@@ -33,9 +33,7 @@ namespace SharpNeat.Network
 
         public string FunctionDescription => "S-Shaped Rectified Linear Unit (ReLU) with X-axis translation.";
 
-        public bool AcceptsAuxArgs => false;
-
-        public double Calculate(double x, double[] auxArgs)
+        public double Calculate(double x)
         {
             const double tl = 0.001; // threshold (left).
             const double tr = 0.999; // threshold (right).
@@ -56,7 +54,7 @@ namespace SharpNeat.Network
             return y;
         }
 
-        public float Calculate(float x, float[] auxArgs)
+        public float Calculate(float x)
         {
             const float tl = 0.001f; // threshold (left).
             const float tr = 0.999f; // threshold (right).
@@ -75,16 +73,6 @@ namespace SharpNeat.Network
             }
 
             return y;
-        }
-
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
-        {
-            throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
-        }
-
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
-        {
-            throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
     }
 }

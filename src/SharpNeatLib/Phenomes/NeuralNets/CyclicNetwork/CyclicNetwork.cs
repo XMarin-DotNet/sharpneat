@@ -52,7 +52,6 @@ namespace SharpNeat.Phenomes.NeuralNets
     {
         protected readonly ConnectionInfo[] _connectionArray;
         protected readonly IActivationFunction[] _neuronActivationFnArray;
-        protected readonly double[][] _neuronAuxArgsArray;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -77,7 +76,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// </summary>
         public CyclicNetwork(ConnectionInfo[] connInfoArr,
                              IActivationFunction[] neuronActivationFnArray,
-                             double[][] neuronAuxArgsArray,
                              int neuronCount,
                              int inputNeuronCount,
                              int outputNeuronCount,
@@ -86,7 +84,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         {
             _connectionArray = connInfoArr;
             _neuronActivationFnArray = neuronActivationFnArray;
-            _neuronAuxArgsArray = neuronAuxArgsArray;
 
             // Create neuron pre- and post-activation signal arrays.
             _preActivationArray = new double[neuronCount];
@@ -175,8 +172,7 @@ namespace SharpNeat.Phenomes.NeuralNets
 
                 // TODO: Performance tune the activation function method call.
                 // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
-                // The obvious/simplest performance improvement would be to pass an array of values to Calculate(), but the auxargs parameter
-                // currently thwarts the performance boost of that approach.
+                // The obvious/simplest performance improvement would be to pass an array of values to Calculate().
 
                 // Loop the neurons. Pass each neuron's pre-activation signals through its activation function
                 // and store the resulting post-activation signal.
@@ -184,7 +180,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // post-activation values and are never activated. 
                 for (int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
                 {
-                    _postActivationArray[j] = _neuronActivationFnArray[j].Calculate(_preActivationArray[j], _neuronAuxArgsArray[j]);
+                    _postActivationArray[j] = _neuronActivationFnArray[j].Calculate(_preActivationArray[j]);
                     
                     // Take the opportunity to reset the pre-activation signal array in preparation for the next 
                     // activation loop.

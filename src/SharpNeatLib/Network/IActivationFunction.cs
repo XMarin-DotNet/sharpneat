@@ -46,31 +46,15 @@ namespace SharpNeat.Network
         string FunctionDescription { get; }
 
         /// <summary>
-        /// Gets a flag that indicates if the activation function accepts auxiliary arguments.
+        /// Calculates the output value for the specified input value.
         /// </summary>
-        bool AcceptsAuxArgs { get; } 
+        double Calculate(double x);
 
         /// <summary>
-        /// Calculates the output value for the specified input value and optional activation function auxiliary arguments.
-        /// </summary>
-        double Calculate(double x, double[] auxArgs);
-
-        /// <summary>
-        /// Calculates the output value for the specified input value and optional activation function auxiliary arguments.
+        /// Calculates the output value for the specified input value.
         /// This single precision overload of Calculate() will be used in neural network code 
         /// that has been specifically written to use floats instead of doubles.
         /// </summary>
-        float Calculate(float x, float[] auxArgs);
-
-        /// <summary>
-        /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
-        /// added nodes (from an 'add neuron' mutation).
-        /// </summary>
-        double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange);
-
-        /// <summary>
-        /// Genetic mutation for auxiliary argument data.
-        /// </summary>
-        void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange);
+        float Calculate(float x);
     }
 }

@@ -43,7 +43,6 @@ namespace SharpNeat.Network
         const string __AttrTargetId = "tgt";
         const string __AttrWeight = "wght";
         const string __AttrActivationFunctionId = "fnId";
-        const string __AttrAuxState = "aux";
         const string __AttrProbability = "prob";
 
         #endregion
@@ -367,17 +366,12 @@ namespace SharpNeat.Network
                     NodeType nodeType = ReadAttributeAsNodeType(xrSubtree, __AttrType);
                     uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
                     int fnId = 0;
-                    double[] auxState = null;
                     if(nodeFnIds) 
                     {   // Read activation fn ID.
                         fnId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
-
-                        // Read aux state as comma separated list of real values.
-                        auxState = XmlIoUtils.ReadAttributeAsDoubleArray(xrSubtree, __AttrAuxState);
                     }
 
-                    // TODO: Read node aux state data.
-                    NetworkNode node = new NetworkNode(id, nodeType, fnId, auxState);
+                    NetworkNode node = new NetworkNode(id, nodeType, fnId);
                     nodeList.Add(node);
 
                     // Track the number of input and output nodes.

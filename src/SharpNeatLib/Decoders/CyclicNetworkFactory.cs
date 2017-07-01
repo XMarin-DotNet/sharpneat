@@ -33,15 +33,13 @@ namespace SharpNeat.Decoders
         {
             ConnectionInfo[] connInfoArr;
             IActivationFunction[] activationFnArray;
-            double[][] neuronAuxArgsArray;
             InternalDecode(networkDef, 
                            activationScheme.TimestepsPerActivation,
-                           out connInfoArr, out activationFnArray, out neuronAuxArgsArray);
+                           out connInfoArr, out activationFnArray);
 
             // Construct neural net.
             return new CyclicNetwork(connInfoArr,
                                      activationFnArray,
-                                     neuronAuxArgsArray,
                                      networkDef.NodeList.Count,
                                      networkDef.InputNodeCount,
                                      networkDef.OutputNodeCount,
@@ -56,8 +54,7 @@ namespace SharpNeat.Decoders
         private static void InternalDecode(INetworkDefinition networkDef,
                                            int timestepsPerActivation,
                                            out ConnectionInfo[] connInfoArr,
-                                           out IActivationFunction[] activationFnArray,
-                                           out double[][] neuronAuxArgsArray)
+                                           out IActivationFunction[] activationFnArray)
         {
             // Create an array of ConnectionInfo(s) that represent the connectivity of the network.
             connInfoArr = CreateConnectionInfoArray(networkDef);
@@ -86,11 +83,9 @@ namespace SharpNeat.Decoders
             int nodeCount = nodeList.Count;
             IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
             activationFnArray = new IActivationFunction[nodeCount];
-            neuronAuxArgsArray = new double[nodeCount][];
 
             for(int i=0; i<nodeCount; i++) {
                 activationFnArray[i] = activationFnLibrary.GetFunction(nodeList[i].ActivationFnId);
-                neuronAuxArgsArray[i] = nodeList[i].AuxState;
             }
         }
 

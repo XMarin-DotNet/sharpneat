@@ -31,10 +31,5 @@ namespace SharpNeat.Network
         /// associated with the network as a whole.
         /// </summary>
         int ActivationFnId { get; }
-        /// <summary>
-        /// Optional auxiliary node state. Null if no aux state is present. 
-        /// Note. Radial Basis Function center and epsilon values are stored here.
-        /// </summary>
-        double[] AuxState { get; }
     }
 }

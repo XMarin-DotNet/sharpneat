@@ -32,7 +32,6 @@ namespace SharpNeat.Genomes.Neat
         const double DefaultConnectionWeightMutationProbability = 0.94;
         const double DefaultAddNodeMutationProbability = 0.01;
         const double DefaultAddConnectionMutationProbability = 0.025;
-        const double DefaultNodeAuxStateMutationProbability = 0.00;
         const double DefaultDeleteConnectionMutationProbability = 0.025;
 
         #endregion
@@ -49,7 +48,6 @@ namespace SharpNeat.Genomes.Neat
         double _connectionWeightMutationProbability;
         double _addNodeMutationProbability;
         double _addConnectionMutationProbability;
-        double _nodeAuxStateMutationProbability;
         double _deleteConnectionMutationProbability;
 
         // RouletteWheelLayout representing the above five mutation probabilities.
@@ -84,7 +82,6 @@ namespace SharpNeat.Genomes.Neat
             _connectionWeightMutationProbability        = DefaultConnectionWeightMutationProbability;
             _addNodeMutationProbability                 = DefaultAddNodeMutationProbability;
             _addConnectionMutationProbability           = DefaultAddConnectionMutationProbability;
-            _nodeAuxStateMutationProbability            = DefaultNodeAuxStateMutationProbability;
             _deleteConnectionMutationProbability        = DefaultDeleteConnectionMutationProbability;
 
             _rouletteWheelLayout = CreateRouletteWheelLayout();
@@ -110,7 +107,6 @@ namespace SharpNeat.Genomes.Neat
             _connectionWeightMutationProbability        = copyFrom._connectionWeightMutationProbability;
             _addNodeMutationProbability                 = copyFrom._addNodeMutationProbability;
             _addConnectionMutationProbability           = copyFrom._addConnectionMutationProbability;
-            _nodeAuxStateMutationProbability            = copyFrom._nodeAuxStateMutationProbability;
             _deleteConnectionMutationProbability        = copyFrom._deleteConnectionMutationProbability;
 
             _rouletteWheelLayout = new DiscreteDistribution(copyFrom._rouletteWheelLayout);
@@ -229,23 +225,6 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets or sets the probability that a genome mutation is a 'node auxiliary state' mutation.
-        /// </summary>
-        public double NodeAuxStateMutationProbability
-        {
-            get 
-            {
-                return _nodeAuxStateMutationProbability; 
-            }
-            set 
-            {
-                _nodeAuxStateMutationProbability = value; 
-                _rouletteWheelLayout = CreateRouletteWheelLayout();
-                _rouletteWheelLayoutNonDestructive = CreateRouletteWheelLayout_NonDestructive();
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the probability that a genome mutation is a 'delete connection' mutation.
         /// </summary>
         public double DeleteConnectionMutationProbability
@@ -308,7 +287,6 @@ namespace SharpNeat.Genomes.Neat
                     _connectionWeightMutationProbability, 
                     _addNodeMutationProbability,
                     _addConnectionMutationProbability,
-                    _nodeAuxStateMutationProbability,
                     _deleteConnectionMutationProbability
                 };
             return new DiscreteDistribution(probabilities);
@@ -320,8 +298,7 @@ namespace SharpNeat.Genomes.Neat
                 {
                     _connectionWeightMutationProbability, 
                     _addNodeMutationProbability,
-                    _addConnectionMutationProbability,
-                    _nodeAuxStateMutationProbability
+                    _addConnectionMutationProbability
                 };
             return new DiscreteDistribution(probabilities);
         }
@@ -397,7 +374,6 @@ namespace SharpNeat.Genomes.Neat
             newParams._addNodeMutationProbability = 0.0;
             newParams._addConnectionMutationProbability = 0.0;
             // TODO: better method for automatically generating simplifying parameters?
-            newParams._nodeAuxStateMutationProbability = copyFrom._nodeAuxStateMutationProbability;
             newParams._deleteConnectionMutationProbability = 0.4;
             newParams._rouletteWheelLayout = newParams.CreateRouletteWheelLayout();
             newParams._rouletteWheelLayoutNonDestructive = newParams.CreateRouletteWheelLayout_NonDestructive();

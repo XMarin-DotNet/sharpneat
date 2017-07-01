@@ -38,9 +38,7 @@ namespace SharpNeat.Network
 
         public string FunctionDescription => "Scaled Exponential Linear Unit (SELU)";
 
-        public bool AcceptsAuxArgs => false;
-
-        public double Calculate(double x, double[] auxArgs)
+        public double Calculate(double x)
         {
             double alpha = 1.6732632423543772848170429916717;
             double scale = 1.0507009873554804934193349852946;
@@ -56,7 +54,7 @@ namespace SharpNeat.Network
             return y;
         }
 
-        public float Calculate(float x, float[] auxArgs)
+        public float Calculate(float x)
         {
             float alpha = 1.6732632423543772848170429916717f;
             float scale = 1.0507009873554804934193349852946f;
@@ -70,16 +68,6 @@ namespace SharpNeat.Network
             }
 
             return y;
-        }
-
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
-        {
-            throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
-        }
-
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
-        {
-            throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
     }
 }

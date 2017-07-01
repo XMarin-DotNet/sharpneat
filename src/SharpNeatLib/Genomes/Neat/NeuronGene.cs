@@ -27,7 +27,6 @@ namespace SharpNeat.Genomes.Neat
         readonly uint _innovationId;
         readonly NodeType _neuronType;
         readonly int _activationFnId;
-        readonly double[] _auxState;
         readonly HashSet<uint> _srcNeurons;
         readonly HashSet<uint> _tgtNeurons;
 
@@ -43,9 +42,6 @@ namespace SharpNeat.Genomes.Neat
             _innovationId = copyFrom._innovationId;
             _neuronType = copyFrom._neuronType;
             _activationFnId = copyFrom._activationFnId;
-            if(null != copyFrom._auxState) {
-                _auxState = (double[])copyFrom._auxState.Clone();
-            }
 
             if(copyConnectivityData) {
                 _srcNeurons = new HashSet<uint>(copyFrom._srcNeurons);
@@ -65,21 +61,6 @@ namespace SharpNeat.Genomes.Neat
             _innovationId = innovationId;
             _neuronType = neuronType;
             _activationFnId = activationFnId;
-            _auxState = null;
-            _srcNeurons = new HashSet<uint>();
-            _tgtNeurons = new HashSet<uint>();
-        }
-
-        /// <summary>
-        /// Construct new NeuronGene with the specified innovationId, neuron type 
-        /// activation function ID and auxiliary state data.
-        /// </summary>
-        public NeuronGene(uint innovationId, NodeType neuronType, int activationFnId, double[] auxState)
-        {
-            _innovationId = innovationId;
-            _neuronType = neuronType;
-            _activationFnId = activationFnId;
-            _auxState = auxState;
             _srcNeurons = new HashSet<uint>();
             _tgtNeurons = new HashSet<uint>();
         }
@@ -113,15 +94,6 @@ namespace SharpNeat.Genomes.Neat
         public int ActivationFnId
         {
             get { return _activationFnId; }
-        }
-
-        /// <summary>
-        /// Optional auxiliary node state. Null if no aux state is present. 
-        /// Note. Radial Basis Function center and epsilon values are stored here.
-        /// </summary>
-        public double[] AuxState
-        {
-            get { return _auxState; }
         }
 
         /// <summary>

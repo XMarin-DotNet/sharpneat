@@ -44,7 +44,6 @@ namespace SharpNeat.Genomes.Neat
         const string __AttrTargetId = "tgt";
         const string __AttrWeight = "wght";
         const string __AttrActivationFunctionId = "fnId";
-        const string __AttrAuxState = "aux";
 
         #endregion
 
@@ -234,9 +233,6 @@ namespace SharpNeat.Genomes.Neat
                 if(nodeFnIds) 
                 {	// Write activation fn ID.
                     xw.WriteAttributeString(__AttrActivationFunctionId, nGene.ActivationFnId.ToString(NumberFormatInfo.InvariantInfo));
-
-                    // Write aux state as comma separated list of real values.
-                    XmlIoUtils.WriteAttributeString(xw, __AttrAuxState, nGene.AuxState);
                 }
                 xw.WriteEndElement();
             }
@@ -409,16 +405,12 @@ namespace SharpNeat.Genomes.Neat
                     NodeType neuronType = NetworkXmlIO.ReadAttributeAsNodeType(xrSubtree, __AttrType);
                     uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
                     int functionId = 0;
-                    double[] auxState = null;
                     if(nodeFnIds) 
                     {	// Read activation fn ID.
                         functionId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
-
-                        // Read aux state as comma separated list of real values.
-                        auxState = XmlIoUtils.ReadAttributeAsDoubleArray(xrSubtree, __AttrAuxState);
                     }
 
-                    NeuronGene nGene = new NeuronGene(id, neuronType, functionId, auxState);
+                    NeuronGene nGene = new NeuronGene(id, neuronType, functionId);
                     nGeneList.Add(nGene);
 
                     // Track the number of input and output nodes.
