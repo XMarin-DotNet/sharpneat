@@ -12,23 +12,14 @@
 namespace SharpNeat.Decoders
 {
     /// <summary>
-    /// Represents network activation schemes. E.g. fixed number of activation timesteps
-    /// or activation until the network becomes 'relaxed'. Relaxed here means that no node's
-    /// output value changed by more than some threshold value.
+    /// Represents network activation schemes.
     /// </summary>
     public class NetworkActivationScheme
     {
         bool _acyclicNetwork;
 
-     //=== Cyclic network specific activation.
-        bool _relaxingActivation;
-
-        // Non-relaxing network parameter.
+        // Cyclic network specific
         int _timestepsPerActivation;
-
-        // Relaxing network parameters.
-        double _signalDeltaThreshold;
-        int _maxTimesteps;
 
         #region Constructors
 
@@ -53,38 +44,11 @@ namespace SharpNeat.Decoders
         }
 
         /// <summary>
-        /// Gets a value indicating whether the scheme is a relaxing activation scheme.
-        /// </summary>
-        public bool RelaxingActivation
-        {
-            get { return _relaxingActivation; }
-        }
-
-        /// <summary>
         /// Gets a fixed number of activation timesteps.
-        /// Non-relaxing activation scheme.
         /// </summary>
         public int TimestepsPerActivation
         {
             get { return _timestepsPerActivation; }
-        }
-
-        /// <summary>
-        /// Gets a maximum signal delta threshold used to determine if a network is relaxed.
-        /// Relaxing activation scheme.
-        /// </summary>
-        public double SignalDeltaThreshold
-        {
-            get { return _signalDeltaThreshold; }
-        }
-
-        /// <summary>
-        /// Gets the maximum number of activation timesteps before stopping.
-        /// Relaxing activation scheme. 
-        /// </summary>
-        public int MaxTimesteps
-        {
-            get { return _maxTimesteps; }
         }
 
         #endregion
@@ -104,25 +68,11 @@ namespace SharpNeat.Decoders
         /// <summary>
         /// Create an activation scheme with a fixed number of activation timesteps (suitable for cyclic networks only).
         /// </summary>
-        public static NetworkActivationScheme CreateCyclicFixedTimestepsScheme(int timestepsPerActivation)
+        public static NetworkActivationScheme CreateCyclicScheme(int timestepsPerActivation)
         {
             NetworkActivationScheme scheme = new NetworkActivationScheme();
             scheme._acyclicNetwork = false;
             scheme._timestepsPerActivation = timestepsPerActivation;
-            scheme._relaxingActivation = false;
-            return scheme;
-        }
-
-        /// <summary>
-        /// Create a relaxing activation scheme (suitable for cyclic networks only).
-        /// </summary>
-        public static NetworkActivationScheme CreateCyclicRelaxingActivationScheme(double signalDeltaThreshold, int maxTimesteps)
-        {
-            NetworkActivationScheme scheme = new NetworkActivationScheme();
-            scheme._acyclicNetwork = false;
-            scheme._signalDeltaThreshold = signalDeltaThreshold;
-            scheme._maxTimesteps = maxTimesteps;
-            scheme._relaxingActivation = true;
             return scheme;
         }
 

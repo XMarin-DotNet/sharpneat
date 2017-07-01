@@ -35,22 +35,10 @@ namespace SharpNeat.Decoders
             IActivationFunction[] activationFnArray;
             double[][] neuronAuxArgsArray;
             InternalDecode(networkDef, 
-                           activationScheme.RelaxingActivation ? activationScheme.MaxTimesteps : activationScheme.TimestepsPerActivation,
+                           activationScheme.TimestepsPerActivation,
                            out fastConnectionArray, out activationFnArray, out neuronAuxArgsArray);
 
             // Construct neural net.
-            if(activationScheme.RelaxingActivation) {
-                return new FastRelaxingCyclicNetwork(fastConnectionArray,
-                                                     activationFnArray, 
-                                                     neuronAuxArgsArray,
-                                                     networkDef.NodeList.Count,
-                                                     networkDef.InputNodeCount,
-                                                     networkDef.OutputNodeCount,
-                                                     activationScheme.MaxTimesteps,
-                                                     activationScheme.SignalDeltaThreshold,
-                                                     boundedOutput);
-            }
-
             return new FastCyclicNetwork(fastConnectionArray,
                                          activationFnArray,
                                          neuronAuxArgsArray,
