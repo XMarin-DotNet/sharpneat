@@ -62,13 +62,11 @@
     <Compile Include="AbstractGenomeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BinaryElevenMultiplexer\RbfBinaryElevenMultiplexerExperiment.cs" />
     <Compile Include="BinarySixMultiplexer\BinarySixMultiplexerEvaluator.cs" />
     <Compile Include="AbstractDomainView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BinarySixMultiplexer\BinarySixMultiplexerExperiment.cs" />
-    <Compile Include="BinarySixMultiplexer\RbfBinarySixMultiplexerExperiment.cs" />
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerExperiment.cs" />
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />

@@ -118,7 +118,6 @@
     <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithmParameters.cs" />
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
-    <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\ReLU.cs" />
@@ -128,7 +127,6 @@
     <Compile Include="Network\ActivationFunctions\Unipolar\ScaledELU.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SReLUShifted.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SReLU.cs" />
-    <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\PolynomialApproximantSteep.cs" />
     <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\ConnectionList.cs" />

@@ -560,9 +560,6 @@ namespace SharpNeat.Network
                     return SReLU.__DefaultInstance;
                 case "SReLUShifted":
                     return SReLUShifted.__DefaultInstance;
-
-                case "RbfGaussian":
-                    return RbfGaussian.__DefaultInstance;
             }
             throw new ArgumentException($"Unexpected activation function [{name}]");
         }
