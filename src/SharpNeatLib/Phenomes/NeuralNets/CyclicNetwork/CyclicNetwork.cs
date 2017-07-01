@@ -48,9 +48,9 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class FastCyclicNetwork : IBlackBox
+    public class CyclicNetwork : IBlackBox
     {
-        protected readonly FastConnection[] _connectionArray;
+        protected readonly ConnectionInfo[] _connectionArray;
         protected readonly IActivationFunction[] _neuronActivationFnArray;
         protected readonly double[][] _neuronAuxArgsArray;
 
@@ -72,19 +72,19 @@ namespace SharpNeat.Phenomes.NeuralNets
         #region Constructor
 
         /// <summary>
-        /// Constructs a FastCyclicNetwork with the provided pre-built FastConnection array and 
+        /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public FastCyclicNetwork(FastConnection[] connectionArray,
-                                 IActivationFunction[] neuronActivationFnArray,
-                                 double[][] neuronAuxArgsArray,
-                                 int neuronCount,
-                                 int inputNeuronCount,
-                                 int outputNeuronCount,
-                                 int timestepsPerActivation,
-                                 bool boundedOutput)
+        public CyclicNetwork(ConnectionInfo[] connInfoArr,
+                             IActivationFunction[] neuronActivationFnArray,
+                             double[][] neuronAuxArgsArray,
+                             int neuronCount,
+                             int inputNeuronCount,
+                             int outputNeuronCount,
+                             int timestepsPerActivation,
+                             bool boundedOutput)
         {
-            _connectionArray = connectionArray;
+            _connectionArray = connInfoArr;
             _neuronActivationFnArray = neuronActivationFnArray;
             _neuronAuxArgsArray = neuronAuxArgsArray;
 

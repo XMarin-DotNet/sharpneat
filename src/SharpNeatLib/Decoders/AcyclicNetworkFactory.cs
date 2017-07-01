@@ -20,16 +20,16 @@ namespace SharpNeat.Decoders
     /// <summary>
     /// Static factory for creating AcyclicNetwork(s) from INetworkDefinition(s).
     /// </summary>
-    public class FastAcyclicNetworkFactory
+    public class AcyclicNetworkFactory
     {
         #region Public Methods
 
         /// <summary>
         /// Creates a AcyclicNetwork from an INetworkDefinition.
         /// </summary>
-        public static FastAcyclicNetwork CreateFastAcyclicNetwork(INetworkDefinition networkDef, bool boundedOutput)
+        public static AcyclicNetwork CreateAcyclicNetwork(INetworkDefinition networkDef, bool boundedOutput)
         {
-            Debug.Assert(!CyclicNetworkTest.IsNetworkCyclic(networkDef), "Attempt to decode a cyclic network into a FastAcyclicNetwork.");
+            Debug.Assert(!CyclicNetworkTest.IsNetworkCyclic(networkDef), "Attempt to decode a cyclic network definition into an AcyclicNetwork.");
 
             // Determine the depth of each node in the network. 
             // Node depths are used to separate the nodes into depth based layers, these layers can then be
@@ -92,25 +92,25 @@ namespace SharpNeat.Decoders
             }
 
 
-        //=== Create array of FastConnection(s). 
+        //=== Create array of ConnectionInfo(s). 
 
             // Loop the connections and lookup the node IDs for each connection's end points using newIdxById.
             IConnectionList connectionList = networkDef.ConnectionList;
             int connectionCount = connectionList.Count;
-            FastConnection[] fastConnectionArray = new FastConnection[connectionCount];
+            ConnectionInfo[] connInfoArr = new ConnectionInfo[connectionCount];
 
             for(int i=0; i<connectionCount; i++)
             {   
                 INetworkConnection conn = connectionList[i];
-                fastConnectionArray[i]._srcNeuronIdx = newIdxById[conn.SourceNodeId];
-                fastConnectionArray[i]._tgtNeuronIdx = newIdxById[conn.TargetNodeId];
-                fastConnectionArray[i]._weight = conn.Weight;
+                connInfoArr[i]._srcNeuronIdx = newIdxById[conn.SourceNodeId];
+                connInfoArr[i]._tgtNeuronIdx = newIdxById[conn.TargetNodeId];
+                connInfoArr[i]._weight = conn.Weight;
             }
 
-            // Sort fastConnectionArray by source node index. This allows us to activate the connections in the 
+            // Sort connInfoArr by source node index. This allows us to activate the connections in the 
             // order they are present within the network (by depth). We also secondary sort by target index to 
             // improve CPU cache coherency of the data (in order accesses that are as close to each other as possible).
-            Array.Sort(fastConnectionArray, delegate(FastConnection x, FastConnection y)
+            Array.Sort(connInfoArr, delegate(ConnectionInfo x, ConnectionInfo y)
             {   
                 if(x._srcNeuronIdx < y._srcNeuronIdx) {
                     return -1;
@@ -150,14 +150,14 @@ namespace SharpNeat.Decoders
                 for(; nodeIdx < nodeCount && nodeInfoByDepth[nodeIdx]._nodeDepth == currDepth; nodeIdx++);
                 
                 // Scan for last connection at the current depth.
-                for(; connIdx < fastConnectionArray.Length && nodeInfoByDepth[fastConnectionArray[connIdx]._srcNeuronIdx]._nodeDepth == currDepth; connIdx++);
+                for(; connIdx < connInfoArr.Length && nodeInfoByDepth[connInfoArr[connIdx]._srcNeuronIdx]._nodeDepth == currDepth; connIdx++);
 
                 // Store node and connection end indexes for the layer.
                 layerInfoArr[currDepth]._endNodeIdx = nodeIdx;
                 layerInfoArr[currDepth]._endConnectionIdx = connIdx;
             }
 
-            return new FastAcyclicNetwork(nodeActivationFnArr, nodeAuxArgsArray, fastConnectionArray, layerInfoArr, outputNeuronIdxArr,
+            return new AcyclicNetwork(nodeActivationFnArr, nodeAuxArgsArray, connInfoArr, layerInfoArr, outputNeuronIdxArr,
                                           nodeCount, networkDef.InputNodeCount, networkDef.OutputNodeCount, boundedOutput);
         }
 

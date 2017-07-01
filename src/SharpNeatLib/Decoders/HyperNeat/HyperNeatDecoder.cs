@@ -103,19 +103,19 @@ namespace SharpNeat.Decoders.HyperNeat
         private DecodeCppnGenome GetDecodeCppnMethod(NetworkActivationScheme activationScheme)
         {
             if(activationScheme.AcyclicNetwork) {
-                return DecodeToFastAcyclicNetwork;
+                return DecodeToAcyclicNetwork;
             }
-            return DecodeToFastCyclicNetwork;
+            return DecodeToCyclicNetwork;
         }
 
-        private FastAcyclicNetwork DecodeToFastAcyclicNetwork(NeatGenome genome)
+        private AcyclicNetwork DecodeToAcyclicNetwork(NeatGenome genome)
         {
-            return FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(genome, false);
+            return AcyclicNetworkFactory.CreateAcyclicNetwork(genome, false);
         }
 
-        private FastCyclicNetwork DecodeToFastCyclicNetwork(NeatGenome genome)
+        private CyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
         {
-            return FastCyclicNetworkFactory.CreateFastCyclicNetwork(genome, _activationSchemeCppn, false);
+            return CyclicNetworkFactory.CreateCyclicNetwork(genome, _activationSchemeCppn, false);
         }
 
         #endregion
@@ -130,17 +130,17 @@ namespace SharpNeat.Decoders.HyperNeat
             if(activationScheme.AcyclicNetwork) {
                 return CreateSubstrateNetwork_AcyclicNetwork;
             }
-            return CreateSubstrateNetwork_FastCyclicNetwork;
+            return CreateSubstrateNetwork_CyclicNetwork;
         }
 
-        private FastAcyclicNetwork CreateSubstrateNetwork_AcyclicNetwork(INetworkDefinition networkDef)
+        private AcyclicNetwork CreateSubstrateNetwork_AcyclicNetwork(INetworkDefinition networkDef)
         {
-            return FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(networkDef, true);
+            return AcyclicNetworkFactory.CreateAcyclicNetwork(networkDef, true);
         }
 
-        private FastCyclicNetwork CreateSubstrateNetwork_FastCyclicNetwork(INetworkDefinition networkDef)
+        private CyclicNetwork CreateSubstrateNetwork_CyclicNetwork(INetworkDefinition networkDef)
         {
-            return FastCyclicNetworkFactory.CreateFastCyclicNetwork(networkDef, _activationSchemeSubstrate, true);
+            return CyclicNetworkFactory.CreateCyclicNetwork(networkDef, _activationSchemeSubstrate, true);
         }
 
         #endregion

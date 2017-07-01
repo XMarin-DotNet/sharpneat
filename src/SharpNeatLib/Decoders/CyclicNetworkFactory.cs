@@ -20,33 +20,33 @@ namespace SharpNeat.Decoders
     /// <summary>
     /// Static factory for creating CyclicNetwork's from INetworkDefinition's.
     /// </summary>
-    public class FastCyclicNetworkFactory
+    public class CyclicNetworkFactory
     {
         #region Public Static Methods
 
         /// <summary>
         /// Creates a CyclicNetwork from an INetworkDefinition.
         /// </summary>
-        public static FastCyclicNetwork CreateFastCyclicNetwork(INetworkDefinition networkDef,
+        public static CyclicNetwork CreateCyclicNetwork(INetworkDefinition networkDef,
                                                                 NetworkActivationScheme activationScheme,
                                                                 bool boundedOutput)
         {
-            FastConnection[] fastConnectionArray;
+            ConnectionInfo[] connInfoArr;
             IActivationFunction[] activationFnArray;
             double[][] neuronAuxArgsArray;
             InternalDecode(networkDef, 
                            activationScheme.TimestepsPerActivation,
-                           out fastConnectionArray, out activationFnArray, out neuronAuxArgsArray);
+                           out connInfoArr, out activationFnArray, out neuronAuxArgsArray);
 
             // Construct neural net.
-            return new FastCyclicNetwork(fastConnectionArray,
-                                         activationFnArray,
-                                         neuronAuxArgsArray,
-                                         networkDef.NodeList.Count,
-                                         networkDef.InputNodeCount,
-                                         networkDef.OutputNodeCount,
-                                         activationScheme.TimestepsPerActivation,
-                                         boundedOutput);
+            return new CyclicNetwork(connInfoArr,
+                                     activationFnArray,
+                                     neuronAuxArgsArray,
+                                     networkDef.NodeList.Count,
+                                     networkDef.InputNodeCount,
+                                     networkDef.OutputNodeCount,
+                                     activationScheme.TimestepsPerActivation,
+                                     boundedOutput);
         }
 
         #endregion
@@ -55,26 +55,26 @@ namespace SharpNeat.Decoders
 
         private static void InternalDecode(INetworkDefinition networkDef,
                                            int timestepsPerActivation,
-                                           out FastConnection[] fastConnectionArray,
+                                           out ConnectionInfo[] connInfoArr,
                                            out IActivationFunction[] activationFnArray,
                                            out double[][] neuronAuxArgsArray)
         {
-            // Create an array of FastConnection(s) that represent the connectivity of the network.
-            fastConnectionArray = CreateFastConnectionArray(networkDef);
+            // Create an array of ConnectionInfo(s) that represent the connectivity of the network.
+            connInfoArr = CreateConnectionInfoArray(networkDef);
 
             // TODO: Test/optimize heuristic - this is just back of envelope maths.
-            // A rough heuristic to decide if we should sort fastConnectionArray by source neuron index.
+            // A rough heuristic to decide if we should sort connInfoArr by source neuron index.
             // The principle here is that each activation loop will be about 2x faster (unconfirmed) if we sort 
-            // fastConnectionArray, but sorting takes about n*log2(n) operations. Therefore the decision to sort
-            // depends on length of fastConnectionArray and _timestepsPerActivation.
+            // connInfoArr, but sorting takes about n*log2(n) operations. Therefore the decision to sort
+            // depends on length of connInfoArr and _timestepsPerActivation.
             // Another factor here is that small networks will fit into CPU caches and therefore will not appear
             // to speed up - however the unsorted data will 'scramble' CPU caches more than they otherwise would 
             // have and thus may slow down other threads (so we just keep it simple).
-            double len = fastConnectionArray.Length;
+            double len = connInfoArr.Length;
             double timesteps = timestepsPerActivation;
             if((len > 2) && (((len * Math.Log(len,2)) + ((timesteps * len)/2.0)) < (timesteps * len)))
-            {   // Sort fastConnectionArray by source neuron index.
-                Array.Sort(fastConnectionArray, delegate(FastConnection x, FastConnection y)
+            {   // Sort connInfoArr by source neuron index.
+                Array.Sort(connInfoArr, delegate(ConnectionInfo x, ConnectionInfo y)
                 {   // Use simple/fast diff method.
                     return x._srcNeuronIdx - y._srcNeuronIdx;
                 });
@@ -95,9 +95,9 @@ namespace SharpNeat.Decoders
         }
 
         /// <summary>
-        /// Create an array of FastConnection(s) representing the connectivity of the provided INetworkDefinition.
+        /// Create an array of ConnectionInfo(s) representing the connectivity of the provided INetworkDefinition.
         /// </summary>
-        private static FastConnection[] CreateFastConnectionArray(INetworkDefinition networkDef)
+        private static ConnectionInfo[] CreateConnectionInfoArray(INetworkDefinition networkDef)
         {
             // We vary the decode logic depending on the size of the genome. The most CPU intensive aspect of
             // decoding is the conversion of the neuron IDs at connection endpoints into neuron indexes. For small
@@ -128,7 +128,7 @@ namespace SharpNeat.Decoders
             int connectionCount = connectionList.Count;
             int nodeCount = nodeList.Count;
 
-            FastConnection[] fastConnectionArray = new FastConnection[connectionCount];
+            ConnectionInfo[] connInfoArr = new ConnectionInfo[connectionCount];
 
             if((2.0 * connectionCount * Math.Log(nodeCount, 2.0)) < ((2.0 * connectionCount) + nodeCount))
             {
@@ -140,14 +140,14 @@ namespace SharpNeat.Decoders
                 for(int i=0; i<connectionCount; i++)
                 {   
                     INetworkConnection conn = connectionList[i];
-                    fastConnectionArray[i]._srcNeuronIdx = nodeList.BinarySearch(conn.SourceNodeId);
-                    fastConnectionArray[i]._tgtNeuronIdx = nodeList.BinarySearch(conn.TargetNodeId);
-                    fastConnectionArray[i]._weight = conn.Weight;
+                    connInfoArr[i]._srcNeuronIdx = nodeList.BinarySearch(conn.SourceNodeId);
+                    connInfoArr[i]._tgtNeuronIdx = nodeList.BinarySearch(conn.TargetNodeId);
+                    connInfoArr[i]._weight = conn.Weight;
 
                     // Check that the correct neuron indexes were found.
                     Debug.Assert( 
-                           nodeList[fastConnectionArray[i]._srcNeuronIdx].Id == conn.SourceNodeId
-                        && nodeList[fastConnectionArray[i]._tgtNeuronIdx].Id == conn.TargetNodeId);
+                           nodeList[connInfoArr[i]._srcNeuronIdx].Id == conn.SourceNodeId
+                        && nodeList[connInfoArr[i]._tgtNeuronIdx].Id == conn.TargetNodeId);
                 }
             }
             else
@@ -164,18 +164,18 @@ namespace SharpNeat.Decoders
                 for(int i=0; i<connectionCount; i++)
                 {   
                     INetworkConnection conn = connectionList[i];
-                    fastConnectionArray[i]._srcNeuronIdx = neuronIndexDictionary[conn.SourceNodeId];
-                    fastConnectionArray[i]._tgtNeuronIdx = neuronIndexDictionary[conn.TargetNodeId];
-                    fastConnectionArray[i]._weight = conn.Weight;
+                    connInfoArr[i]._srcNeuronIdx = neuronIndexDictionary[conn.SourceNodeId];
+                    connInfoArr[i]._tgtNeuronIdx = neuronIndexDictionary[conn.TargetNodeId];
+                    connInfoArr[i]._weight = conn.Weight;
 
                     // Check that the correct neuron indexes were found.
                     Debug.Assert( 
-                           nodeList[fastConnectionArray[i]._srcNeuronIdx].Id == conn.SourceNodeId
-                        && nodeList[fastConnectionArray[i]._tgtNeuronIdx].Id == conn.TargetNodeId);
+                           nodeList[connInfoArr[i]._srcNeuronIdx].Id == conn.SourceNodeId
+                        && nodeList[connInfoArr[i]._tgtNeuronIdx].Id == conn.TargetNodeId);
                 }
             }
 
-            return fastConnectionArray;
+            return connInfoArr;
         }
 
         #endregion

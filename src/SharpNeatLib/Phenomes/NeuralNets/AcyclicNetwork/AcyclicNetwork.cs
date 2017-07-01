@@ -27,7 +27,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// 2) Connections are similarly assigned a depth value which is defined as the depth of a connection's source node.
     /// 
-    /// Note. Steps 1 and 2 are actually performed by FastAcyclicNetworkFactory.
+    /// Note. Steps 1 and 2 are actually performed by AcyclicNetworkFactory.
     /// 
     /// 3) Reset all node activation values to zero. This resets any state from a previous activation.
     /// 
@@ -37,7 +37,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public class FastAcyclicNetwork : IBlackBox
+    public class AcyclicNetwork : IBlackBox
     {
     //=== Fixed data. Network structure and activation functions/data.
         /// <summary>
@@ -51,7 +51,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Array of connections.
         /// </summary>
-        readonly FastConnection[] _connectionArr;
+        readonly ConnectionInfo[] _connectionArr;
         /// <summary>
         /// Array of layer information. Feed-forward-only network activation can be performed most 
         /// efficiently by propagating signals through the network one layer at a time.
@@ -78,11 +78,11 @@ namespace SharpNeat.Phenomes.NeuralNets
         #region Constructor
 
         /// <summary>
-        /// Construct a FastAcyclicNetwork with provided network definition data structures.
+        /// Construct an AcyclicNetwork with provided network definition data structures.
         /// </summary>
         /// <param name="nodeActivationFnArr">Array of neuron activation functions.</param>
         /// <param name="nodeAuxArgsArr">Array of neuron activation function arguments.</param>
-        /// <param name="connectionArr">Array of connections.</param>
+        /// <param name="connInfoArr">Array of connections.</param>
         /// <param name="layerInfoArr">Array of layer information.</param>
         /// <param name="outputNodeIdxArr">An array that specifies the index of each output neuron within _activationArr.
         /// This is necessary because the neurons have been sorted by their depth in the network structure and are therefore
@@ -92,9 +92,9 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public FastAcyclicNetwork(IActivationFunction[] nodeActivationFnArr,
+        public AcyclicNetwork(IActivationFunction[] nodeActivationFnArr,
                                   double[][] nodeAuxArgsArr,
-                                  FastConnection[] connectionArr,
+                                  ConnectionInfo[] connInfoArr,
                                   LayerInfo[] layerInfoArr,
                                   int[] outputNodeIdxArr,
                                   int nodeCount,
@@ -105,7 +105,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             // Store refs to network structure data.
             _nodeActivationFnArr = nodeActivationFnArr;
             _nodeAuxArgsArr = nodeAuxArgsArr;
-            _connectionArr = connectionArr;
+            _connectionArr = connInfoArr;
             _layerInfoArr = layerInfoArr;
 
             // Create working array for node activation signals.

@@ -16,10 +16,10 @@
 namespace SharpNeat.Phenomes.NeuralNets
 {
     /// <summary>
-    /// Working data struct for use in FastCyclicNetwork and sub-classes.
-    /// Represents a single connection - its weight and source/target neurons.
+    /// Working data struct for use in CyclicNetwork.
+    /// Represents a single connection, its weight and source/target neurons.
     /// </summary>
-    public struct FastConnection
+    public struct ConnectionInfo
     {
         public int _srcNeuronIdx;
         public int _tgtNeuronIdx;
