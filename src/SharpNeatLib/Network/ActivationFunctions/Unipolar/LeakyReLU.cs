@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Redzen.Numerics;
 
 namespace SharpNeat.Network
 {
@@ -25,10 +24,6 @@ namespace SharpNeat.Network
 
         public string FunctionId => this.GetType().Name;
 
-        public string FunctionString => "";
-
-        public string FunctionDescription => "Leaky Rectified Linear Unit (ReLU)";
-
         public double Calculate(double x)
         {
             const double a = 0.001;
@@ -42,17 +37,5 @@ namespace SharpNeat.Network
             return y;
         }
 
-        public float Calculate(float x)
-        {
-            const float a = 0.001f;
-
-            float y;
-            if (x > 0.0) {
-                y = x;
-            } else {
-                y = x * a;
-            }
-            return y;
-        }
     }
 }

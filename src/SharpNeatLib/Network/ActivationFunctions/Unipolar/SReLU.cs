@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Redzen.Numerics;
 
 namespace SharpNeat.Network
 {
@@ -29,10 +28,6 @@ namespace SharpNeat.Network
 
         public string FunctionId => this.GetType().Name;
 
-        public string FunctionString => "";
-
-        public string FunctionDescription => "S-Shaped Rectified Linear Unit (ReLU)";
-
         public double Calculate(double x)
         {
             const double tl = 0.001; // threshold (left).
@@ -40,26 +35,6 @@ namespace SharpNeat.Network
             const double a = 0.00001;
 
             double y;
-            if(x > tl && x < tr) {
-                y = x;
-            }
-            else if(x <= tl) {
-                y = tl + (x - tl) * a;
-            }
-            else {
-                y = tr + (x - tr) * a;
-            }
-
-            return y;
-        }
-
-        public float Calculate(float x)
-        {
-            float tl = 0.001f; // threshold (left).
-            float tr = 0.999f; // threshold (right).
-            float a = 0.00001f;
-
-            float y;
             if(x > tl && x < tr) {
                 y = x;
             }

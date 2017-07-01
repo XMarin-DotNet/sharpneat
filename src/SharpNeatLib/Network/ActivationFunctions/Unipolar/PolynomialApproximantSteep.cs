@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using Redzen.Numerics;
 using System;
 
 namespace SharpNeat.Network
@@ -51,22 +50,6 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
-        /// Gets a human readable string representation of the function. E.g 'y=1/x'.
-        /// </summary>
-        public string FunctionString
-        {
-            get { return ""; }
-        }
-
-        /// <summary>
-        /// Gets a human readable verbose description of the activation function.
-        /// </summary>
-        public string FunctionDescription
-        {
-            get { return ""; }
-        }
-
-        /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>
         public double Calculate(double x)
@@ -77,21 +60,6 @@ namespace SharpNeat.Network
 
             double f = (x > 0) ? (1.0 / e) : e;
             return 1.0 / (1.0 + f);
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// This single precision overload of Calculate() will be used in neural network code 
-        /// that has been specifically written to use floats instead of doubles.
-        /// </summary>
-        public float Calculate(float x)
-        {
-            x = x * 4.9f;
-            float x2 = x*x;
-            float e = 1.0f + Math.Abs(x) + (x2 * 0.555f) + (x2 * x2 * 0.143f);
-
-            float f = (x > 0f) ? (1.0f / e) : e;
-            return 1.0f / (1.0f + f);
         }
     }
 }

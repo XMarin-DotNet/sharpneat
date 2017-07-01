@@ -11,8 +11,6 @@
  */
 
 using System;
-using Redzen.Numerics;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
@@ -38,37 +36,11 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
-        /// Gets a human readable string representation of the function. E.g 'y=1/x'.
-        /// </summary>
-        public string FunctionString
-        {
-            get { return "y = 0.5 + (x / (2*(0.2+abs(x))))"; }
-        }
-
-        /// <summary>
-        /// Gets a human readable verbose description of the activation function.
-        /// </summary>
-        public string FunctionDescription
-        {
-            get { return "A sigmoid curve produced from the simple/fast arithmetic operations abs, divide and multiply.\r\nEffective xrange->[-1,1] yrange->[0,1]"; }
-        }
-
-        /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>
         public double Calculate(double x)
         {
             return 0.5 + (x / (2.0 * ( 0.2 + Math.Abs(x))));
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// This single precision overload of Calculate() will be used in neural network code 
-        /// that has been specifically written to use floats instead of doubles.
-        /// </summary>
-        public float Calculate(float x)
-        {
-            return 0.5f + (x / (2.0f *(0.2f + Math.Abs(x))));
         }
     }
 }

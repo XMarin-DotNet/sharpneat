@@ -11,8 +11,6 @@
  */
 
 using System;
-using Redzen.Numerics;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
@@ -33,23 +31,7 @@ namespace SharpNeat.Network
         public string FunctionId
         {
             get { return this.GetType().Name; }
-        }
-
-        /// <summary>
-        /// Gets a human readable string representation of the function. E.g 'y=1/x'.
-        /// </summary>
-        public string FunctionString
-        {
-            get { return "y = sin(2*x)"; }
-        }
-
-        /// <summary>
-        /// Gets a human readable verbose description of the activation function.
-        /// </summary>
-        public string FunctionDescription
-        {
-            get { return "Sine function with doubled period.\r\nEffective xrange->[-Inf,Inf] yrange[-1,1]"; }
-        }       
+        }      
 
         /// <summary>
         /// Calculates the output value for the specified input value.
@@ -57,16 +39,6 @@ namespace SharpNeat.Network
         public double Calculate(double x)
         {
             return Math.Sin(2.0 * x);
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// This single precision overload of Calculate() will be used in neural network code 
-        /// that has been specifically written to use floats instead of doubles.
-        /// </summary>
-        public float Calculate(float x)
-        {   // ENHANCEMENT: Search for a math lib that operates on single precision floats.
-            return (float)Math.Sin(2f * x);
         }
     }
 }

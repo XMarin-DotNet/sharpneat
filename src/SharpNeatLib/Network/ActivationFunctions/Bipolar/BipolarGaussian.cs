@@ -11,8 +11,6 @@
  */
 
 using System;
-using Redzen.Numerics;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
@@ -37,37 +35,11 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
-        /// Gets a human readable string representation of the function. E.g 'y=1/x'.
-        /// </summary>
-        public string FunctionString
-        {
-            get { return "2*e^(-(input*2.5)^2) - 1"; }
-        }
-
-        /// <summary>
-        /// Gets a human readable verbose description of the activation function.
-        /// </summary>
-        public string FunctionDescription
-        {
-            get { return "Bipolar Gaussian.\r\nEffective xrange->[-1,1] yrange->[-1,1]"; }
-        }
-
-        /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>
         public double Calculate(double x)
         {
             return (2.0 * Math.Exp(-Math.Pow(x * 2.5, 2.0))) - 1.0;
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// This single precision overload of Calculate() will be used in neural network code 
-        /// that has been specifically written to use floats instead of doubles.
-        /// </summary>
-        public float Calculate(float x)
-        {
-            return (2f * (float)Math.Exp(-Math.Pow(x * 2.5f, 2.0))) - 1f;
         }
     }
 }

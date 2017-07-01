@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Redzen.Numerics;
+
 using System;
 
 namespace SharpNeat.Network
@@ -34,10 +34,6 @@ namespace SharpNeat.Network
 
         public string FunctionId => this.GetType().Name;
 
-        public string FunctionString => "";
-
-        public string FunctionDescription => "Scaled Exponential Linear Unit (SELU)";
-
         public double Calculate(double x)
         {
             double alpha = 1.6732632423543772848170429916717;
@@ -49,22 +45,6 @@ namespace SharpNeat.Network
             } 
             else {
                 y = scale*(alpha*Math.Exp(x)) - alpha;
-            }
-
-            return y;
-        }
-
-        public float Calculate(float x)
-        {
-            float alpha = 1.6732632423543772848170429916717f;
-            float scale = 1.0507009873554804934193349852946f;
-
-            float y;
-            if (x >= 0) {
-                y = scale * x;
-            }
-            else {
-                y = scale * (alpha * (float)Math.Exp(x)) - alpha;
             }
 
             return y;
