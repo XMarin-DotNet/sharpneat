@@ -92,11 +92,6 @@ namespace SharpNeat.Domains
 
             // Activate the black box.
             box.Activate();
-            if(!box.IsStateValid) 
-            {   // Any black box that gets itself into an invalid state is unlikely to be
-                // any good, so lets just bail out here.
-                return FitnessInfo.Zero;
-            }
 
             // Read output signal.
             output = outputArr[0];
@@ -119,11 +114,6 @@ namespace SharpNeat.Domains
 
             // Activate the black box.
             box.Activate();
-            if(!box.IsStateValid) 
-            {   // Any black box that gets itself into an invalid state is unlikely to be
-                // any good, so lets just bail out here.
-                return FitnessInfo.Zero;
-            }
 
             // Read output signal.
             output = outputArr[0];
@@ -146,11 +136,6 @@ namespace SharpNeat.Domains
 
             // Activate the black box.
             box.Activate();
-            if(!box.IsStateValid) 
-            {   // Any black box that gets itself into an invalid state is unlikely to be
-                // any good, so lets just bail out here.
-                return FitnessInfo.Zero;
-            }
 
             // Read output signal.
             output = outputArr[0];
@@ -173,11 +158,6 @@ namespace SharpNeat.Domains
 
             // Activate the black box.
             box.Activate();
-            if(!box.IsStateValid) 
-            {   // Any black box that gets itself into an invalid state is unlikely to be
-                // any good, so lets just bail out here.
-                return FitnessInfo.Zero;
-            }
 
             // Read output signal.
             output = outputArr[0];

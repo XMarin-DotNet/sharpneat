@@ -238,12 +238,6 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
             // Clear any pre-existing state and activate.
             box.ResetState();
             box.Activate();
-            if(!box.IsStateValid) 
-            {   // Any black box that gets itself into an invalid state is unlikely to be
-                // any good, so lets just bail out here.
-                activationRange = 0.0;
-                return 0.0;
-            }
 
             // Find output pixel with highest activation.
             double minActivation, maxActivation;

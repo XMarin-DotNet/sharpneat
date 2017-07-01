@@ -76,11 +76,6 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
                                 
                 // Activate the black box.
                 box.Activate();
-                if(!box.IsStateValid) 
-                {   // Any black box that gets itself into an invalid state is unlikely to be
-                    // any good, so let's just exit here.
-                    return FitnessInfo.Zero;
-                }
 
                 // Read output signal.
                 output = outputArr[0];

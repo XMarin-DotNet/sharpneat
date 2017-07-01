@@ -18,7 +18,7 @@ namespace SharpNeat.Phenomes
     /// pattern, that is:
     /// 
     ///  - inputs are fed to a network.
-    ///  - The network is activated (e.g. some fixed number of timesteps or to relaxation).
+    ///  - The network is activated (e.g. for some fixed number of timesteps).
     ///  - The network outputs are read and fed into the evaluation/scoring/fitness scheme.
     /// 
     /// From wikipedia:
@@ -47,12 +47,6 @@ namespace SharpNeat.Phenomes
         /// Gets an array of output values that feed out from the black box. 
         /// </summary>
         ISignalArray OutputSignalArray { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the black box's internal state is valid. It may become invalid if e.g. we ask a recurrent
-        /// neural network to relax and it is unable to do so.
-        /// </summary>
-        bool IsStateValid { get; }
 
         /// <summary>
         /// Activate the black box. This is a request for the box to accept its inputs and produce output signals
