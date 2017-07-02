@@ -41,10 +41,10 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class CyclicNetwork : IBlackBox
+    public class HeterogeneousCyclicNetwork : IBlackBox
     {
         protected readonly ConnectionInfo[] _connectionArray;
-        protected readonly IActivationFunction _activationFn;
+        protected readonly IActivationFunction[] _activationFnArr;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -67,8 +67,8 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public CyclicNetwork(ConnectionInfo[] connInfoArr,
-                             IActivationFunction activationFn,
+        public HeterogeneousCyclicNetwork(ConnectionInfo[] connInfoArr,
+                             IActivationFunction[] neuronActivationFnArray,
                              int neuronCount,
                              int inputNeuronCount,
                              int outputNeuronCount,
@@ -76,7 +76,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                              bool boundedOutput)
         {
             _connectionArray = connInfoArr;
-            _activationFn = activationFn;
+            _activationFnArr = neuronActivationFnArray;
 
             // Create neuron pre- and post-activation signal arrays.
             _preActivationArray = new double[neuronCount];
@@ -165,7 +165,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // post-activation values and are never activated. 
                 for (int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
                 {
-                    _postActivationArray[j] = _activationFn.Calculate(_preActivationArray[j]);
+                    _postActivationArray[j] = _activationFnArr[j].Calculate(_preActivationArray[j]);
                     
                     // Take the opportunity to reset the pre-activation signal array in preparation for the next 
                     // activation loop.

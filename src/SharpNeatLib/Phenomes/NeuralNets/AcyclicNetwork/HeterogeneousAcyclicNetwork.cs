@@ -14,45 +14,26 @@ using SharpNeat.Network;
 namespace SharpNeat.Phenomes.NeuralNets
 {
     /// <summary>
-    /// A neural network implementation for acyclic networks.
-    /// 
-    /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by 
-    /// propagating a signal 'wave' from the input nodes through each layer to the output nodes, thus each node
-    /// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and 
-    /// (b) have a scheme that defnes when to stop activating the network.
-    /// 
-    /// Algorithm Overview.
-    /// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple 
-    /// paths to a node exist the longest path determines the node's depth.
-    /// 
-    /// 2) Connections are similarly assigned a depth value which is defined as the depth of a connection's source node.
-    /// 
-    /// Note. Steps 1 and 2 are actually performed by AcyclicNetworkFactory.
-    /// 
-    /// 3) Reset all node activation values to zero. This resets any state from a previous activation.
-    /// 
-    /// 4) Each layer of the network can now be activated in turn to propagate the signals on the input nodes through the network.
-    /// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0), 
-    /// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest 
-    /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
-    /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
+    /// An AcyclicNetwork that allows for a differetn activation function at each node; this
+    /// quality is required for CPPN networks.
     /// </summary>
-    public class AcyclicNetwork : IBlackBox
+    public class HeterogeneousAcyclicNetwork : IBlackBox
     {
     //=== Fixed data. Network structure and activation functions/data.
-        
-        // Node activation function.
-        readonly IActivationFunction _activationFn;
+
+        // Array of node activation functions.
+        readonly IActivationFunction[] _activationFnArr;
         
         // Array of connection info.
         readonly ConnectionInfo[] _connInfoArr;
-        
+
         // Array of layer information. Feed-forward-only network activation can be performed most 
         // efficiently by propagating signals through the network one layer at a time.
         readonly LayerInfo[] _layerInfoArr;
 
     //=== Working data.
-        /// Array of node activation signals.
+        
+        // Array of node activation signals.
         readonly double[] _activationArr;
 
     //=== Misc.
@@ -71,7 +52,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Construct an AcyclicNetwork with provided network definition data structures.
         /// </summary>
-        /// <param name="activationFn">Node activation function.</param>
+        /// <param name="activationFnArr">Array of node activation functions.</param>
         /// <param name="connInfoArr">Array of connections.</param>
         /// <param name="layerInfoArr">Array of layer information.</param>
         /// <param name="outputNodeIdxArr">An array that specifies the index of each output neuron within _activationArr.
@@ -82,17 +63,17 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNetwork(IActivationFunction activationFn,
-                              ConnectionInfo[] connInfoArr,
-                              LayerInfo[] layerInfoArr,
-                              int[] outputNodeIdxArr,
-                              int nodeCount,
-                              int inputNodeCount,
-                              int outputNodeCount,
-                              bool boundedOutput)
+        public HeterogeneousAcyclicNetwork(IActivationFunction[] activationFnArr,
+                                  ConnectionInfo[] connInfoArr,
+                                  LayerInfo[] layerInfoArr,
+                                  int[] outputNodeIdxArr,
+                                  int nodeCount,
+                                  int inputNodeCount,
+                                  int outputNodeCount,
+                                  bool boundedOutput)
         {
             // Store refs to network structure data.
-            _activationFn = activationFn;
+            _activationFnArr = activationFnArr;
             _connInfoArr = connInfoArr;
             _layerInfoArr = layerInfoArr;
 
@@ -187,7 +168,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // Activate current layer's nodes.
                 layerInfo = _layerInfoArr[layerIdx];
                 for(; nodeIdx < layerInfo._endNodeIdx; nodeIdx++) {
-                    _activationArr[nodeIdx] = _activationFn.Calculate(_activationArr[nodeIdx]);
+                    _activationArr[nodeIdx] = _activationFnArr[nodeIdx].Calculate(_activationArr[nodeIdx]);
                 }
             }
         }

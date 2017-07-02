@@ -20,16 +20,17 @@ namespace SharpNeat.Decoders
     /// <summary>
     /// Static factory for creating CyclicNetwork's from INetworkDefinition's.
     /// </summary>
-    public class CyclicNetworkFactory
+    public static class CyclicNetworkFactory
     {
         #region Public Static Methods
 
         /// <summary>
         /// Creates a CyclicNetwork from an INetworkDefinition.
         /// </summary>
-        public static CyclicNetwork CreateCyclicNetwork(INetworkDefinition networkDef,
-                                                                NetworkActivationScheme activationScheme,
-                                                                bool boundedOutput)
+        public static CyclicNetwork CreateCyclicNetwork(
+            INetworkDefinition networkDef,
+            NetworkActivationScheme activationScheme,
+            bool boundedOutput)
         {
             ConnectionInfo[] connInfoArr;
             IActivationFunction[] activationFnArray;
@@ -39,6 +40,30 @@ namespace SharpNeat.Decoders
 
             // Construct neural net.
             return new CyclicNetwork(connInfoArr,
+                                     activationFnArray[0],
+                                     networkDef.NodeList.Count,
+                                     networkDef.InputNodeCount,
+                                     networkDef.OutputNodeCount,
+                                     activationScheme.TimestepsPerActivation,
+                                     boundedOutput);
+        }
+
+        /// <summary>
+        /// Creates a CyclicNetwork from an INetworkDefinition.
+        /// </summary>
+        public static HeterogeneousCyclicNetwork CreateHeterogeneousCyclicNetwork(
+            INetworkDefinition networkDef,
+            NetworkActivationScheme activationScheme,
+            bool boundedOutput)
+        {
+            ConnectionInfo[] connInfoArr;
+            IActivationFunction[] activationFnArray;
+            InternalDecode(networkDef,
+                           activationScheme.TimestepsPerActivation,
+                           out connInfoArr, out activationFnArray);
+
+            // Construct neural net.
+            return new HeterogeneousCyclicNetwork(connInfoArr,
                                      activationFnArray,
                                      networkDef.NodeList.Count,
                                      networkDef.InputNodeCount,

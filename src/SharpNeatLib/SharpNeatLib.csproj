@@ -117,6 +117,7 @@
     <Compile Include="EvolutionAlgorithms\AbstractGenerationalAlgorithm.cs" />
     <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithmParameters.cs" />
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
+    <Compile Include="Genomes\HyperNeat\CppnNeuronGene.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
@@ -179,9 +180,11 @@
     <Compile Include="Network\ActivationFunctions\Unipolar\LogisticFunctionSteep.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\QuadraticSigmoid.cs" />
     <Compile Include="Phenomes\MappingSignalArray.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\HeterogeneousAcyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\AcyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\ConnectionInfo.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\HeterogeneousCyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
     <Compile Include="Phenomes\OutputMappingSignalArray.cs" />
     <Compile Include="Phenomes\OutputSignalArray.cs" />

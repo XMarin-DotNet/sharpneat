@@ -410,7 +410,10 @@ namespace SharpNeat.Genomes.Neat
                         functionId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
                     }
 
-                    NeuronGene nGene = new NeuronGene(id, neuronType, functionId);
+
+                    // TODO/FIXME: handle loading of CPPN genomes by reading activation function ID.
+                    //NeuronGene nGene = new NeuronGene(id, neuronType, functionId);
+                    NeuronGene nGene = new NeuronGene(id, neuronType);
                     nGeneList.Add(nGene);
 
                     // Track the number of input and output nodes.

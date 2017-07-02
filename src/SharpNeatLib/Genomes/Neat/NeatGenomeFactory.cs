@@ -589,7 +589,7 @@ namespace SharpNeat.Genomes.Neat
         public virtual NeuronGene CreateNeuronGene(uint innovationId, NodeType neuronType)
         {
             // NEAT uses the same activation function at each neuron; Hence we use an activationFnId of 0 here.
-            return new NeuronGene(innovationId, neuronType, 0);
+            return new NeuronGene(innovationId, neuronType);
         }
 
         #endregion

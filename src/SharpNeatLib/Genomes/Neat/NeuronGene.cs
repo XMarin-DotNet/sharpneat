@@ -26,7 +26,6 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         readonly uint _innovationId;
         readonly NodeType _neuronType;
-        readonly int _activationFnId;
         readonly HashSet<uint> _srcNeurons;
         readonly HashSet<uint> _tgtNeurons;
 
@@ -41,7 +40,6 @@ namespace SharpNeat.Genomes.Neat
         {
             _innovationId = copyFrom._innovationId;
             _neuronType = copyFrom._neuronType;
-            _activationFnId = copyFrom._activationFnId;
 
             if(copyConnectivityData) {
                 _srcNeurons = new HashSet<uint>(copyFrom._srcNeurons);
@@ -56,11 +54,10 @@ namespace SharpNeat.Genomes.Neat
         /// Construct new NeuronGene with the specified innovationId, neuron type 
         /// and activation function ID.
         /// </summary>
-        public NeuronGene(uint innovationId, NodeType neuronType, int activationFnId)
+        public NeuronGene(uint innovationId, NodeType neuronType)
         {
             _innovationId = innovationId;
             _neuronType = neuronType;
-            _activationFnId = activationFnId;
             _srcNeurons = new HashSet<uint>();
             _tgtNeurons = new HashSet<uint>();
         }
@@ -91,9 +88,9 @@ namespace SharpNeat.Genomes.Neat
         /// For CPPNs/HyperNEAT this ID corresponds to an entry in the IActivationFunctionLibrary
         /// present in the current genome factory.
         /// </summary>
-        public int ActivationFnId
+        public virtual int ActivationFnId
         {
-            get { return _activationFnId; }
+            get { return 0; }
         }
 
         /// <summary>

@@ -20,27 +20,71 @@ namespace SharpNeat.Decoders
     /// <summary>
     /// Static factory for creating AcyclicNetwork(s) from INetworkDefinition(s).
     /// </summary>
-    public class AcyclicNetworkFactory
+    public static class AcyclicNetworkFactory
     {
-        #region Public Methods
+        #region Public Static Methods
 
-        /// <summary>
-        /// Creates a AcyclicNetwork from an INetworkDefinition.
-        /// </summary>
-        public static AcyclicNetwork CreateAcyclicNetwork(INetworkDefinition networkDef, bool boundedOutput)
+        public static AcyclicNetwork CreateAcyclicNetwork(INetworkDefinition netDef, bool boundedOutput)
         {
-            Debug.Assert(!CyclicNetworkTest.IsNetworkCyclic(networkDef), "Attempt to decode a cyclic network definition into an AcyclicNetwork.");
+            IActivationFunction[] activationFnArr;
+            ConnectionInfo[] connInfoArr;
+            LayerInfo[] layerInfoArr;
+            int[] outputNeuronIdxArr;
+            InternalDecode(netDef, out activationFnArr, out connInfoArr, out layerInfoArr, out outputNeuronIdxArr);
+
+            return new AcyclicNetwork(
+                activationFnArr[0],
+                connInfoArr,
+                layerInfoArr,
+                outputNeuronIdxArr,
+                netDef.NodeList.Count,
+                netDef.InputNodeCount,
+                netDef.OutputNodeCount,
+                boundedOutput);
+        }
+
+        public static HeterogeneousAcyclicNetwork CreateHeterogeneousAcyclicNetwork(INetworkDefinition netDef, bool boundedOutput)
+        {
+            IActivationFunction[] activationFnArr;
+            ConnectionInfo[] connInfoArr;
+            LayerInfo[] layerInfoArr;
+            int[] outputNeuronIdxArr;
+            InternalDecode(netDef, out activationFnArr, out connInfoArr, out layerInfoArr, out outputNeuronIdxArr);
+
+            return new HeterogeneousAcyclicNetwork(
+                activationFnArr,
+                connInfoArr,
+                layerInfoArr,
+                outputNeuronIdxArr,
+                netDef.NodeList.Count,
+                netDef.InputNodeCount,
+                netDef.OutputNodeCount,
+                boundedOutput);
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static void InternalDecode(
+            INetworkDefinition netDef,
+            out IActivationFunction[] activationFnArr,
+            out ConnectionInfo[] connInfoArr,
+            out LayerInfo[] layerInfoArr,
+            out int[] outputNeuronIdxArr)
+        {
+           Debug.Assert(!CyclicNetworkTest.IsNetworkCyclic(netDef), "Attempt to decode a cyclic network definition into an AcyclicNetwork.");
 
             // Determine the depth of each node in the network. 
             // Node depths are used to separate the nodes into depth based layers, these layers can then be
             // used to determine the order in which signals are propagated through the network.
             AcyclicNetworkDepthAnalysis depthAnalysis = new AcyclicNetworkDepthAnalysis();
-            NetworkDepthInfo netDepthInfo = depthAnalysis.CalculateNodeDepths(networkDef);
+            NetworkDepthInfo netDepthInfo = depthAnalysis.CalculateNodeDepths(netDef);
 
             // Construct an array of NodeInfo, ordered by node depth.
             // Create/populate NodeInfo array.
             int[] nodeDepthArr = netDepthInfo._nodeDepthArr;
-            INodeList nodeList = networkDef.NodeList;
+            INodeList nodeList = netDef.NodeList;
             int nodeCount = nodeList.Count;
             NodeInfo[] nodeInfoByDepth = new NodeInfo[nodeCount];
             for(int i=0; i<nodeCount; i++)
@@ -55,7 +99,7 @@ namespace SharpNeat.Decoders
             // a sort range, which we use to avoid sorting the input and bias nodes. Sort() performs an unstable sort therefore
             // we must restrict the range of the sort to ensure the input and bias node indexes are unchanged. Restricting the
             // sort to the required range is also more efficient (less items to sort).
-            int inputAndBiasCount = networkDef.InputNodeCount + 1;
+            int inputAndBiasCount = netDef.InputNodeCount + 1;
             Array.Sort(nodeInfoByDepth, inputAndBiasCount, nodeCount-inputAndBiasCount, NodeDepthComparer.__NodeDepthComparer);
 
             // Array of live node indexes indexed by their index in the original network definition. This allows us to 
@@ -75,27 +119,27 @@ namespace SharpNeat.Decoders
             }
 
             // Make a copy of the sub-range of newIdxByDefinitionIdx that represents the output nodes.
-            int outputCount = networkDef.OutputNodeCount;
-            int[] outputNeuronIdxArr = new int[outputCount];
+            int outputCount = netDef.OutputNodeCount;
+            outputNeuronIdxArr = new int[outputCount];
             // Note. 'inputAndBiasCount' holds the index of the first output node.
             Array.Copy(newIdxByDefinitionIdx, inputAndBiasCount, outputNeuronIdxArr, 0, outputCount);
 
             // Construct activation function array.
-            IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
-            IActivationFunction[] nodeActivationFnArr = new IActivationFunction[nodeCount];
+            IActivationFunctionLibrary activationFnLibrary = netDef.ActivationFnLibrary;
+            activationFnArr = new IActivationFunction[nodeCount];
             for(int i=0; i<nodeCount; i++) 
             {
                 int definitionIdx = nodeInfoByDepth[i]._definitionIdx;
-                nodeActivationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId);
+                activationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId);
             }
 
 
         //=== Create array of ConnectionInfo(s). 
 
             // Loop the connections and lookup the node IDs for each connection's end points using newIdxById.
-            IConnectionList connectionList = networkDef.ConnectionList;
+            IConnectionList connectionList = netDef.ConnectionList;
             int connectionCount = connectionList.Count;
-            ConnectionInfo[] connInfoArr = new ConnectionInfo[connectionCount];
+            connInfoArr = new ConnectionInfo[connectionCount];
 
             for(int i=0; i<connectionCount; i++)
             {   
@@ -135,7 +179,7 @@ namespace SharpNeat.Decoders
             // because for there to be a layer N there must necessarily be a connection from a node in layer N-1 
             // to a node in layer N.
             int netDepth = netDepthInfo._networkDepth;
-            LayerInfo[] layerInfoArr = new LayerInfo[netDepth];
+            layerInfoArr = new LayerInfo[netDepth];
 
             // Scanning over nodes can start at inputAndBiasCount instead of zero, 
             // because we know that all nodes prior to that index are at depth zero.
@@ -154,9 +198,6 @@ namespace SharpNeat.Decoders
                 layerInfoArr[currDepth]._endNodeIdx = nodeIdx;
                 layerInfoArr[currDepth]._endConnectionIdx = connIdx;
             }
-
-            return new AcyclicNetwork(nodeActivationFnArr, connInfoArr, layerInfoArr, outputNeuronIdxArr,
-                                      nodeCount, networkDef.InputNodeCount, networkDef.OutputNodeCount, boundedOutput);
         }
 
         #endregion

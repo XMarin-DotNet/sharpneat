@@ -91,7 +91,7 @@ namespace SharpNeat.Genomes.HyperNeat
                 }
             }
 
-            return new NeuronGene(innovationId, neuronType, activationFnId);
+            return new CppnNeuronGene(innovationId, neuronType, activationFnId);
         }
 
         #endregion

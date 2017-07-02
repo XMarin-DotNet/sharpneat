@@ -108,14 +108,14 @@ namespace SharpNeat.Decoders.HyperNeat
             return DecodeToCyclicNetwork;
         }
 
-        private AcyclicNetwork DecodeToAcyclicNetwork(NeatGenome genome)
+        private HeterogeneousAcyclicNetwork DecodeToAcyclicNetwork(NeatGenome genome)
         {
-            return AcyclicNetworkFactory.CreateAcyclicNetwork(genome, false);
+            return AcyclicNetworkFactory.CreateHeterogeneousAcyclicNetwork(genome, false);
         }
 
-        private CyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
+        private HeterogeneousCyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
         {
-            return CyclicNetworkFactory.CreateCyclicNetwork(genome, _activationSchemeCppn, false);
+            return CyclicNetworkFactory.CreateHeterogeneousCyclicNetwork(genome, _activationSchemeCppn, false);
         }
 
         #endregion
