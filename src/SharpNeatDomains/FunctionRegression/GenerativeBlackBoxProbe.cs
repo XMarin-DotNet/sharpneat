@@ -44,6 +44,9 @@ namespace SharpNeat.Domains.FunctionRegression
         {
             Debug.Assert(responseArr.Length == _paramSamplingInfo._sampleCount);
 
+            // Set bias input.
+            box.InputSignalArray[0] = 1.0;
+
             // Reset black box internal state.
             box.ResetState();
 

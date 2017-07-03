@@ -86,9 +86,11 @@ namespace SharpNeat.Domains
         //----- Test 0,0
             box.ResetState();
 
+            // Bias node.
+            inputArr[0] = 1.0;
             // Set the input values
-            inputArr[0] = 0.0;
             inputArr[1] = 0.0;
+            inputArr[2] = 0.0;
 
             // Activate the black box.
             box.Activate();
@@ -108,9 +110,11 @@ namespace SharpNeat.Domains
             // Reset any black box state from the previous test case.
             box.ResetState();
 
-            // Set the input values
+            // Bias node.
             inputArr[0] = 1.0;
+            // Set the input values
             inputArr[1] = 1.0;
+            inputArr[2] = 1.0;
 
             // Activate the black box.
             box.Activate();
@@ -130,9 +134,11 @@ namespace SharpNeat.Domains
             // Reset any black box state from the previous test case.
             box.ResetState();
 
+            // Bias node.
+            inputArr[0] = 1.0;
             // Set the input values
-            inputArr[0] = 0.0;
-            inputArr[1] = 1.0;
+            inputArr[1] = 0.0;
+            inputArr[2] = 1.0;
 
             // Activate the black box.
             box.Activate();
@@ -152,9 +158,11 @@ namespace SharpNeat.Domains
             // Reset any black box state from the previous test case.
             box.ResetState();
 
-            // Set the input values
+            // Bias input.
             inputArr[0] = 1.0;
-            inputArr[1] = 0.0;
+            // Set the input values
+            inputArr[1] = 1.0;
+            inputArr[2] = 0.0;
 
             // Activate the black box.
             box.Activate();

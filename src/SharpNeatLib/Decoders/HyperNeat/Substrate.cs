@@ -58,7 +58,7 @@ namespace SharpNeat.Decoders.HyperNeat
         readonly List<SubstrateConnection> _connectionList;
         /// <summary>
         /// A hint to the method creating networks from substrate - approximate number of connections that can be 
-        /// expected to be grown by the substrate and it's mapping functions.
+        /// expected to be grown by the substrate and its mapping functions.
         /// </summary>
         readonly int _connectionCountHint;
         /// <summary>
@@ -113,7 +113,7 @@ namespace SharpNeat.Decoders.HyperNeat
             VaildateSubstrateNodes(nodeSetList);
 
             _nodeSetList = nodeSetList;
-            _inputNodeCount =  _nodeSetList[0].NodeList.Count;
+            _inputNodeCount =  _nodeSetList[0].NodeList.Count + 1; // + 1 for bias input node.
             _outputNodeCount =  _nodeSetList[1].NodeList.Count;
             _dimensionality = _nodeSetList[0].NodeList[0]._position.GetUpperBound(0) + 1;
 
@@ -136,7 +136,7 @@ namespace SharpNeat.Decoders.HyperNeat
         /// Constructs with the provided substrate nodesets and mappings that describe how the nodesets are to be connected up.
         /// </summary>
         /// <param name="nodeSetList">Substrate nodes, represented as distinct sets of nodes. By convention the first and second
-        /// sets in the list represent the input and output noes respectively. All other sets represent hidden nodes.</param>
+        /// sets in the list represent the input and output nodes respectively. All other sets represent hidden nodes.</param>
         /// <param name="activationFnLibrary">The activation function library allocated to the networks that are 'grown' from the substrate.</param>
         /// <param name="activationFnId">The ID of an activation function in activationFnLibrary. This is the activation function 
         /// ID assigned to all nodes in networks that are 'grown' from the substrate. </param>
@@ -151,7 +151,7 @@ namespace SharpNeat.Decoders.HyperNeat
             VaildateSubstrateNodes(nodeSetList);
 
             _nodeSetList = nodeSetList;
-            _inputNodeCount =  _nodeSetList[0].NodeList.Count;
+            _inputNodeCount =  _nodeSetList[0].NodeList.Count + 1; // + 1 for bias input node.
             _outputNodeCount =  _nodeSetList[1].NodeList.Count;
             _dimensionality = _nodeSetList[0].NodeList[0]._position.GetUpperBound(0) + 1;
 
@@ -225,15 +225,18 @@ namespace SharpNeat.Decoders.HyperNeat
             ISignalArray inputSignalArr = blackbox.InputSignalArray;
             ISignalArray outputSignalArr = blackbox.OutputSignalArray;
             ConnectionList networkConnList = new ConnectionList(_connectionCountHint);
-            int lengthInputIdx = _dimensionality + _dimensionality;
+            int lengthInputIdx = _dimensionality + _dimensionality + 1; // +1 to account for the bias input (node 0)
 
             foreach(SubstrateConnection substrateConn in connectionSequence)
             {
+                // Bias input.
+                inputSignalArr[0] = 1.0;
+
                 // Assign the connection's endpoint position coords to the CPPN/blackbox inputs. Note that position dimensionality is not fixed.
                 for(int i=0; i<_dimensionality; i++) 
                 {
-                    inputSignalArr[i] = substrateConn._srcNode._position[i];
-                    inputSignalArr[i + _dimensionality] = substrateConn._tgtNode._position[i];
+                    inputSignalArr[i + 1] = substrateConn._srcNode._position[i];
+                    inputSignalArr[i + 1 + _dimensionality] = substrateConn._tgtNode._position[i];
                 }
 
                 // Optional connection length input.
@@ -263,7 +266,7 @@ namespace SharpNeat.Decoders.HyperNeat
             }
 
             // Additionally we create connections from each hidden and output node to a bias node that is not defined at any 
-            // position on the substrate. The motivation here is that a each node's input bias is independent of any source
+            // position on the substrate. The motivation here is that each node's input bias is independent of any source
             // node (and associated source node position on the substrate). That we refer to a bias 'node' is a consequence of how input 
             // biases are handled in NEAT - with a specific bias node that other nodes can be connected to.
             int setCount = _nodeSetList.Count;
@@ -272,11 +275,14 @@ namespace SharpNeat.Decoders.HyperNeat
                 SubstrateNodeSet nodeSet = _nodeSetList[i];
                 foreach(SubstrateNode node in nodeSet.NodeList)
                 {
+                    // Bias input.
+                    inputSignalArr[0] = 1.0;
+
                     // Assign the node's position coords to the blackbox inputs. The CPPN inputs for source node coords are set to zero when obtaining bias values.
                     for(int j=0; j<_dimensionality; j++)
                     {
-                        inputSignalArr[j] = 0.0;
-                        inputSignalArr[j + _dimensionality] = node._position[j];
+                        inputSignalArr[j + 1] = 0.0;
+                        inputSignalArr[j + 1+ _dimensionality] = node._position[j];
                     }
 
                     // Optional connection length input.
@@ -431,7 +437,7 @@ namespace SharpNeat.Decoders.HyperNeat
             // Note. The nodes are created in the order of inputs, outputs and then hidden. This is the order required when constructing
             // instances of the NeatGenome and NetworkDefinition classes. The requirement comes about through internal implementation of 
             // those classes - see comments on those classes for more info.
-            nodeList.Add(new NetworkNode(0u, NodeType.Bias, _activationFnId));
+            nodeList.Add(new NetworkNode(0u, NodeType.Input, _activationFnId));
 
             // Create input nodes. By convention the first nodeset describes the input nodes (not including the bias).
             SubstrateNodeSet nodeSet = _nodeSetList[0];

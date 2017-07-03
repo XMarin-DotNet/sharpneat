@@ -30,8 +30,8 @@ namespace SharpNeat.Phenomes
     /// C++ you might do something like:
     /// <code>
     /// double[] allSignals = new double[100];
-    /// double[] inputSignals = &amp;allSignals + 1;    // Skip bias neuron.
-    /// double[] outputSignals = &amp;allSignals + 10;  // Skip bias and input neurons.
+    /// double[] inputSignals = &amp;allSignals; 
+    /// double[] outputSignals = &amp;allSignals + 10;  // Skip input neurons.
     /// </code>
     /// In the above example access to the real items outside of the bounds of the sub-ranges is
     /// possible (e.g. inputSignals[10] yields the first output signal). SignalArray also does not check for

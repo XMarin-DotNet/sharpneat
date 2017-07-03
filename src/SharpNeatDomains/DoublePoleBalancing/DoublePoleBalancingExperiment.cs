@@ -79,7 +79,7 @@ namespace SharpNeat.Domains.DoublePoleBalancing
         /// </summary>
         public int InputCount
         {
-            get { return 6; }
+            get { return 7; }
         }
 
         /// <summary>

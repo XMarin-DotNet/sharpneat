@@ -99,10 +99,11 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
             for(; timestep < _maxTimesteps; timestep++)
             {
                 // Provide state info to the black box inputs.
-                box.InputSignalArray[0] = simWorld.CartPosX / __TrackLengthHalf;    // CartPosX range is +-trackLengthHalf. Here we normalize it to [-1,1].
-                box.InputSignalArray[1] = simWorld.CartVelocityX;                   // Cart track velocity x is typically +-0.75.
-                box.InputSignalArray[2] = simWorld.PoleAngle / __TwelveDegrees;     // Rescale angle to match range of values during balancing.
-                box.InputSignalArray[3] = simWorld.PoleAngularVelocity;             // Pole angular velocity is typically +-1.0 radians. No scaling required.
+                box.InputSignalArray[0] = 1.0;                                      // Bias input.
+                box.InputSignalArray[1] = simWorld.CartPosX / __TrackLengthHalf;    // CartPosX range is +-trackLengthHalf. Here we normalize it to [-1,1].
+                box.InputSignalArray[2] = simWorld.CartVelocityX;                   // Cart track velocity x is typically +-0.75.
+                box.InputSignalArray[3] = simWorld.PoleAngle / __TwelveDegrees;     // Rescale angle to match range of values during balancing.
+                box.InputSignalArray[4] = simWorld.PoleAngularVelocity;             // Pole angular velocity is typically +-1.0 radians. No scaling required.
 
                 // Activate the network.
                 box.Activate();

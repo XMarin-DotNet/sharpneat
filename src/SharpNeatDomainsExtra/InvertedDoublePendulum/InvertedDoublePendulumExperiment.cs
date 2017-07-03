@@ -78,7 +78,7 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         /// </summary>
         public int InputCount
         {
-            get { return 6; }
+            get { return 7; }
         }
 
         /// <summary>

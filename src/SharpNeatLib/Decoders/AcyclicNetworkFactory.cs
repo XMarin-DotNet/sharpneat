@@ -102,11 +102,11 @@ namespace SharpNeat.Decoders
 
             // Sort NodeInfo array.
             // We use an IComparer here because an anonymous method is not accepted on the method overload that accepts
-            // a sort range, which we use to avoid sorting the input and bias nodes. Sort() performs an unstable sort therefore
-            // we must restrict the range of the sort to ensure the input and bias node indexes are unchanged. Restricting the
+            // a sort range, which we use to avoid sorting the input nodes. Sort() performs an unstable sort therefore
+            // we must restrict the range of the sort to ensure the input node indexes are unchanged. Restricting the
             // sort to the required range is also more efficient (less items to sort).
-            int inputAndBiasCount = netDef.InputNodeCount + 1;
-            Array.Sort(nodeInfoByDepth, inputAndBiasCount, nodeCount-inputAndBiasCount, NodeDepthComparer.__NodeDepthComparer);
+            int inputCount = netDef.InputNodeCount;
+            Array.Sort(nodeInfoByDepth, inputCount, nodeCount-inputCount, NodeDepthComparer.__NodeDepthComparer);
 
             // Array of live node indexes indexed by their index in the original network definition. This allows us to 
             // locate the position of input and output nodes in their new positions in the live network data structures.
@@ -127,8 +127,8 @@ namespace SharpNeat.Decoders
             // Make a copy of the sub-range of newIdxByDefinitionIdx that represents the output nodes.
             int outputCount = netDef.OutputNodeCount;
             outputNeuronIdxArr = new int[outputCount];
-            // Note. 'inputAndBiasCount' holds the index of the first output node.
-            Array.Copy(newIdxByDefinitionIdx, inputAndBiasCount, outputNeuronIdxArr, 0, outputCount);
+            // Note. 'inputCount' holds the index of the first output node.
+            Array.Copy(newIdxByDefinitionIdx, inputCount, outputNeuronIdxArr, 0, outputCount);
 
             // Construct activation function array.
             IActivationFunctionLibrary activationFnLibrary = netDef.ActivationFnLibrary;
@@ -179,7 +179,7 @@ namespace SharpNeat.Decoders
 
             // Create an array of LayerInfo(s). Each LayerInfo contains the index + 1 of both the last node and last 
             // connection in that layer.
-            // The array is in order of depth, from layer zero (bias and inputs nodes) to the last layer 
+            // The array is in order of depth, from layer zero (inputs nodes) to the last layer 
             // (usually output nodes, but not necessarily if there is a dead end pathway with a high number of hops).
             // Note. There is guaranteed to be at least one connection with a source at a given depth level, this is
             // because for there to be a layer N there must necessarily be a connection from a node in layer N-1 
@@ -187,9 +187,9 @@ namespace SharpNeat.Decoders
             int netDepth = netDepthInfo._networkDepth;
             layerInfoArr = new LayerInfo[netDepth];
 
-            // Scanning over nodes can start at inputAndBiasCount instead of zero, 
-            // because we know that all nodes prior to that index are at depth zero.
-            int nodeIdx = inputAndBiasCount;
+            // Scanning over nodes can start at inputCount instead of zero, because we know that all nodes prior to 
+            // that index are at depth zero.
+            int nodeIdx = inputCount;
             int connIdx = 0;
 
             for(int currDepth=0; currDepth < netDepth; currDepth++)

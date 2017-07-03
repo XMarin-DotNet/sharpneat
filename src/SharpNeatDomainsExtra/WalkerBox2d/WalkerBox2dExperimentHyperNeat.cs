@@ -79,14 +79,16 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
         /// <summary>
         /// Gets the number of inputs required by the network/black-box that the underlying problem domain is based on.
+        /// 7 inputs: One bias input + 2 * (x,y,z) CPPN substrate node position coordinates, plus one optional connection length input.
         /// </summary>
         public int InputCount
         {
-           get { return _lengthCppnInput ? 7 : 6; }
+           get { return _lengthCppnInput ? 8 : 7; }
         }
 
         /// <summary>
         /// Gets the number of outputs required by the network/black-box that the underlying problem domain is based on.
+        /// 2 outputs. CPPN weight output and bias weight output.
         /// </summary>
         public int OutputCount
         {

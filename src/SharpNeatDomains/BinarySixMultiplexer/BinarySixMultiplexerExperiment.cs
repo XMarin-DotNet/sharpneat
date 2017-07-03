@@ -77,7 +77,7 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
         /// </summary>
         public int InputCount
         {
-            get { return 6; }
+            get { return 7; }
         }
 
         /// <summary>

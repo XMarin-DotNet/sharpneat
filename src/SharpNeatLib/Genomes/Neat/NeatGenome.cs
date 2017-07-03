@@ -23,13 +23,12 @@ namespace SharpNeat.Genomes.Neat
     /// A genome class for Neuro Evolution of Augmenting Topologies (NEAT).
     /// 
     /// Note that neuron genes must be arranged according to the following layout plan.
-    ///      Bias - single neuron. Innovation ID = 0
     ///      Input neurons.
     ///      Output neurons.
     ///      Hidden neurons.
     /// 
-    /// This allows us to add and remove hidden neurons without affecting the position of the bias,
-    /// input and output neurons; This is convenient because bias and input and output neurons are
+    /// This allows us to add and remove hidden neurons without affecting the position of the 
+    /// input and output neurons; This is convenient because input and output neurons are
     /// fixed, they cannot be added to or removed and so remain constant throughout a given run. In fact they
     /// are only stored in the same list as hidden nodes as an efficiency measure when producing offspring 
     /// and decoding genomes, otherwise it would probably make sense to store them in read-only lists.
@@ -49,7 +48,6 @@ namespace SharpNeat.Genomes.Neat
         // We ensure that the connectionGenes are sorted by innovation ID at all times. This allows significant optimisations
         // to be made in crossover and decoding routines.
         // Neuron genes must also be arranged according to the following layout plan.
-        //      Bias - single neuron. Innovation ID = 0
         //      Input neurons.
         //      Output neurons.
         //      Hidden neurons.
@@ -57,12 +55,10 @@ namespace SharpNeat.Genomes.Neat
         readonly ConnectionGeneList _connectionGeneList;
 
         // For efficiency we store the number of input and output neurons. These two quantities do not change
-        // throughout the life of a genome. Note that inputNeuronCount does NOT include the bias neuron; Use
-        // inputAndBiasNeuronCount.
+        // throughout the life of a genome. 
         readonly int _inputNeuronCount;
         readonly int _outputNeuronCount;
-        readonly int _inputAndBiasNeuronCount;
-        readonly int _inputBiasOutputNeuronCount;
+        readonly int _inputOutputNeuronCount;
 
         // Created in a just-in-time manner and cached for possible re-use.
         NetworkConnectivityData _networkConnectivityData;
@@ -92,8 +88,7 @@ namespace SharpNeat.Genomes.Neat
             _outputNeuronCount = outputNeuronCount;
 
             // Precalculate some often used values.
-            _inputAndBiasNeuronCount = inputNeuronCount+1;
-            _inputBiasOutputNeuronCount = _inputAndBiasNeuronCount + outputNeuronCount;
+            _inputOutputNeuronCount = _inputNeuronCount + outputNeuronCount;
 
             // Rebuild per neuron connection info if caller has requested it.
             if(rebuildNeuronGeneConnectionInfo) {
@@ -124,8 +119,7 @@ namespace SharpNeat.Genomes.Neat
             // Copy pre-calculated values.
             _inputNeuronCount = copyFrom._inputNeuronCount;
             _outputNeuronCount = copyFrom._outputNeuronCount;
-            _inputAndBiasNeuronCount = copyFrom._inputAndBiasNeuronCount;
-            _inputBiasOutputNeuronCount = copyFrom._inputBiasOutputNeuronCount;
+            _inputOutputNeuronCount = copyFrom._inputOutputNeuronCount;
             
             _evalInfo = new EvaluationInfo(copyFrom.EvaluationInfo.FitnessHistoryLength);
 
@@ -261,12 +255,12 @@ namespace SharpNeat.Genomes.Neat
             ConnectionGeneListBuilder connectionListBuilder = new ConnectionGeneListBuilder(_connectionGeneList.Count +
                                                                                             parent._connectionGeneList.Count);
 
-            // Pre-register all of the fixed neurons (bias, inputs and outputs) with the ConnectionGeneListBuilder's
+            // Pre-register all of the fixed neurons (inputs and outputs) with the ConnectionGeneListBuilder's
             // neuron ID dictionary. We do this so that we can use the dictionary later on as a complete list of
             // all neuron IDs required by the offspring genome - if we didn't do this we might miss some of the fixed neurons
             // that happen to not be connected to or from.
             SortedDictionary<uint,NeuronGene> neuronDictionary = connectionListBuilder.NeuronDictionary;
-            for(int i=0; i<_inputBiasOutputNeuronCount; i++) {
+            for(int i=0; i<_inputOutputNeuronCount; i++) {
                 neuronDictionary.Add(_neuronGeneList[i].InnovationId, _neuronGeneList[i].CreateCopy(false));
             }
 
@@ -439,14 +433,6 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets the number of input and bias neurons represented by the genome.
-        /// </summary>
-        public int InputAndBiasNeuronCount
-        {
-            get { return _inputAndBiasNeuronCount; }
-        }
-
-        /// <summary>
         /// Gets the number of output neurons represented by the genome.
         /// </summary>
         public int OutputNeuronCount
@@ -455,11 +441,11 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets the number total number of neurons represented by the genome.
+        /// Gets the number total number of input and output neurons represented by the genome.
         /// </summary>
-        public int InputBiasOutputNeuronCount
+        public int InputOutputNeuronCount
         {
-            get { return _inputAndBiasNeuronCount; }
+            get { return _inputOutputNeuronCount; }
         }
 
         #endregion
@@ -672,35 +658,41 @@ namespace SharpNeat.Genomes.Neat
             // of testing the suitability of randomly selected pairs and after some number of failed tests we bail out
             // of the routine and perform weight mutation as a last resort - so that we did at least some form of mutation on 
             // the genome.
-            if(_neuronGeneList.Count < 3) 
-            {   // We should always have at least three neurons - one each of a bias, input and output neuron.
-                return null;
-            }
+            // Note. Contrary to the above comment, the generative function regression tasks have no inputs(!), therefore the 
+            // theoretical minimum number of neurons is one (a single output neuron). We also no longer enforce the use of
+            // a bias neuron, this is entirely dependent on whether a task chooses to supply a bias input or not.
 
             // TODO: Try to improve chance of finding a candidate connection to make.
             // We have at least 2 neurons, so we have a chance at creating a connection.
             int neuronCount = _neuronGeneList.Count;
-            int hiddenOutputNeuronCount = neuronCount - _inputAndBiasNeuronCount;
-            int inputBiasHiddenNeuronCount = neuronCount - _outputNeuronCount;
+            int hiddenOutputNeuronCount = neuronCount - _inputNeuronCount;
+            int inputHiddenNeuronCount = neuronCount - _outputNeuronCount;
 
             // Use slightly different logic when evolving feed-forward only networks.
             if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
             {
+                // For acyclic nets we require at least one input or hidden node to be a candidate source node, because
+                // outputs nodes cannot be the a connection source - this ensures output nodes can never be part of a cycle, which
+                // once it had occured, would prevent any other connections being made to an output.
+                if(0 == inputHiddenNeuronCount) {
+                    return null;
+                }
+
                 // Feed-forward networks.
                 for(int attempts=0; attempts<5; attempts++)
                 {
                     // Select candidate source and target neurons. 
-                    // Valid source nodes are bias, input and hidden nodes. Output nodes are not source node candidates
+                    // Valid source nodes are input and hidden nodes. Output nodes are not source node candidates
                     // for acyclic nets (because that can prevent future connections from targeting the output if it would
                     // create a cycle).
-                    int srcNeuronIdx = _genomeFactory.Rng.Next(inputBiasHiddenNeuronCount);
-                    if(srcNeuronIdx >= _inputAndBiasNeuronCount) {
+                    int srcNeuronIdx = _genomeFactory.Rng.Next(inputHiddenNeuronCount);
+                    if(srcNeuronIdx >= _inputNeuronCount) {
                         srcNeuronIdx += _outputNeuronCount;
                     }
 
                     // Valid target nodes are all hidden and output nodes.
                     // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic connection is tested for below). 
-                    int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
+                    int tgtNeuronIdx = _inputNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
                     if(srcNeuronIdx == tgtNeuronIdx)
                     {
                         // The source neuron was selected. To ensure selections are evenly distributed across all valid targets, this
@@ -720,14 +712,16 @@ namespace SharpNeat.Genomes.Neat
             }
             else
             {
+                // Note. There should always be at least a single output node, therefore there should always be candidate source and 
+                // taget nodes (i.e. a recurrent conenction on a single output node).
+
                 // Recurrent networks.
                 for(int attempts=0; attempts<5; attempts++)
                 {
-                    // Select candidate source and target neurons. Any neuron can be used as the source. Input neurons 
-                    // should not be used as a target           
+                    // Select candidate source and target neurons.
                     // Source neuron can by any neuron. Target neuron is any neuron except input neurons.
                     int srcNeuronIdx = _genomeFactory.Rng.Next(neuronCount);
-                    int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount);
+                    int tgtNeuronIdx = _inputNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount);
 
                     // Test if this connection already exists.
                     NeuronGene sourceNeuron = _neuronGeneList[srcNeuronIdx];            
@@ -1193,26 +1187,15 @@ namespace SharpNeat.Genomes.Neat
             // Check neuron genes.
             int count = _neuronGeneList.Count;
             
-            // We will always have at least a bias and an output.
-            if(count < 2) {
+            // We will always have at least an output.
+            if(count < 1) {
                 Debug.WriteLine($"NeuronGeneList has less than the minimum number of neuron genes [{count}]");
                 return false;
             }
 
-            // Check bias neuron.
-            if(NodeType.Bias != _neuronGeneList[0].NodeType) {
-                Debug.WriteLine("Missing bias gene");
-                return false;
-            }
-
-            if(0u != _neuronGeneList[0].InnovationId) {
-                Debug.WriteLine($"Bias neuron ID != 0. [{_neuronGeneList[0].InnovationId}]");
-                return false;
-            }
-
             // Check input neurons.
-            uint prevId = 0u;
-            int idx = 1;
+            long prevId = -1;
+            int idx = 0;
             for(int i=0; i<_inputNeuronCount; i++, idx++)
             {
                 if(NodeType.Input != _neuronGeneList[idx].NodeType) {
@@ -1393,7 +1376,7 @@ namespace SharpNeat.Genomes.Neat
         #region INetworkDefinition Members
 
         /// <summary>
-        /// Gets the number of input nodes. This does not include the bias node which is always present.
+        /// Gets the number of input nodes.
         /// </summary>
         public int InputNodeCount
         {

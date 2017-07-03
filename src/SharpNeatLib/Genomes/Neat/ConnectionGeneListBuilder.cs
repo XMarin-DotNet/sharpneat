@@ -27,7 +27,7 @@ namespace SharpNeat.Genomes.Neat
         readonly Dictionary<ConnectionEndpointsStruct,ConnectionGene> _connectionGeneDictionary;
         readonly SortedDictionary<uint,NeuronGene> _neuronDictionary;
         // Note. connection gene innovation IDs always start above zero as they share the ID space with neurons, 
-        // which always come first (e.g. bias neuron is always ID 0).
+        // which always come first.
         uint _highestConnectionGeneId = 0; 
 
         #region Constructor

@@ -76,7 +76,7 @@ namespace SharpNeat.Network
         #region Properties
 
         /// <summary>
-        /// Gets the number of input nodes. This does not include the bias node which is always present.
+        /// Gets the number of input nodes.
         /// </summary>
         public int InputNodeCount
         {
@@ -185,27 +185,16 @@ namespace SharpNeat.Network
         /// </summary>
         public bool PerformIntegrityCheck()
         {
-            // We will always have at least a bias and an output.
+            // We will always have at least one output.
             int count = _nodeList.Count;
-            if(count < 2) {
+            if(count < 1) {
                 Debug.WriteLine($"Node list has less than the minimum number of neuron genes [{count}]");
-                return false;
-            }
-
-            // Check bias neuron.
-            if(NodeType.Bias != _nodeList[0].NodeType) {
-                Debug.WriteLine("Missing bias gene");
-                return false;
-            }
-
-            if(0u != _nodeList[0].Id) {
-                Debug.WriteLine($"Bias neuron ID != 0. [{_nodeList[0].Id}]");
                 return false;
             }
 
             // Check input nodes.
             uint prevId = 0u;
-            int idx = 1;
+            int idx = 0;
             for(int i=0; i<_inputNodeCount; i++, idx++)
             {
                 if(NodeType.Input != _nodeList[idx].NodeType) {

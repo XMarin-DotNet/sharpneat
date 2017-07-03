@@ -80,7 +80,7 @@ namespace SharpNeat.Domains.FunctionRegression
         /// </summary>
         public int InputCount
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         /// <summary>

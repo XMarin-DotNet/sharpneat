@@ -187,6 +187,9 @@ namespace SharpNeat.Domains.PreyCapture
             // Reset all inputs.
             agent.InputSignalArray.Reset();
 
+            // Set bias input.
+            agent.InputSignalArray[0] = 1.0;
+
             // Test if prey is in sensor range.
             if(relPos.Radial <= _sensorRange)
             {
@@ -197,26 +200,26 @@ namespace SharpNeat.Domains.PreyCapture
                     segmentIdx = 0;
                 }
                 // Set sensor segment's input.
-                agent.InputSignalArray[segmentIdx] = 1.0;
+                agent.InputSignalArray[segmentIdx+1] = 1.0;
             }
 
             // Prey closeness detector.
-            agent.InputSignalArray[8] = relPos.Radial > 2.0 ? 0.0 : 1.0;
+            agent.InputSignalArray[9] = relPos.Radial > 2.0 ? 0.0 : 1.0;
 
             // Wall detectors - N,E,S,W.
             // North.
             int d = (_gridSize-1) - _agentPos._y;
-            if(d < 4) { agent.InputSignalArray[9] = (4-d) / 4.0; }
+            if(d < 4) { agent.InputSignalArray[10] = (4-d) / 4.0; }
 
             // East.
             d = (_gridSize-1) - _agentPos._x;
-            if(d < 4) { agent.InputSignalArray[10] = (4-d) / 4.0; }
+            if(d < 4) { agent.InputSignalArray[11] = (4-d) / 4.0; }
 
             // South.
-            if(_agentPos._y < 4) { agent.InputSignalArray[11] = (4 - _agentPos._y) / 4.0; }
+            if(_agentPos._y < 4) { agent.InputSignalArray[12] = (4 - _agentPos._y) / 4.0; }
 
             // West.
-            if(_agentPos._x < 4) { agent.InputSignalArray[12] = (4 - _agentPos._x) / 4.0; }
+            if(_agentPos._x < 4) { agent.InputSignalArray[13] = (4 - _agentPos._x) / 4.0; }
 
             // Activate agent.
             agent.Activate();

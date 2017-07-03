@@ -22,6 +22,7 @@ using SharpNeat.Domains.FunctionRegression;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
+using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
 
@@ -184,7 +185,7 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
         /// </summary>
         public IGenomeFactory<NeatGenome> CreateGenomeFactory()
         {
-            return new NeatGenomeFactory(0, OutputCount, _neatGenomeParams);
+            return new NeatGenomeFactory(InputCount, OutputCount, _neatGenomeParams);
         }
 
         /// <summary>
@@ -266,13 +267,8 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
         /// </summary>
         public AbstractDomainView CreateDomainView()
         {
-            if (1 == InputCount)
-            {
-                ParamSamplingInfo paramInfo = _paramSamplingInfo;
-                return new FnRegressionView2D(_fn, paramInfo, true, CreateGenomeDecoder());
-            }
-
-            return null;
+            ParamSamplingInfo paramInfo = _paramSamplingInfo;
+            return new FnRegressionView2D(_fn, paramInfo, true, CreateGenomeDecoder());
         }
 
         #endregion

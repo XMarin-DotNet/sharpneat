@@ -78,7 +78,7 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp
         /// </summary>
         public int InputCount
         {
-            get { return 4; }
+            get { return 5; }
         }
 
         /// <summary>

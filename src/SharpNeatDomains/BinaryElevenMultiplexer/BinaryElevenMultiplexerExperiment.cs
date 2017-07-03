@@ -77,7 +77,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
         /// </summary>
         public int InputCount
         {
-            get { return 11; }
+            get { return 12; }
         }
 
         /// <summary>

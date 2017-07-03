@@ -63,6 +63,9 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
             // 64 test cases.
             for(int i=0; i<64; i++)
             {
+                // Bias input.
+                inputArr[0] = 1.0;
+
                 // Apply bitmask to i and shift left to generate the input signals.
                 // In addition we scale 0->1 to be 0.1->1.0
                 // Note. We /could/ eliminate all the boolean logic by pre-building a table of test 
@@ -70,7 +73,7 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
                 int tmp = i;
                 for(int j=0; j<6; j++) 
                 {
-                    inputArr[j] = tmp&0x1;
+                    inputArr[j+1] = tmp&0x1;
                     tmp >>= 1;
                 }
                                 

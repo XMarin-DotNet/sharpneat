@@ -65,7 +65,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         // Convenient counts.
         readonly int _inputNodeCount;
         readonly int _outputNodeCount;
-        readonly int _inputAndBiasNodeCount;
 
         #region Constructor
 
@@ -77,7 +76,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="layerInfoArr">Array of layer information.</param>
         /// <param name="outputNodeIdxArr">An array that specifies the index of each output neuron within _activationArr.
         /// This is necessary because the neurons have been sorted by their depth in the network structure and are therefore
-        /// no longer in their original positions. Note however that the bias and input neurons *are* in their original 
+        /// no longer in their original positions. Note however that the input neurons *are* in their original 
         /// positions as they are defined as being at depth zero.</param>
         /// <param name="nodeCount">Number of nodes in the network.</param>
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
@@ -101,8 +100,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             _activationArr = new double[nodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            // Offset is 1 to skip bias neuron (The value at index 1 is the first black box input).
-            _inputSignalArrayWrapper = new SignalArray(_activationArr, 1, inputNodeCount);
+            _inputSignalArrayWrapper = new SignalArray(_activationArr, 0, inputNodeCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
@@ -116,11 +114,7 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // Store counts for use during activation.
             _inputNodeCount = inputNodeCount;
-            _inputAndBiasNodeCount = inputNodeCount+1;
             _outputNodeCount = outputNodeCount;
-
-            // Initialise the bias neuron's fixed output value.
-            _activationArr[0] = 1.0;
         }
 
         #endregion
@@ -166,12 +160,12 @@ namespace SharpNeat.Phenomes.NeuralNets
         public virtual void Activate()
         {   
             // Reset any state from a previous activation.
-            for(int i=_inputAndBiasNodeCount; i<_activationArr.Length; i++) {
+            for(int i=_inputNodeCount; i<_activationArr.Length; i++) {
                 _activationArr[i] = 0.0;
             }
 
             // Process all layers in turn.
-            int conIdx=0, nodeIdx=_inputAndBiasNodeCount;
+            int conIdx=0, nodeIdx=_inputNodeCount;
             for(int layerIdx=1; layerIdx < _layerInfoArr.Length; layerIdx++)
             {
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];

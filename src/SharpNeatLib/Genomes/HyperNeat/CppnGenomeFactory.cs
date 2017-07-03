@@ -76,11 +76,10 @@ namespace SharpNeat.Genomes.HyperNeat
             int activationFnIdx;
             switch(neuronType)
             {
-                case NodeType.Bias:
                 case NodeType.Input:
                 case NodeType.Output:
                 {   // Use the ID of the first function. By convention this will be the Linear function but in actual 
-                    // fact bias and input neurons don't use their activation function.
+                    // fact input neurons don't use their activation function.
                     activationFnIdx = 0;
                     break;
                 }

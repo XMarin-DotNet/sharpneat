@@ -77,7 +77,7 @@ namespace SharpNeat.Domains.BinaryThreeMultiplexer
         /// </summary>
         public int InputCount
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         /// <summary>

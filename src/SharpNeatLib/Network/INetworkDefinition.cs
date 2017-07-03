@@ -24,7 +24,7 @@ namespace SharpNeat.Network
     public interface INetworkDefinition
     {
         /// <summary>
-        /// Gets the number of input nodes. This does not include the bias node which is always present.
+        /// Gets the number of input nodes.
         /// </summary>
         int InputNodeCount { get; }
 

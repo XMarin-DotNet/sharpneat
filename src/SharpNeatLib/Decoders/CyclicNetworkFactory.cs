@@ -108,8 +108,8 @@ namespace SharpNeat.Decoders
                 });
             }
 
-            // Construct an array of neuron activation functions. Skip bias and input neurons as
-            // these don't have an activation function (because they aren't activated).
+            // Construct an array of neuron activation functions. 
+            // TODO: Skip input neurons as these don't have an activation function (because they aren't activated)(?)
             INodeList nodeList = networkDef.NodeList;
             int nodeCount = nodeList.Count;
             IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;

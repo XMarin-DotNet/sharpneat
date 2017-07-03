@@ -44,25 +44,28 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         public override void Step()
         {
             //---- Feed input signals into black box.
+            // Bias input.
+            _box.InputSignalArray[0] = 1.0;
+
             // Torso state.
-            _box.InputSignalArray[0] = _iface.TorsoPosition.Y;  // Torso Y pos.
-            _box.InputSignalArray[1] = _iface.TorsoAngle;
-            _box.InputSignalArray[2] = _iface.TorsoVelocity.X;
-            _box.InputSignalArray[3] = _iface.TorsoVelocity.Y;
+            _box.InputSignalArray[1] = _iface.TorsoPosition.Y;  // Torso Y pos.
+            _box.InputSignalArray[2] = _iface.TorsoAngle;
+            _box.InputSignalArray[3] = _iface.TorsoVelocity.X;
+            _box.InputSignalArray[4] = _iface.TorsoVelocity.Y;
 
             // Left leg state.
-            _box.InputSignalArray[4] = _iface.LeftLegIFace.HipJointAngle;
-            _box.InputSignalArray[5] = _iface.LeftLegIFace.KneeJointAngle;
+            _box.InputSignalArray[5] = _iface.LeftLegIFace.HipJointAngle;
+            _box.InputSignalArray[6] = _iface.LeftLegIFace.KneeJointAngle;
 
             // Right leg state.
-            _box.InputSignalArray[6] = _iface.RightLegIFace.HipJointAngle;
-            _box.InputSignalArray[7] = _iface.RightLegIFace.KneeJointAngle;
+            _box.InputSignalArray[7] = _iface.RightLegIFace.HipJointAngle;
+            _box.InputSignalArray[8] = _iface.RightLegIFace.KneeJointAngle;
 
             // Sine wave inputs (one is a 180 degree phase shift of the other).
             double sinWave0 = (Math.Sin(_timestep * _sineWaveIncr) + 1.0) * 0.5;
             double sinWave180 = (Math.Sin((_timestep+30) * _sineWaveIncr) + 1.0) * 0.5;
-            _box.InputSignalArray[8] = sinWave0;
-            _box.InputSignalArray[9] = sinWave180;
+            _box.InputSignalArray[9] = sinWave0;
+            _box.InputSignalArray[10] = sinWave180;
             _timestep++;
 
             //---- Activate black box.

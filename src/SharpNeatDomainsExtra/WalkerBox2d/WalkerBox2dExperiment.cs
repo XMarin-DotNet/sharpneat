@@ -78,7 +78,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
         public int InputCount
         {
-            get { return 10; }
+            get { return 11; }
         }
 
         /// <summary>

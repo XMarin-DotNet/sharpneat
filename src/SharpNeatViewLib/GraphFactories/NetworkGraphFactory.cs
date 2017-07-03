@@ -41,7 +41,7 @@ namespace SharpNeat.View.Graph
             // Create an IOGraph, allocating storage for the node lists.
             INodeList nodeList = networkDef.NodeList;
             int nodeCount = nodeList.Count;
-            int inputCount = networkDef.InputNodeCount + 1; // + to count bias as an input layer node.
+            int inputCount = networkDef.InputNodeCount;
             int outputCount = networkDef.OutputNodeCount;
             int hiddenCount = nodeCount - (inputCount + outputCount);
             IOGraph ioGraph = new IOGraph(inputCount, outputCount, hiddenCount, 0f, depthInfo._networkDepth);

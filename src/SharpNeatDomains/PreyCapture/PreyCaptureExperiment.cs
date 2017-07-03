@@ -84,7 +84,7 @@ namespace SharpNeat.Domains.PreyCapture
         /// </summary>
         public int InputCount
         {
-            get { return 13; }
+            get { return 14; }
         }
 
         /// <summary>

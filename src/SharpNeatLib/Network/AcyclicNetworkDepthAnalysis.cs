@@ -15,7 +15,7 @@ namespace SharpNeat.Network
 {
     /// <summary>
     /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.
-    /// Bias and input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
+    /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
     /// the maximum number of hops from the depth 0 nodes, so where multiple paths exist to a node (potentially
     /// with different numbers of hops) we take the maximum number of hops as that node's depth. 
     /// </summary>
@@ -44,9 +44,9 @@ namespace SharpNeat.Network
             // Get and store connectivity data for the network.
             _networkConnectivityData = networkDef.GetConnectivityData();
 
-            // Loop over all input (and bias) nodes; Perform a depth first traversal of each in turn.
-            int inputAndBiasCount = networkDef.InputNodeCount + 1;
-            for(int i=0; i<inputAndBiasCount; i++)
+            // Loop over all input nodes; Perform a depth first traversal of each in turn.
+            int inputCount = networkDef.InputNodeCount;
+            for(int i=0; i<inputCount; i++)
             {
                 TraverseNode(_networkConnectivityData.GetNodeDataByIndex(i), 0);
             }
@@ -59,9 +59,9 @@ namespace SharpNeat.Network
             int[] nodeDepthArr = new int[nodeCount];
             int maxDepth = 0;
 
-            // Loop over nodes and set the node depth. Skip over input and bias nodes, they are defined as 
+            // Loop over nodes and set the node depth. Skip over input nodes, they are defined as 
             // being in layer zero.
-            for(int i=inputAndBiasCount; i<nodeCount; i++)
+            for(int i=inputCount; i<nodeCount; i++)
             {
                 // Lookup the node's depth. If not found depth remains set to zero.
                 int depth;

@@ -59,7 +59,6 @@ namespace SharpNeat.Phenomes.NeuralNets
         // Convenient counts.
         readonly int _inputNeuronCount;
         readonly int _outputNeuronCount;
-        protected readonly int _inputAndBiasNeuronCount;
         protected readonly int _timestepsPerActivation;
 
         #region Constructor
@@ -84,24 +83,19 @@ namespace SharpNeat.Phenomes.NeuralNets
             _postActivationArray = new double[neuronCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
-            // Offset is 1 to skip bias neuron (The value at index 1 is the first black box input).
-            _inputSignalArrayWrapper = new SignalArray(_postActivationArray, 1, inputNeuronCount);
+            _inputSignalArrayWrapper = new SignalArray(_postActivationArray, 0, inputNeuronCount);
 
-            // Offset to skip bias and input neurons. Output neurons follow input neurons in the arrays.
+            // Note. Output neurons follow input neurons in the arrays.
             if(boundedOutput) {
-                _outputSignalArrayWrapper = new OutputSignalArray(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
+                _outputSignalArrayWrapper = new OutputSignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
             } else {
-                _outputSignalArrayWrapper = new SignalArray(_postActivationArray, inputNeuronCount + 1, outputNeuronCount);
+                _outputSignalArrayWrapper = new SignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
             }
 
             // Store counts for use during activation.
             _inputNeuronCount = inputNeuronCount;
-            _inputAndBiasNeuronCount = inputNeuronCount+1;
             _outputNeuronCount = outputNeuronCount;
             _timestepsPerActivation = timestepsPerActivation;
-
-            // Initialise the bias neuron's fixed output value.
-            _postActivationArray[0] = 1.0;
         }
 
         #endregion
@@ -162,9 +156,9 @@ namespace SharpNeat.Phenomes.NeuralNets
 
                 // Loop the neurons. Pass each neuron's pre-activation signals through its activation function
                 // and store the resulting post-activation signal.
-                // Skip over bias and input neurons as these have no incoming connections and therefore have fixed
+                // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
                 // post-activation values and are never activated. 
-                for (int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
+                for (int j=_inputNeuronCount; j<_preActivationArray.Length; j++)
                 {
                     _postActivationArray[j] = _activationFnArr[j](_preActivationArray[j]);
                     
@@ -184,7 +178,7 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputAndBiasNeuronCount; i<_postActivationArray.Length; i++) {
+            for(int i=_inputNeuronCount; i<_postActivationArray.Length; i++) {
                 _preActivationArray[i] = 0.0;
                 _postActivationArray[i] = 0.0;
             }

@@ -17,10 +17,6 @@ namespace SharpNeat.Network
     public enum NodeType
     {
         /// <summary>
-        /// Bias node. Output is fixed to 1.0
-        /// </summary>
-        Bias,
-        /// <summary>
         /// Input node.
         /// </summary>
         Input,

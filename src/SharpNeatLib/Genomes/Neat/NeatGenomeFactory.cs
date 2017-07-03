@@ -337,27 +337,22 @@ namespace SharpNeat.Genomes.Neat
             NeuronGeneList inputNeuronGeneList = new NeuronGeneList(_inputNeuronCount); // includes single bias neuron.
             NeuronGeneList outputNeuronGeneList = new NeuronGeneList(_outputNeuronCount);
 
-            // Create a single bias neuron.
-            uint biasNeuronId = _innovationIdGenerator.NextId;
-            if(0 != biasNeuronId) 
+            // Check node IDs will start at zero.
+            if(0 != _innovationIdGenerator.Peek) 
             {   // The ID generator must be reset before calling this method so that all generated genomes use the
                 // same innovation ID for matching neurons and structures.
                 throw new SharpNeatException("IdGenerator must be reset before calling CreateGenome(uint)");
             }
 
             // Note. Genes within nGeneList must always be arranged according to the following layout plan.
-            //   Bias - single neuron. Innovation ID = 0
             //   Input neurons.
             //   Output neurons.
             //   Hidden neurons.
-            NeuronGene neuronGene = CreateNeuronGene(biasNeuronId, NodeType.Bias);
-            inputNeuronGeneList.Add(neuronGene);
-            neuronGeneList.Add(neuronGene);
 
             // Create input neuron genes.
             for(int i=0; i<_inputNeuronCount; i++)
             {
-                neuronGene = CreateNeuronGene(_innovationIdGenerator.NextId, NodeType.Input);
+                NeuronGene neuronGene = CreateNeuronGene(_innovationIdGenerator.NextId, NodeType.Input);
                 inputNeuronGeneList.Add(neuronGene);
                 neuronGeneList.Add(neuronGene);
             }
@@ -365,7 +360,7 @@ namespace SharpNeat.Genomes.Neat
             // Create output neuron genes. 
             for(int i=0; i<_outputNeuronCount; i++)
             {
-                neuronGene = CreateNeuronGene(_innovationIdGenerator.NextId, NodeType.Output);
+                NeuronGene neuronGene = CreateNeuronGene(_innovationIdGenerator.NextId, NodeType.Output);
                 outputNeuronGeneList.Add(neuronGene);
                 neuronGeneList.Add(neuronGene);
             }

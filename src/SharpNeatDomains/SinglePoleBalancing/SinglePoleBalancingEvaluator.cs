@@ -115,10 +115,11 @@ namespace SharpNeat.Domains.SinglePoleBalancing
 			for(; timestep < _maxTimesteps; timestep++)
 			{
 				// Provide state info to the black box inputs (normalised to +-1.0).
-                box.InputSignalArray[0] = state._cartPosX / _trackLengthHalf;    // cart_pos_x range is +-trackLengthHalfed. Here we normalize it to [-1,1].
-                box.InputSignalArray[1] = state._cartVelocityX / 0.75;             // cart_velocity_x is typically +-0.75
-                box.InputSignalArray[2] = state._poleAngle / TwelveDegrees;        // pole_angle is +-twelve_degrees. Values outside of this range stop the simulation.
-                box.InputSignalArray[3] = state._poleAngularVelocity;              // pole_angular_velocity is typically +-1.0 radians. No scaling required.
+                box.InputSignalArray[0] = 1.0;                                  // Bias input.
+                box.InputSignalArray[1] = state._cartPosX / _trackLengthHalf;   // cart_pos_x range is +-trackLengthHalfed. Here we normalize it to [-1,1].
+                box.InputSignalArray[2] = state._cartVelocityX / 0.75;          // cart_velocity_x is typically +-0.75
+                box.InputSignalArray[3] = state._poleAngle / TwelveDegrees;     // pole_angle is +-twelve_degrees. Values outside of this range stop the simulation.
+                box.InputSignalArray[4] = state._poleAngularVelocity;           // pole_angular_velocity is typically +-1.0 radians. No scaling required.
 
 				// Activate the network.
                 box.Activate();

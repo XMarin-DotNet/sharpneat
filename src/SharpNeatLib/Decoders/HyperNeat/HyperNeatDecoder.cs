@@ -44,13 +44,11 @@ namespace SharpNeat.Decoders.HyperNeat
         public HyperNeatDecoder(Substrate substrate,
                                 NetworkActivationScheme activationSchemeCppn,
                                 NetworkActivationScheme activationSchemeSubstrate)
-        {
-            _substrate = substrate;
-            _activationSchemeCppn = activationSchemeCppn;
-            _activationSchemeSubstrate = activationSchemeSubstrate;
-            _decodeCppnMethod = GetDecodeCppnMethod(_activationSchemeCppn);
-            _createSubstrateNetworkMethod = GetCreateSubstrateNetworkMethod(activationSchemeSubstrate);
-        }
+            : this(substrate,
+                   activationSchemeCppn,
+                   activationSchemeSubstrate,
+                   false)
+        {}
 
         /// <summary>
         /// Constructs with the provided substrate, CPPN activation scheme and substrate 

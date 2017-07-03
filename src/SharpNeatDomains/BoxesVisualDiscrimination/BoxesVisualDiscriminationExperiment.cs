@@ -100,16 +100,16 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
 
         /// <summary>
         /// Gets the number of inputs required by the network/black-box that the underlying problem domain is based on.
-        /// 6 inputs. 2 * (x,y,z) CPPN substrate node position coordinates, plus one optional connection length input.
+        /// 7 inputs: One bias input + 2 * (x,y,z) CPPN substrate node position coordinates, plus one optional connection length input.
         /// </summary>
         public int InputCount
         {
-            get { return _lengthCppnInput ? 7 : 6; }
+            get { return _lengthCppnInput ? 8 : 7; }
         }
 
         /// <summary>
         /// Gets the number of outputs required by the network/black-box that the underlying problem domain is based on.
-        /// 2 outputs.CPPN weight output and bias weight output.
+        /// 2 outputs. CPPN weight output and bias weight output.
         /// </summary>
         public int OutputCount
         {
@@ -324,7 +324,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
             SubstrateNodeSet inputLayer = new SubstrateNodeSet(pixelCount);
             SubstrateNodeSet outputLayer = new SubstrateNodeSet(pixelCount);
 
-            // Node IDs start at 1. (bias node is always zero).
+            // Node IDs start at 1. (bias is input 0).
             uint inputId = 1;
             uint outputId = (uint)(pixelCount + 1);
             double yReal = originPixelXY;

@@ -132,12 +132,13 @@ namespace SharpNeat.Domains.DoublePoleBalancing
 			{
 				// Provide state info to the network (normalised to +-1.0).
 				// Markovian (With velocity info)
-                box.InputSignalArray[0] = state[0] / _trackLengthHalf;    // Cart Position is +-trackLengthHalfed
-                box.InputSignalArray[1] = state[1] / 0.75;                  // Cart velocity is typically +-0.75
-                box.InputSignalArray[2] = state[2] / ThirtySixDegrees;      // Pole Angle is +-thirtysix_degrees. Values outside of this range stop the simulation.
-                box.InputSignalArray[3] = state[3];                         // Pole angular velocity is typically +-1.0 radians. No scaling required.
-                box.InputSignalArray[4] = state[4] / ThirtySixDegrees;      // Pole Angle is +-thirtysix_degrees. Values outside of this range stop the simulation.
-                box.InputSignalArray[5] = state[5];                         // Pole angular velocity is typically +-1.0 radians. No scaling required.
+                box.InputSignalArray[0] = 1.0;                              // Bias.
+                box.InputSignalArray[1] = state[0] / _trackLengthHalf;      // Cart Position is +-trackLengthHalfed
+                box.InputSignalArray[2] = state[1] / 0.75;                  // Cart velocity is typically +-0.75
+                box.InputSignalArray[3] = state[2] / ThirtySixDegrees;      // Pole Angle is +-thirtysix_degrees. Values outside of this range stop the simulation.
+                box.InputSignalArray[4] = state[3];                         // Pole angular velocity is typically +-1.0 radians. No scaling required.
+                box.InputSignalArray[5] = state[4] / ThirtySixDegrees;      // Pole Angle is +-thirtysix_degrees. Values outside of this range stop the simulation.
+                box.InputSignalArray[6] = state[5];                         // Pole angular velocity is typically +-1.0 radians. No scaling required.
 
 				// Activate the black box.
                 box.Activate();

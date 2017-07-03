@@ -51,7 +51,8 @@ namespace SharpNeat.Domains.FunctionRegression
                 box.ResetState();
 
                 // Apply function argument to black box input, and activate.
-                box.InputSignalArray[0] = xArr[i];
+                box.InputSignalArray[0] = 1.0;  // Bias input.
+                box.InputSignalArray[1] = xArr[i];
                 box.Activate();
 
                 // Get the black box's output value.
