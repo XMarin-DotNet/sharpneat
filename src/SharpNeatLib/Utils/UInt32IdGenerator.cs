@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-namespace SharpNeat.Utility
+namespace SharpNeat.Utils
 {
     /// <summary>
     /// Conveniently encapsulates a single UInt32, which is incremented to produce new IDs.

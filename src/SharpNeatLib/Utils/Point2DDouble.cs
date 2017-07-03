@@ -12,7 +12,7 @@
 // Disable comment warnings for trivial class.
 #pragma warning disable 1591
 
-namespace SharpNeat.Utility
+namespace SharpNeat.Utils
 {
     public struct Point2DDouble
     {

@@ -14,7 +14,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-namespace SharpNeat.Utility
+namespace SharpNeat.Utils
 {
     /// <summary>
     /// Static helper methods for XML IO.
