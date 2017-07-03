@@ -46,5 +46,13 @@ namespace SharpNeat.Network
             double f = (x > 0) ? (1.0 / e) : e;
             return 1.0 / (1.0 + f);
         }
+
+        public void Fn(double[] v)
+        {
+            // Naive implementation.
+            for(int i=0; i<v.Length; i++) {
+                v[i]= Fn(v[i]);
+            }
+        }
     }
 }

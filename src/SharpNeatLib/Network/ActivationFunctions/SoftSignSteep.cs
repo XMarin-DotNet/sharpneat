@@ -30,5 +30,13 @@ namespace SharpNeat.Network
         {
             return 0.5 + (x / (2.0 * ( 0.2 + Math.Abs(x))));
         }
+
+        public void Fn(double[] v)
+        {
+            // Naive implementation.
+            for(int i=0; i<v.Length; i++) {
+                v[i]= Fn(v[i]);
+            }
+        }
     }
 }

@@ -23,5 +23,13 @@ namespace SharpNeat.Network
         {
             return 0.0;
         }
+
+        public void Fn(double[] v)
+        {
+            // Naive implementation.
+            for(int i=0; i<v.Length; i++) {
+                v[i]= Fn(v[i]);
+            }
+        }
     }
 }

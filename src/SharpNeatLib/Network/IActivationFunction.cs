@@ -23,8 +23,15 @@ namespace SharpNeat.Network
         string Id { get; }
 
         /// <summary>
-        /// Calculates the output value for the specified input value.
+        /// The activation function.
         /// </summary>
         double Fn(double x);
+
+        /// <summary>
+        /// A vectorised version of the activation function.
+        /// Each value in the provided array has the activation function applied to it, the results 
+        /// are stored in the same array, thus overwriting the inputs values with output values.
+        /// </summary>
+        void Fn(double[] x);
     }
 }

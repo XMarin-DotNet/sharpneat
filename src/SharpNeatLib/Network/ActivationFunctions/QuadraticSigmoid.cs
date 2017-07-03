@@ -43,5 +43,13 @@ namespace SharpNeat.Network
 
             return (y * sign * 0.5) + 0.5;
         }
+
+        public void Fn(double[] v)
+        {
+            // Naive implementation.
+            for(int i=0; i<v.Length; i++) {
+                v[i]= Fn(v[i]);
+            }
+        }
     }
 }

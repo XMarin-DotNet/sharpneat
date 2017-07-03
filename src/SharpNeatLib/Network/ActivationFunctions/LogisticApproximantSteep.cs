@@ -30,6 +30,14 @@ namespace SharpNeat.Network
             return 1.0/(1.0 + ExpApprox(-4.9*x));
         }
 
+        public void Fn(double[] v)
+        {
+            // Naive implementation.
+            for(int i=0; i<v.Length; i++) {
+                v[i]= Fn(v[i]);
+            }
+        }
+
         // Fast exp approximation, from:
         // https://stackoverflow.com/a/412988/15703
         // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
@@ -40,4 +48,6 @@ namespace SharpNeat.Network
             return BitConverter.Int64BitsToDouble(tmp << 32);
         }
     }
+
+
 }
