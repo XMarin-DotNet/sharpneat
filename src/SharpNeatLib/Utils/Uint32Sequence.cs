@@ -14,7 +14,7 @@ namespace SharpNeat.Utils
     /// <summary>
     /// Conveniently encapsulates a single UInt32, which is incremented to produce new IDs.
     /// </summary>
-    public class UInt32IdGenerator
+    public class Uint32Sequence
     {
         uint _nextId;
 
@@ -23,7 +23,7 @@ namespace SharpNeat.Utils
         /// <summary>
         /// Construct, setting the initial ID to zero.
         /// </summary>
-        public UInt32IdGenerator()
+        public Uint32Sequence()
         {
             _nextId = 0;
         }
@@ -31,7 +31,7 @@ namespace SharpNeat.Utils
         /// <summary>
         /// Construct, setting the initial ID to the value provided.
         /// </summary>
-        public UInt32IdGenerator(uint nextId)
+        public Uint32Sequence(uint nextId)
         {
             _nextId = nextId;
         }

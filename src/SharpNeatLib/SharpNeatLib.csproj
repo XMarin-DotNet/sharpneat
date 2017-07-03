@@ -224,7 +224,7 @@
     <Compile Include="Utils\XmlIoUtils.cs" />
     <Compile Include="SharpNeatException.cs" />
     <Compile Include="Utils\Point2DDouble.cs" />
-    <Compile Include="Utils\UInt32IdGenerator.cs" />
+    <Compile Include="Utils\Uint32Sequence.cs" />
     <Compile Include="Utils\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

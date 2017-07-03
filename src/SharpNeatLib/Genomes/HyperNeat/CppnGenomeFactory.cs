@@ -58,7 +58,7 @@ namespace SharpNeat.Genomes.HyperNeat
         public CppnGenomeFactory(int inputNeuronCount, int outputNeuronCount,
                                  IActivationFunctionLibrary activationFnLibrary,
                                  NeatGenomeParameters neatGenomeParams,
-                                 UInt32IdGenerator genomeIdGenerator, UInt32IdGenerator innovationIdGenerator)
+                                 Uint32Sequence genomeIdGenerator, Uint32Sequence innovationIdGenerator)
             : base(inputNeuronCount, outputNeuronCount, activationFnLibrary, neatGenomeParams, genomeIdGenerator, innovationIdGenerator)
         {
         }

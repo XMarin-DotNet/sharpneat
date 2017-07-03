@@ -34,7 +34,7 @@ namespace SharpNeat.Core
         /// genomes and is exposed as a public property so that genomes that are spawning offspring can 
         /// generate IDs in the same ID space.
         /// </summary>
-        UInt32IdGenerator GenomeIdGenerator { get; }
+        Uint32Sequence GenomeIdGenerator { get; }
 
         /// <summary>
         /// Gets or sets a mode value. This is intended as a means for an evolution algorithm to convey changes
