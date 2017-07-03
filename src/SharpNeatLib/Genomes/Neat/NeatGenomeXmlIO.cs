@@ -334,16 +334,16 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Check that activation functions in XML match that in the genome factory.
-            IList<ActivationFunctionInfo> loadedActivationFnList = activationFnLib.GetFunctionList();
-            IList<ActivationFunctionInfo> factoryActivationFnList = genomeFactory.ActivationFnLibrary.GetFunctionList();
+            IList<ActivationFunctionEntry> loadedActivationFnList = activationFnLib.GetFunctionList();
+            IList<ActivationFunctionEntry> factoryActivationFnList = genomeFactory.ActivationFnLibrary.GetFunctionList();
             if(loadedActivationFnList.Count != factoryActivationFnList.Count) {
                 throw new SharpNeatException("The activation function library loaded from XML does not match the genome factory's activation function library.");
             }
 
             for(int i=0; i<factoryActivationFnList.Count; i++) 
             {
-                if(    (loadedActivationFnList[i].Id != factoryActivationFnList[i].Id)
-                    || (loadedActivationFnList[i].ActivationFunction.FunctionId != factoryActivationFnList[i].ActivationFunction.FunctionId)) {
+                if(loadedActivationFnList[i].Id != factoryActivationFnList[i].Id
+                    || loadedActivationFnList[i].Name != factoryActivationFnList[i].Name) {
                     throw new SharpNeatException("The activation function library loaded from XML does not match the genome factory's activation function library.");
                 }
             }

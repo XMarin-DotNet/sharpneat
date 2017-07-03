@@ -21,14 +21,9 @@ namespace SharpNeat.Network
     /// </summary>
     public class SReLUShifted : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SReLUShifted();
+        public string Id => "SReLUShifted";
 
-        public string FunctionId => this.GetType().Name;
-
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             const double tl = 0.001; // threshold (left).
             const double tr = 0.999; // threshold (right).

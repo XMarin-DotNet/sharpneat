@@ -26,7 +26,7 @@ namespace SharpNeat.Decoders
 
         public static AcyclicNetwork CreateAcyclicNetwork(INetworkDefinition netDef, bool boundedOutput)
         {
-            IActivationFunction[] activationFnArr;
+            Func<double,double>[] activationFnArr;
             ConnectionInfo[] connInfoArr;
             LayerInfo[] layerInfoArr;
             int[] outputNeuronIdxArr;
@@ -45,7 +45,7 @@ namespace SharpNeat.Decoders
 
         public static HeterogeneousAcyclicNetwork CreateHeterogeneousAcyclicNetwork(INetworkDefinition netDef, bool boundedOutput)
         {
-            IActivationFunction[] activationFnArr;
+            Func<double,double>[] activationFnArr;
             ConnectionInfo[] connInfoArr;
             LayerInfo[] layerInfoArr;
             int[] outputNeuronIdxArr;
@@ -68,7 +68,7 @@ namespace SharpNeat.Decoders
 
         private static void InternalDecode(
             INetworkDefinition netDef,
-            out IActivationFunction[] activationFnArr,
+            out Func<double,double>[] activationFnArr,
             out ConnectionInfo[] connInfoArr,
             out LayerInfo[] layerInfoArr,
             out int[] outputNeuronIdxArr)
@@ -126,11 +126,11 @@ namespace SharpNeat.Decoders
 
             // Construct activation function array.
             IActivationFunctionLibrary activationFnLibrary = netDef.ActivationFnLibrary;
-            activationFnArr = new IActivationFunction[nodeCount];
+            activationFnArr = new Func<double,double>[nodeCount];
             for(int i=0; i<nodeCount; i++) 
             {
                 int definitionIdx = nodeInfoByDepth[i]._definitionIdx;
-                activationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId);
+                activationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId).Fn;
             }
 
 

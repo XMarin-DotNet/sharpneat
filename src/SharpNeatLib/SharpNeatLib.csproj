@@ -118,9 +118,10 @@
     <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithmParameters.cs" />
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
     <Compile Include="Genomes\HyperNeat\CppnNeuronGene.cs" />
-    <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
-    <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
+    <None Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
+    <None Include="Network\ActivationFunctions\ActivationFunctionEntry.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
+    <Compile Include="Genomes\Neat\NeatGenomeXmlIO-placeholder.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\ReLU.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LeakyReLUShifted.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LogisticApproximantSteep.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NetworkDefinition.cs" />
     <Compile Include="Network\NetworkDepthInfo.cs" />
-    <Compile Include="Network\NetworkXmlIO.cs" />
+    <None Include="Network\NetworkXmlIO.cs" />
     <Compile Include="Network\NetworkNode.cs" />
     <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Network\NodeList.cs" />
@@ -173,7 +174,7 @@
     <Compile Include="Network\ActivationFunctions\Bipolar\BipolarSigmoid.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\BipolarGaussian.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\Linear.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\Gaussian.cs" />
+    <Compile Include="Network\ActivationFunctions\Bipolar\Gaussian.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SoftSignSteep.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LogisticFunction.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />

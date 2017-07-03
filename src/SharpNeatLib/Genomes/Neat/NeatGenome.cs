@@ -1426,6 +1426,16 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
+        /// Indicates if an activation function is defined per node (true), or if one function is
+        /// defined for all nodes in the network (false).
+        /// </summary>
+        public virtual bool IsHeterogenegous 
+        { 
+            // Always false for NEAT genomes; i.e. a single activation function is used for all nodes in a network.
+            get { return false;  }
+        }
+
+        /// <summary>
         /// Gets the list of network nodes.
         /// </summary>
         public INodeList NodeList

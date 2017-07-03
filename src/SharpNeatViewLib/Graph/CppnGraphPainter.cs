@@ -109,7 +109,7 @@ namespace SharpNeat.View.Graph
             const int LineHeight = 16;
             const int Margin = 10;
 
-            IList<ActivationFunctionInfo> fnList = _activationFnLibrary.GetFunctionList();
+            IList<IActivationFunction> fnList = _activationFnLibrary.GetFunctionList();
             int count = fnList.Count;
 
             // Determine y position of first line.
@@ -117,7 +117,7 @@ namespace SharpNeat.View.Graph
             
             for(int i=0; i<count; i++, yCurr += LineHeight)
             {
-                ActivationFunctionInfo fnInfo = fnList[i];
+                IActivationFunction fnInfo = fnList[i];
                 const int X = Margin;
 
                 // Paint an example node as part of the legend item.
@@ -127,12 +127,12 @@ namespace SharpNeat.View.Graph
 
                 // Paint the node. Fill first and then border, this gives a clean border.
                 Graphics g = state._g;
-                Brush fillBrush = _brushNodeFillArr[fnInfo.Id % _brushNodeFillArr.Length];
+                Brush fillBrush = _brushNodeFillArr[i % _brushNodeFillArr.Length];
                 g.FillRectangle(fillBrush, r);
                 g.DrawRectangle(__penBlack, r);
 
                 // Write the activation function string ID.
-                g.DrawString(fnList[i].ActivationFunction.FunctionId, __fontNodeTag, __brushBlack, X+12, yCurr-1);
+                g.DrawString(fnList[i].Id, __fontNodeTag, __brushBlack, X+12, yCurr-1);
             }
         }
 

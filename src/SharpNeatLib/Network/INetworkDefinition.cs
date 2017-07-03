@@ -27,27 +27,39 @@ namespace SharpNeat.Network
         /// Gets the number of input nodes. This does not include the bias node which is always present.
         /// </summary>
         int InputNodeCount { get; }
+
         /// <summary>
         /// Gets the number of output nodes.
         /// </summary>
         int OutputNodeCount { get; }
+
         /// <summary>
         /// Gets a bool flag that indicates if the network is acyclic.
         /// </summary>
         bool IsAcyclic { get; }
+
         /// <summary>
-        /// Gets the network's activation function library. The activation function at each node is 
-        /// represented by an integer ID, which refers to a function in this activation function library.
+        /// Indicates if an activation function is defined per node (true), or if one function is
+        /// defined for all nodes in the network (false).
+        /// </summary>
+        bool IsHeterogenegous { get; }
+
+        /// <summary>
+        /// Gets the network's activation function library. 
+        /// If IsHeterogenegous is false then the library will contain just one activation function.
         /// </summary>
         IActivationFunctionLibrary ActivationFnLibrary { get; }
+
         /// <summary>
         /// Gets the list of network nodes.
         /// </summary>
         INodeList NodeList { get; }
+
         /// <summary>
         /// Gets the list of network connections.
         /// </summary>
         IConnectionList ConnectionList { get; }
+
         /// <summary>
         /// Gets NetworkConnectivityData for the network.
         /// </summary>

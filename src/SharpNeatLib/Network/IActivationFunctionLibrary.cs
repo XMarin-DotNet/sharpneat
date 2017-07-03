@@ -10,9 +10,9 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
+using System;
 using System.Collections.Generic;
 using Redzen.Numerics;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
@@ -21,19 +21,31 @@ namespace SharpNeat.Network
     /// </summary>
     public interface IActivationFunctionLibrary
     {
+
         /// <summary>
-        /// Gets the function with the specified integer ID.
+        /// Gets the function with the specified index in the library.
         /// </summary>
-        IActivationFunction GetFunction(int id);
+        IActivationFunction GetFunction(int idx);
+
+        /// <summary>
+        /// Gets the function with the specified ID string.
+        /// </summary>
+        IActivationFunction GetFunction(string id);
 
         /// <summary>
         /// Randomly select a function based on each function's selection probability.
         /// </summary>
-        ActivationFunctionInfo GetRandomFunction(XorShiftRandom rng);
+        IActivationFunction GetRandomFunction(IRandomSource rng);
+
+        /// <summary>
+        /// Randomly select a function based on each function's selection probability.
+        /// Returns the index of the function in the function library.
+        /// </summary>
+        int GetRandomFunctionIndex(IRandomSource rng);
 
         /// <summary>
         /// Gets a list of all functions in the library.
         /// </summary>
-        IList<ActivationFunctionInfo> GetFunctionList();
+        IList<IActivationFunction> GetFunctionList();
     }
 }

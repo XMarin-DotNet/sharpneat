@@ -26,6 +26,7 @@ namespace SharpNeat.Network
         readonly int _inputNodeCount;
         readonly int _outputNodeCount;
         readonly bool _isAcyclic = false;
+        readonly bool _isHeterogeneous = false;
         readonly IActivationFunctionLibrary _activationFnLib;
         readonly NodeList _nodeList;
         readonly ConnectionList _connectionList;
@@ -96,6 +97,16 @@ namespace SharpNeat.Network
         public bool IsAcyclic 
         { 
             get { return _isAcyclic;  }
+        }
+
+
+        /// <summary>
+        /// Indicates if an activation function is defined per node (true), or if one function is
+        /// defined for all nodes in the network (false).
+        /// </summary>
+        public bool IsHeterogenegous 
+        { 
+            get { return _isHeterogeneous; }
         }
 
         /// <summary>

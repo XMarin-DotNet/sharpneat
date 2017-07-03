@@ -19,26 +19,11 @@ namespace SharpNeat.Network
     /// </summary>
     public class LogisticFunctionSteep : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new LogisticFunctionSteep();
+        public string Id => "LogisticFunctionSteep";
 
-        /// <summary>
-        /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
-        /// is using.
-        /// </summary>
-        public string FunctionId
+        public double Fn(double x)
         {
-            get { return this.GetType().Name; }
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// </summary>
-        public double Calculate(double x)
-        {
-            return 1.0/(1.0 + Math.Exp(-4.9*x));
+            return 1.0 / (1.0 + Math.Exp(-4.9 * x));
         }
     }
 }

@@ -13,28 +13,18 @@
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Interface for neural network activation functions. An activation function simply takes a single input 
-    /// value and produces a single output value. IActivationFunction allows for activation functions to be 
-    /// plugged in to neural network implementations. Typical activation functions would be a sigmoid or step 
-    /// function.
-    /// 
-    /// The Calculate method has two overloads, one for each of the data types double and float, this allows
-    /// an IActivationFunction object to be plugged in to neural network classes that are written to operate
-    /// with either of those two data types. Typically the choice of which neural network implementation and
-    /// floating point precision to use is part of the setting up and design of a problem domain and experiment.
-    /// For some problem domains the extra precision of a double may be unnecessary.
+    /// Neural net node activation function.
     /// </summary>
     public interface IActivationFunction
     {
         /// <summary>
-        /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
-        /// is using.
+        /// Unique identifier string.
         /// </summary>
-        string FunctionId { get; }
+        string Id { get; }
 
         /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>
-        double Calculate(double x);
+        double Fn(double x);
     }
 }

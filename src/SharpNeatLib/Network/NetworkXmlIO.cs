@@ -276,12 +276,11 @@ namespace SharpNeat.Network
         public static void Write(XmlWriter xw, IActivationFunctionLibrary activationFnLib)
         {
             xw.WriteStartElement(__ElemActivationFunctions);
-            IList<ActivationFunctionInfo> fnList = activationFnLib.GetFunctionList();
-            foreach(ActivationFunctionInfo fnInfo in fnList)
+            IList<ActivationFunctionEntry> fnList = activationFnLib.GetFunctionList();
+            foreach(ActivationFunctionEntry fnInfo in fnList)
             {
                 xw.WriteStartElement(__ElemActivationFn);
                 xw.WriteAttributeString(__AttrId, fnInfo.Id.ToString(NumberFormatInfo.InvariantInfo));
-                xw.WriteAttributeString(__AttrName, fnInfo.ActivationFunction.FunctionId);
                 xw.WriteAttributeString(__AttrProbability, fnInfo.SelectionProbability.ToString("R", NumberFormatInfo.InvariantInfo));
                 xw.WriteEndElement();
             }
@@ -436,7 +435,7 @@ namespace SharpNeat.Network
             XmlIoUtils.MoveToElement(xr, false, __ElemActivationFunctions);
             
             // Create a reader over the sub-tree.
-            List<ActivationFunctionInfo> fnList = new List<ActivationFunctionInfo>();
+            List<ActivationFunctionEntry> fnList = new List<ActivationFunctionEntry>();
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root element.
@@ -453,10 +452,10 @@ namespace SharpNeat.Network
                     string fnName = xrSubtree.GetAttribute(__AttrName);
 
                     // Lookup function name.
-                    IActivationFunction activationFn = GetActivationFunction(fnName);
+                    Func<double,double> activationFn = GetActivationFunction(fnName);
 
                     // Add new function to our list of functions.
-                    ActivationFunctionInfo fnInfo = new ActivationFunctionInfo(id, selectionProb, activationFn);
+                    ActivationFunctionEntry fnInfo = new ActivationFunctionEntry(id, selectionProb, activationFn);
                     fnList.Add(fnInfo);
                 }
                 while(xrSubtree.ReadToNextSibling(__ElemActivationFn));
@@ -525,35 +524,37 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets an IActivationFunction from its short name.
         /// </summary>
-        public static IActivationFunction GetActivationFunction(string name)
+        public static Func<double,double> GetActivationFunction(string name)
         {
             switch(name)
             {
                 case "BipolarGaussian":
-                    return BipolarGaussian.__DefaultInstance;
+                    return BipolarGaussian.Fn;
                 case "BipolarSigmoid":
-                    return BipolarSigmoid.__DefaultInstance;
+                    return BipolarSigmoid.Fn;
                 case "Linear":
-                    return Linear.__DefaultInstance;
+                    return Linear.Fn;
                 case "Sine":
-                    return Sine.__DefaultInstance;
+                    return Sine.Fn;
 
                 case "Gaussian":
-                    return Gaussian.__DefaultInstance;
+                    return Gaussian.Fn;
                 case "LogisticFunction":
-                    return LogisticFunction.__DefaultInstance;
+                    return LogisticFunction.Fn;
                 case "LogisticFunctionSteep":
-                    return LogisticFunctionSteep.__DefaultInstance;
+                    return LogisticFunctionSteep.Fn;
                 case "PolynomialApproximantSteep":
-                    return PolynomialApproximantSteep.__DefaultInstance;
+                    return PolynomialApproximantSteep.Fn;
                 case "QuadraticSigmoid":
-                    return QuadraticSigmoid.__DefaultInstance;
+                    return QuadraticSigmoid.Fn;
                 case "SoftSignSteep":
-                    return SoftSignSteep.__DefaultInstance;
+                    return SoftSignSteep.Fn;
                 case "SReLU":
-                    return SReLU.__DefaultInstance;
+                    return SReLU.Fn;
                 case "SReLUShifted":
-                    return SReLUShifted.__DefaultInstance;
+                    return SReLUShifted.Fn;
+
+                // TODO/FIXME: Add missing functions.
             }
             throw new ArgumentException($"Unexpected activation function [{name}]");
         }
@@ -565,7 +566,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Normalize the selection probabilities of the provided ActivationFunctionInfo items.
         /// </summary>
-        private static void NormalizeSelectionProbabilities(IList<ActivationFunctionInfo> fnList)
+        private static void NormalizeSelectionProbabilities(IList<ActivationFunctionEntry> fnList)
         {
             double total = 0.0;
             int count = fnList.Count;
@@ -581,8 +582,8 @@ namespace SharpNeat.Network
             // we replace the existing items.
             for(int i=0; i<count; i++) 
             {
-                ActivationFunctionInfo item = fnList[i];
-                fnList[i] = new ActivationFunctionInfo(item.Id, item.SelectionProbability/total, item.ActivationFunction);
+                ActivationFunctionEntry item = fnList[i];
+                fnList[i] = new ActivationFunctionEntry(item.Id, item.SelectionProbability/total, item.ActivationFunction);
             }
         }
 

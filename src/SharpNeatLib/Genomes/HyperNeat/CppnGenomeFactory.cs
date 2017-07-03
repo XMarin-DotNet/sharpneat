@@ -73,7 +73,7 @@ namespace SharpNeat.Genomes.HyperNeat
         /// </summary>
         public override NeuronGene CreateNeuronGene(uint innovationId, NodeType neuronType)
         {
-            int activationFnId;
+            int activationFnIdx;
             switch(neuronType)
             {
                 case NodeType.Bias:
@@ -81,17 +81,17 @@ namespace SharpNeat.Genomes.HyperNeat
                 case NodeType.Output:
                 {   // Use the ID of the first function. By convention this will be the Linear function but in actual 
                     // fact bias and input neurons don't use their activation function.
-                    activationFnId = _activationFnLibrary.GetFunctionList()[0].Id;
+                    activationFnIdx = 0;
                     break;
                 }
                 default:
                 {
-                    activationFnId = _activationFnLibrary.GetRandomFunction(_rng).Id;
+                    activationFnIdx = _activationFnLibrary.GetRandomFunctionIndex(_rng);
                     break;
                 }
             }
 
-            return new CppnNeuronGene(innovationId, neuronType, activationFnId);
+            return new CppnNeuronGene(innovationId, neuronType, activationFnIdx);
         }
 
         #endregion

@@ -20,24 +20,9 @@ namespace SharpNeat.Network
     /// </summary>
     public class Gaussian : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new Gaussian();
+        public string Id => "Gaussian";
 
-        /// <summary>
-        /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
-        /// is using.
-        /// </summary>
-        public string FunctionId
-        {
-            get { return this.GetType().Name; }
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// </summary>
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             return Math.Exp(-Math.Pow(x * 2.5, 2.0));
         }

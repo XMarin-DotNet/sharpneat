@@ -23,33 +23,18 @@ namespace SharpNeat.Network
     /// </summary>
     public class LogisticApproximantSteep : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new LogisticApproximantSteep();
+        public string Id => "LogisticApproximantSteep";
 
-        /// <summary>
-        /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
-        /// is using.
-        /// </summary>
-        public string FunctionId
+        public double Fn(double x)
         {
-            get { return this.GetType().Name; }
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// </summary>
-        public double Calculate(double x)
-        {
-            return 1.0/(1.0 + Exp(-4.9*x));
+            return 1.0/(1.0 + ExpApprox(-4.9*x));
         }
 
         // Fast exp approximation, from:
         // https://stackoverflow.com/a/412988/15703
         // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static double Exp(double val)
+        private static double ExpApprox(double val)
         {
             long tmp = (long)(1512775 * val + (1072693248 - 60801));
             return BitConverter.Int64BitsToDouble(tmp << 32);

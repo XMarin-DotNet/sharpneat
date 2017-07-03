@@ -17,14 +17,9 @@ namespace SharpNeat.Network
     /// </summary>
     public class ReLU : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new ReLU();
+        public string Id => "ReLU";
 
-        public string FunctionId => this.GetType().Name;
-
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             double y;
             if (x > 0.0) {

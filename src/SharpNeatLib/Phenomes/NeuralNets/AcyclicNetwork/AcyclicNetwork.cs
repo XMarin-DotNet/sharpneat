@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using SharpNeat.Network;
+using System;
 
 namespace SharpNeat.Phenomes.NeuralNets
 {
@@ -42,8 +42,8 @@ namespace SharpNeat.Phenomes.NeuralNets
     //=== Fixed data. Network structure and activation functions/data.
         
         // Node activation function.
-        readonly IActivationFunction _activationFn;
-        
+        readonly Func<double,double> _activationFn;
+
         // Array of connection info.
         readonly ConnectionInfo[] _connInfoArr;
         
@@ -82,7 +82,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNetwork(IActivationFunction activationFn,
+        public AcyclicNetwork(Func<double, double> activationFn,
                               ConnectionInfo[] connInfoArr,
                               LayerInfo[] layerInfoArr,
                               int[] outputNodeIdxArr,
@@ -187,7 +187,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // Activate current layer's nodes.
                 layerInfo = _layerInfoArr[layerIdx];
                 for(; nodeIdx < layerInfo._endNodeIdx; nodeIdx++) {
-                    _activationArr[nodeIdx] = _activationFn.Calculate(_activationArr[nodeIdx]);
+                    _activationArr[nodeIdx] = _activationFn(_activationArr[nodeIdx]);
                 }
             }
         }

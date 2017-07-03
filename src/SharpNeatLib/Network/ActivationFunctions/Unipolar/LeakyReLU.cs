@@ -13,18 +13,13 @@
 namespace SharpNeat.Network
 {
     /// <summary>
-    ///Leaky rectified linear activation unit (ReLU).
+    /// Leaky rectified linear activation unit (ReLU).
     /// </summary>
     public class LeakyReLU : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SReLU();
+        public string Id => "LeakyReLU";
 
-        public string FunctionId => this.GetType().Name;
-
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             const double a = 0.001;
 
@@ -36,6 +31,5 @@ namespace SharpNeat.Network
             }
             return y;
         }
-
     }
 }

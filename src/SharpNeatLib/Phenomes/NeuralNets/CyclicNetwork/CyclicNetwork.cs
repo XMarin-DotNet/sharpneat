@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using SharpNeat.Network;
 
 // Disable missing comment warnings for non-private variables.
@@ -44,7 +45,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     public class CyclicNetwork : IBlackBox
     {
         protected readonly ConnectionInfo[] _connectionArray;
-        protected readonly IActivationFunction _activationFn;
+        protected readonly Func<double,double> _activationFn;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -68,7 +69,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// associated data.
         /// </summary>
         public CyclicNetwork(ConnectionInfo[] connInfoArr,
-                             IActivationFunction activationFn,
+                             Func<double,double> activationFn,
                              int neuronCount,
                              int inputNeuronCount,
                              int outputNeuronCount,
@@ -165,7 +166,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // post-activation values and are never activated. 
                 for (int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
                 {
-                    _postActivationArray[j] = _activationFn.Calculate(_preActivationArray[j]);
+                    _postActivationArray[j] = _activationFn(_preActivationArray[j]);
                     
                     // Take the opportunity to reset the pre-activation signal array in preparation for the next 
                     // activation loop.

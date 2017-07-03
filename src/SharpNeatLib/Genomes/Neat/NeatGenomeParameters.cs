@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
+using System;
 using Redzen.Numerics;
 using SharpNeat.Network;
 
@@ -75,7 +76,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public NeatGenomeParameters()
         {
-            _activationFn                               = LogisticFunctionSteep.__DefaultInstance;
+            _activationFn                               = new LogisticFunctionSteep();
             _connectionWeightRange                      = DefaultConnectionWeightRange;
             _initialInterconnectionsProportion          = DefaultInitialInterconnectionsProportion;
             _disjointExcessGenesRecombineProbability    = DefaultDisjointExcessGenesRecombineProbability;

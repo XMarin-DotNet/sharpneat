@@ -35,24 +35,9 @@ namespace SharpNeat.Network
     /// </summary>
     public class PolynomialApproximantSteep : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new PolynomialApproximantSteep();
+        public string Id => "PolynomialApproximantSteep";
 
-        /// <summary>
-        /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
-        /// is using.
-        /// </summary>
-        public string FunctionId
-        {
-            get { return this.GetType().Name; }
-        }
-
-        /// <summary>
-        /// Calculates the output value for the specified input value.
-        /// </summary>
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             x = x * 4.9;
             double x2 = x*x;

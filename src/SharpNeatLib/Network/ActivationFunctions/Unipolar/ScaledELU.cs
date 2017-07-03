@@ -27,14 +27,9 @@ namespace SharpNeat.Network
     /// </summary>
     public class ScaledELU : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new ScaledELU();
+        public string Id => "ScaledELU";
 
-        public string FunctionId => this.GetType().Name;
-
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             double alpha = 1.6732632423543772848170429916717;
             double scale = 1.0507009873554804934193349852946;

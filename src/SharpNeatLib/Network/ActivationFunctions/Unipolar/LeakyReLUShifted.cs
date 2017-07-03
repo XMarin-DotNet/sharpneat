@@ -18,14 +18,9 @@ namespace SharpNeat.Network
     /// </summary>
     public class LeakyReLUShifted : IActivationFunction
     {
-        /// <summary>
-        /// Default instance provided as a public static field.
-        /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SReLU();
+        public string Id => "LeakyReLUShifted";
 
-        public string FunctionId => this.GetType().Name;
-
-        public double Calculate(double x)
+        public double Fn(double x)
         {
             const double a = 0.001;
             const double offset = 0.5;
