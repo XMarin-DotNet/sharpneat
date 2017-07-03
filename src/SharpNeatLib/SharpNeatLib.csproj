@@ -121,6 +121,10 @@
     <None Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO-placeholder.cs" />
+    <Compile Include="Network\ActivationFunctions\ArcSinH.cs" />
+    <Compile Include="Network\ActivationFunctions\TanH.cs" />
+    <Compile Include="Network\ActivationFunctions\MaxMinusOne.cs" />
+    <Compile Include="Network\ActivationFunctions\ArcTan.cs" />
     <Compile Include="Network\ActivationFunctions\ReLU.cs" />
     <Compile Include="Network\ActivationFunctions\LeakyReLUShifted.cs" />
     <Compile Include="Network\ActivationFunctions\LogisticApproximantSteep.cs" />
