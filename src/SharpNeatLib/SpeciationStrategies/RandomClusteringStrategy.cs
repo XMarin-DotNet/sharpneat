@@ -15,6 +15,7 @@ using System.Diagnostics;
 using Redzen.Numerics;
 using Redzen.Sorting;
 using SharpNeat.Core;
+using SharpNeat.Utils;
 
 namespace SharpNeat.SpeciationStrategies
 {
@@ -28,7 +29,7 @@ namespace SharpNeat.SpeciationStrategies
     public class RandomClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome>
         where TGenome : class, IGenome<TGenome>
     {
-        readonly XorShiftRandom _rng = new XorShiftRandom();
+        readonly IRandomSource _rng = RandomFactory.Create();
        
         /// <summary>
         /// Speciates the genomes in genomeList into the number of species specified by specieCount

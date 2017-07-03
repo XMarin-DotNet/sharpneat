@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using Redzen.Numerics;
-using SharpNeat.Utility;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Domains.BoxesVisualDiscrimination
 {
@@ -29,7 +29,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         IntPoint _smallBoxTopLeft;
         IntPoint _largeBoxTopLeft;
 
-        XorShiftRandom _rng;
+        IRandomSource _rng;
 
         #region Constructor
 
@@ -38,7 +38,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         /// </summary>
         public TestCaseField()
         {
-            _rng = new XorShiftRandom();
+            _rng = RandomFactory.Create();
         }
 
         #endregion

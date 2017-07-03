@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using SharpNeat.Utility;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Genomes.Neat
 {

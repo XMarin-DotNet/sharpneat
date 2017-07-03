@@ -11,7 +11,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Drawing;
-using SharpNeat.Utility;
+using SharpNeat.Utils;
 
 namespace SharpNeatGUI
 {

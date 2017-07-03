@@ -12,7 +12,7 @@
 
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Network;
-using SharpNeat.Utility;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Genomes.HyperNeat
 {

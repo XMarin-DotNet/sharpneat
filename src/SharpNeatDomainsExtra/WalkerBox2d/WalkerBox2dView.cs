@@ -14,6 +14,7 @@ using SharpNeat.Core;
 using SharpNeat.DomainsExtra.Box2D;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
+using SharpNeat.Utils;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
@@ -43,7 +44,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         protected override SimulationWorld CreateSimulationWorld()
         {
             // Init Box2D world.
-            WalkerWorld world = new WalkerWorld(new XorShiftRandom());
+            WalkerWorld world = new WalkerWorld(RandomFactory.Create());
             world.InitSimulationWorld();
 
             // Create an interface onto the walker.

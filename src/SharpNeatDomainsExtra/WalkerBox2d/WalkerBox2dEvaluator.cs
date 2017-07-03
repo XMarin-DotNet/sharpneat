@@ -14,6 +14,7 @@ using SharpNeat.Core;
 using SharpNeat.Phenomes;
 using Redzen.Numerics;
 using Box2DX.Common;
+using SharpNeat.Utils;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
@@ -24,7 +25,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     {
         #region Instance Fields
 
-        XorShiftRandom _rng;
+        IRandomSource _rng;
 		int	_maxTimesteps;
 
         // Evaluator state.
@@ -46,7 +47,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
 		public WalkerBox2dEvaluator(int maxTimesteps)
 		{
-            _rng = new XorShiftRandom();
+            _rng = RandomFactory.Create();
             _maxTimesteps = maxTimesteps;
 		}
 

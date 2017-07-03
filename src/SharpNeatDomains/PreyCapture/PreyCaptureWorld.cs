@@ -12,6 +12,7 @@
 using System;
 using Redzen.Numerics;
 using SharpNeat.Phenomes;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Domains.PreyCapture
 {
@@ -41,7 +42,7 @@ namespace SharpNeat.Domains.PreyCapture
         IntPoint _agentPos;
         
         // Random number generator.
-        XorShiftRandom _rng;
+        IRandomSource _rng;
 
         #endregion
 
@@ -57,7 +58,7 @@ namespace SharpNeat.Domains.PreyCapture
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
             _maxTimesteps = maxTimesteps;
-            _rng = new XorShiftRandom();
+            _rng = RandomFactory.Create();
         }
 
         #endregion
