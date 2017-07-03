@@ -38,6 +38,22 @@ namespace SharpNeat.Network
             }
         }
 
+        public void Fn(double[] v, int startIdx, int endIdx)
+        {
+            // Naive implementation.
+            for(int i=startIdx; i<endIdx; i++) {
+                v[i]= Fn(v[i]);
+            }
+        }
+
+        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
+        {
+            // Naive implementation.
+            for(int i=startIdx; i<endIdx; i++) {
+                w[i]= Fn(v[i]);
+            }
+        }
+
         // Fast exp approximation, from:
         // https://stackoverflow.com/a/412988/15703
         // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
@@ -48,6 +64,4 @@ namespace SharpNeat.Network
             return BitConverter.Int64BitsToDouble(tmp << 32);
         }
     }
-
-
 }

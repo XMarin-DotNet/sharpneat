@@ -13,25 +13,73 @@
 namespace SharpNeat.Network
 {
     /// <summary>
+    /// Vectorised activation function.
+    /// </summary>
+    /// <param name="v">A vector of pre-activation levels to pass through the function.
+    /// The resulting post-activation levels are written back to this array/vector.</param>
+    public delegate void VecFn(double[] v);
+
+    /// <summary>
+    /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector.
+    /// </summary>
+    /// <param name="v">A vector of pre-activation levels to pass through the function.
+    /// The resulting post-activation levels are written back to this array/vector.</param>
+    /// <param name="startIdx">Start index.</param>
+    /// <param name="endIdx">End index (exclusive).</param>
+    public delegate void VecFnSegment(double[] v, int startIdx, int endIdx);
+
+    /// <summary>
+    /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector, 
+    /// and post-activation levels stored in a separate supplied vector.
+    /// </summary>
+    /// <param name="v">A vector of pre-activation levels to pass through the function.
+    /// <param name="w">A vector in which the post activation levels are stored.</param>
+    /// The resulting post-activation levels are written back to this array/vector.</param>
+    /// <param name="startIdx">Start index.</param>
+    /// <param name="endIdx">End index (exclusive).</param>
+    public delegate void VecFnSegment2(double[] v, double[] w, int startIdx, int endIdx);
+
+    /// <summary>
     /// Neural net node activation function.
     /// </summary>
     public interface IActivationFunction
     {
         /// <summary>
-        /// Unique identifier string.
+        /// A unique identifier string for the function.
         /// </summary>
         string Id { get; }
 
         /// <summary>
         /// The activation function.
         /// </summary>
+        /// <param name="x">The single pre-activation level to pass through the function.</param>
         double Fn(double x);
 
         /// <summary>
-        /// A vectorised version of the activation function.
-        /// Each value in the provided array has the activation function applied to it, the results 
-        /// are stored in the same array, thus overwriting the inputs values with output values.
+        /// Vectorised activation function.
         /// </summary>
-        void Fn(double[] x);
+        /// <param name="v">A vector of pre-activation levels to pass through the function.
+        /// The resulting post-activation levels are written back to this array/vector.</param>
+        void Fn(double[] v);
+
+        /// <summary>
+        /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector.
+        /// </summary>
+        /// <param name="v">A vector of pre-activation levels to pass through the function.
+        /// The resulting post-activation levels are written back to this array/vector.</param>
+        /// <param name="startIdx">Start index.</param>
+        /// <param name="endIdx">End index (exclusive).</param>
+        void Fn(double[] v, int startIdx, int endIdx);
+
+        /// <summary>
+        /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector, 
+        /// and post-activation levels stored in a separate supplied vector.
+        /// </summary>
+        /// <param name="v">A vector of pre-activation levels to pass through the function.
+        /// <param name="w">A vector in which the post activation levels are stored.</param>
+        /// The resulting post-activation levels are written back to this array/vector.</param>
+        /// <param name="startIdx">Start index.</param>
+        /// <param name="endIdx">End index (exclusive).</param>
+        void Fn(double[] v, double[] w, int startIdx, int endIdx);
     }
 }

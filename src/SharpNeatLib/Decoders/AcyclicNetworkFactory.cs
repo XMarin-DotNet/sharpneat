@@ -26,14 +26,14 @@ namespace SharpNeat.Decoders
 
         public static AcyclicNetwork CreateAcyclicNetwork(INetworkDefinition netDef, bool boundedOutput)
         {
-            Func<double,double>[] activationFnArr;
+            IActivationFunction[] activationFnArr;
             ConnectionInfo[] connInfoArr;
             LayerInfo[] layerInfoArr;
             int[] outputNeuronIdxArr;
             InternalDecode(netDef, out activationFnArr, out connInfoArr, out layerInfoArr, out outputNeuronIdxArr);
 
             return new AcyclicNetwork(
-                activationFnArr[0],
+                activationFnArr[0].Fn,
                 connInfoArr,
                 layerInfoArr,
                 outputNeuronIdxArr,
@@ -45,14 +45,20 @@ namespace SharpNeat.Decoders
 
         public static HeterogeneousAcyclicNetwork CreateHeterogeneousAcyclicNetwork(INetworkDefinition netDef, bool boundedOutput)
         {
-            Func<double,double>[] activationFnArr;
+            IActivationFunction[] activationFnArr;
             ConnectionInfo[] connInfoArr;
             LayerInfo[] layerInfoArr;
             int[] outputNeuronIdxArr;
             InternalDecode(netDef, out activationFnArr, out connInfoArr, out layerInfoArr, out outputNeuronIdxArr);
 
+            // Extract the specific activation function delegate we want from each IActivationFunction.
+            var fnArr = new Func<double,double>[activationFnArr.Length];
+            for(int i=0; i<activationFnArr.Length; i++) {
+                fnArr[i] = activationFnArr[i].Fn;
+            }
+
             return new HeterogeneousAcyclicNetwork(
-                activationFnArr,
+                fnArr,
                 connInfoArr,
                 layerInfoArr,
                 outputNeuronIdxArr,
@@ -68,7 +74,7 @@ namespace SharpNeat.Decoders
 
         private static void InternalDecode(
             INetworkDefinition netDef,
-            out Func<double,double>[] activationFnArr,
+            out IActivationFunction[] activationFnArr,
             out ConnectionInfo[] connInfoArr,
             out LayerInfo[] layerInfoArr,
             out int[] outputNeuronIdxArr)
@@ -126,11 +132,11 @@ namespace SharpNeat.Decoders
 
             // Construct activation function array.
             IActivationFunctionLibrary activationFnLibrary = netDef.ActivationFnLibrary;
-            activationFnArr = new Func<double,double>[nodeCount];
+            activationFnArr = new IActivationFunction[nodeCount];
             for(int i=0; i<nodeCount; i++) 
             {
                 int definitionIdx = nodeInfoByDepth[i]._definitionIdx;
-                activationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId).Fn;
+                activationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId);
             }
 
 

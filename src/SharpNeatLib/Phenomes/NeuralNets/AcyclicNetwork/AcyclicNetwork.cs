@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using SharpNeat.Network;
 
 namespace SharpNeat.Phenomes.NeuralNets
 {
@@ -42,7 +43,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     //=== Fixed data. Network structure and activation functions/data.
         
         // Node activation function.
-        readonly Func<double,double> _activationFn;
+        readonly VecFnSegment _activationFn;
 
         // Array of connection info.
         readonly ConnectionInfo[] _connInfoArr;
@@ -82,7 +83,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNetwork(Func<double, double> activationFn,
+        public AcyclicNetwork(VecFnSegment activationFn,
                               ConnectionInfo[] connInfoArr,
                               LayerInfo[] layerInfoArr,
                               int[] outputNodeIdxArr,
@@ -180,15 +181,12 @@ namespace SharpNeat.Phenomes.NeuralNets
                     _activationArr[_connInfoArr[conIdx]._tgtNeuronIdx] += _activationArr[_connInfoArr[conIdx]._srcNeuronIdx] * _connInfoArr[conIdx]._weight;
                 }
 
-                // TODO: Performance tune the activation function method call.
-                // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
-                // The obvious/simplest performance improvement would be to pass an array of values to Calculate().
-                // 
                 // Activate current layer's nodes.
+                //
+                // Pass the pre-activation levels through the activation function.
+                // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx];
-                for(; nodeIdx < layerInfo._endNodeIdx; nodeIdx++) {
-                    _activationArr[nodeIdx] = _activationFn(_activationArr[nodeIdx]);
-                }
+                _activationFn(_activationArr, nodeIdx, layerInfo._endNodeIdx);
             }
         }
 
