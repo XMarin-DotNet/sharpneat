@@ -25,7 +25,7 @@ namespace SharpNeat.Network
     ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
     ///    
     /// </summary>
-    public class ScaledELU : IActivationFunction
+    public class ScaledELU : IActivationFunction<double>
     {
         public string Id => "ScaledELU";
 

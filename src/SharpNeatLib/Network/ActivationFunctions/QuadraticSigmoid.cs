@@ -20,7 +20,7 @@ namespace SharpNeat.Network
     /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to 
     /// ensure there is at least a gradient to follow at the extremes.
     /// </summary>
-    public class QuadraticSigmoid : IActivationFunction
+    public class QuadraticSigmoid : IActivationFunction<double>
     {
         public string Id => "QuadraticSigmoid";
 

@@ -25,17 +25,17 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets the function with the specified index in the library.
         /// </summary>
-        IActivationFunction GetFunction(int idx);
+        IActivationFunction<double> GetFunction(int idx);
 
         /// <summary>
         /// Gets the function with the specified ID string.
         /// </summary>
-        IActivationFunction GetFunction(string id);
+        IActivationFunction<double> GetFunction(string id);
 
         /// <summary>
         /// Randomly select a function based on each function's selection probability.
         /// </summary>
-        IActivationFunction GetRandomFunction(IRandomSource rng);
+        IActivationFunction<double> GetRandomFunction(IRandomSource rng);
 
         /// <summary>
         /// Randomly select a function based on each function's selection probability.
@@ -46,6 +46,6 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets a list of all functions in the library.
         /// </summary>
-        IList<IActivationFunction> GetFunctionList();
+        IList<IActivationFunction<double>> GetFunctionList();
     }
 }

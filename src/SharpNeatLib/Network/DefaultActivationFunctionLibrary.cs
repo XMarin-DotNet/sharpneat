@@ -21,8 +21,8 @@ namespace SharpNeat.Network
     /// </summary>
     public class DefaultActivationFunctionLibrary : IActivationFunctionLibrary
     {
-        readonly List<IActivationFunction> _fnList;
-        readonly Dictionary<string,IActivationFunction> _fnById;
+        readonly List<IActivationFunction<double>> _fnList;
+        readonly Dictionary<string,IActivationFunction<double>> _fnById;
         readonly DiscreteDistribution _dist;
 
         #region Constructors
@@ -32,8 +32,8 @@ namespace SharpNeat.Network
 
         public DefaultActivationFunctionLibrary(int capacity)
         {
-            _fnList = new List<IActivationFunction>(capacity);
-            _fnById = new Dictionary<string,IActivationFunction>(capacity);
+            _fnList = new List<IActivationFunction<double>>(capacity);
+            _fnById = new Dictionary<string,IActivationFunction<double>>(capacity);
         }
 
         private DefaultActivationFunctionLibrary(DiscreteDistribution dist) : this (dist.Probabilities.Length)
@@ -48,7 +48,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets the function with the specified ID string.
         /// </summary>
-        public IActivationFunction GetFunction(int idx)
+        public IActivationFunction<double> GetFunction(int idx)
         {
             return _fnList[idx];
         }
@@ -56,7 +56,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets the function with the specified ID string.
         /// </summary>
-        public IActivationFunction GetFunction(string id)
+        public IActivationFunction<double> GetFunction(string id)
         {
             return _fnById[id];
         }
@@ -64,7 +64,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Randomly select a function based on each function's selection probability.
         /// </summary>
-        public IActivationFunction GetRandomFunction(IRandomSource rng)
+        public IActivationFunction<double> GetRandomFunction(IRandomSource rng)
         {
             return _fnList[_dist.Sample(rng)];
         }
@@ -81,7 +81,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets a list of all functions in the library.
         /// </summary>
-        public IList<IActivationFunction> GetFunctionList()
+        public IList<IActivationFunction<double>> GetFunctionList()
         {
             return _fnList.AsReadOnly();
         }
@@ -90,7 +90,7 @@ namespace SharpNeat.Network
 
         #region Private Methods
 
-        private void AddEntry(IActivationFunction activationFn)
+        private void AddEntry(IActivationFunction<double> activationFn)
         {
             _fnList.Add(activationFn);
             _fnById.Add(activationFn.Id, activationFn);
@@ -105,7 +105,7 @@ namespace SharpNeat.Network
         /// NEAT uses the same activation function for all neurons/nodes therefore this factory method
         /// creates an IActivationFunction containing only the single provided IActivationFunction.
         /// </summary>
-        public static IActivationFunctionLibrary CreateLibraryNeat(IActivationFunction activationFn)
+        public static IActivationFunctionLibrary CreateLibraryNeat(IActivationFunction<double> activationFn)
         {
             var dist = new DiscreteDistribution(new double[] { 1.0 });
             var lib = new DefaultActivationFunctionLibrary(dist);

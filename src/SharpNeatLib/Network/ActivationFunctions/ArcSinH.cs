@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 
 namespace SharpNeat.Network
 {
-    public class ArcSinH : IActivationFunction
+    public class ArcSinH : IActivationFunction<double>
     {
         public string Id => "ArcSinH";
 

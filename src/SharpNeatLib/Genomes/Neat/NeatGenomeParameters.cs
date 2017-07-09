@@ -40,7 +40,7 @@ namespace SharpNeat.Genomes.Neat
         #region Instance Fields
 
         bool _feedforwardOnly;
-        IActivationFunction _activationFn;
+        IActivationFunction<double> _activationFn;
         double _connectionWeightRange;
         double _initialInterconnectionsProportion;
         double _disjointExcessGenesRecombineProbability;
@@ -136,7 +136,7 @@ namespace SharpNeat.Genomes.Neat
         /// Gets or sets the neuron activation function to use in evolved networks. NEAT uses the same activation
         /// function at each node.
         /// </summary>
-        public IActivationFunction ActivationFn
+        public IActivationFunction<double> ActivationFn
         {
             get { return _activationFn; }
             set { _activationFn = value; }

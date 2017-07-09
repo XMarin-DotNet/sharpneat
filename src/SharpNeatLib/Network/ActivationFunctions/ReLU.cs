@@ -15,7 +15,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// Rectified linear activation unit (ReLU).
     /// </summary>
-    public class ReLU : IActivationFunction
+    public class ReLU : IActivationFunction<double>
     {
         public string Id => "ReLU";
 

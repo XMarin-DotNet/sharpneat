@@ -17,7 +17,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// Sine activation function with doubled period.
     /// </summary>
-    public class Sine : IActivationFunction
+    public class Sine : IActivationFunction<double>
     {
         public string Id => "Sine";
 

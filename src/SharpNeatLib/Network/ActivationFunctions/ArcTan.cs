@@ -14,7 +14,7 @@ using System;
 
 namespace SharpNeat.Network
 {
-    public class ArcTan : IActivationFunction
+    public class ArcTan : IActivationFunction<double>
     {
         public string Id => "ArcTan";
 

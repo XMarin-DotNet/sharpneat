@@ -15,7 +15,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// Leaky rectified linear activation unit (ReLU).
     /// </summary>
-    public class LeakyReLU : IActivationFunction
+    public class LeakyReLU : IActivationFunction<double>
     {
         public string Id => "LeakyReLU";
 

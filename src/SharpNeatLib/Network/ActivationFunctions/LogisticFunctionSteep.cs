@@ -17,7 +17,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// The logistic function with a steepened slope.
     /// </summary>
-    public class LogisticFunctionSteep : IActivationFunction
+    public class LogisticFunctionSteep : IActivationFunction<double>
     {
         public string Id => "LogisticFunctionSteep";
 

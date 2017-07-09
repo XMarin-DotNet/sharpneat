@@ -19,7 +19,7 @@ namespace SharpNeat.Network
     ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
     ///    
     /// </summary>
-    public class SReLU : IActivationFunction
+    public class SReLU : IActivationFunction<double>
     {
         public string Id => "SReLU";
 

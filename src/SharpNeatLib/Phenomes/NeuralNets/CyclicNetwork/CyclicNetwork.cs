@@ -45,7 +45,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     public class CyclicNetwork : IBlackBox
     {
         protected readonly ConnectionInfo[] _connectionArray;
-        protected readonly VecFnSegment2 _activationFn;
+        protected readonly VecFnSegment2<double> _activationFn;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -68,7 +68,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// associated data.
         /// </summary>
         public CyclicNetwork(ConnectionInfo[] connInfoArr,
-                             VecFnSegment2 activationFn,
+                             VecFnSegment2<double> activationFn,
                              int neuronCount,
                              int inputNeuronCount,
                              int outputNeuronCount,

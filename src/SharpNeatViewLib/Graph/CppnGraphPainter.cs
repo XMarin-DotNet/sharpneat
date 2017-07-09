@@ -109,7 +109,8 @@ namespace SharpNeat.View.Graph
             const int LineHeight = 16;
             const int Margin = 10;
 
-            IList<IActivationFunction> fnList = _activationFnLibrary.GetFunctionList();
+            // TODO: Eliminate type parameter - we don't actually need to know the IActivationFunction type, we just want its ID.
+            IList<IActivationFunction<double>> fnList = _activationFnLibrary.GetFunctionList();
             int count = fnList.Count;
 
             // Determine y position of first line.
@@ -117,7 +118,6 @@ namespace SharpNeat.View.Graph
             
             for(int i=0; i<count; i++, yCurr += LineHeight)
             {
-                IActivationFunction fnInfo = fnList[i];
                 const int X = Margin;
 
                 // Paint an example node as part of the legend item.

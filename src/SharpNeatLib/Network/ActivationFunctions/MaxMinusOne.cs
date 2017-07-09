@@ -12,7 +12,7 @@
 
 namespace SharpNeat.Network
 {
-    public class MaxMinusOne : IActivationFunction
+    public class MaxMinusOne : IActivationFunction<double>
     {
         public string Id => "MaxMinusOne";
 

@@ -33,7 +33,7 @@ namespace SharpNeat.Network
     /// slope to that of LogisticFunctionSteep.
     ///   
     /// </summary>
-    public class PolynomialApproximantSteep : IActivationFunction
+    public class PolynomialApproximantSteep : IActivationFunction<double>
     {
         public string Id => "PolynomialApproximantSteep";
 

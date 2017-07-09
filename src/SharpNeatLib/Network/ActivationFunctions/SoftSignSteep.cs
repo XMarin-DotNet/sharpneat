@@ -19,7 +19,7 @@ namespace SharpNeat.Network
     /// This is a variant of softsign that has a steeper slope at and around the origin that 
     /// is intended to be a similar slope to that of LogisticFunctionSteep.
     /// </summary>
-    public class SoftSignSteep : IActivationFunction
+    public class SoftSignSteep : IActivationFunction<double>
     {
         public string Id => "ScaledELU";
 

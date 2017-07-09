@@ -18,7 +18,7 @@ namespace SharpNeat.Network
     /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian
     /// distribution curve tend towards 0 as abs(x) -> Infinity and the Gaussian peak is at x = 0.
     /// </summary>
-    public class Gaussian : IActivationFunction
+    public class Gaussian : IActivationFunction<double>
     {
         public string Id => "Gaussian";
 

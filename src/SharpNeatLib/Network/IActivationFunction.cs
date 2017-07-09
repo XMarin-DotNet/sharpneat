@@ -17,7 +17,8 @@ namespace SharpNeat.Network
     /// </summary>
     /// <param name="v">A vector of pre-activation levels to pass through the function.
     /// The resulting post-activation levels are written back to this array/vector.</param>
-    public delegate void VecFn(double[] v);
+    public delegate void VecFn<T>(T[] v) 
+        where T : struct;
 
     /// <summary>
     /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector.
@@ -26,7 +27,8 @@ namespace SharpNeat.Network
     /// The resulting post-activation levels are written back to this array/vector.</param>
     /// <param name="startIdx">Start index.</param>
     /// <param name="endIdx">End index (exclusive).</param>
-    public delegate void VecFnSegment(double[] v, int startIdx, int endIdx);
+    public delegate void VecFnSegment<T>(double[] v, int startIdx, int endIdx) 
+        where T : struct;
 
     /// <summary>
     /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector, 
@@ -37,12 +39,13 @@ namespace SharpNeat.Network
     /// The resulting post-activation levels are written back to this array/vector.</param>
     /// <param name="startIdx">Start index.</param>
     /// <param name="endIdx">End index (exclusive).</param>
-    public delegate void VecFnSegment2(double[] v, double[] w, int startIdx, int endIdx);
+    public delegate void VecFnSegment2<T>(double[] v, double[] w, int startIdx, int endIdx) 
+        where T : struct;
 
     /// <summary>
     /// Neural net node activation function.
     /// </summary>
-    public interface IActivationFunction
+    public interface IActivationFunction<T> where T : struct
     {
         /// <summary>
         /// A unique identifier string for the function.
@@ -53,14 +56,14 @@ namespace SharpNeat.Network
         /// The activation function.
         /// </summary>
         /// <param name="x">The single pre-activation level to pass through the function.</param>
-        double Fn(double x);
+        double Fn(T x);
 
         /// <summary>
         /// Vectorised activation function.
         /// </summary>
         /// <param name="v">A vector of pre-activation levels to pass through the function.
         /// The resulting post-activation levels are written back to this array/vector.</param>
-        void Fn(double[] v);
+        void Fn(T[] v);
 
         /// <summary>
         /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector.
@@ -69,7 +72,7 @@ namespace SharpNeat.Network
         /// The resulting post-activation levels are written back to this array/vector.</param>
         /// <param name="startIdx">Start index.</param>
         /// <param name="endIdx">End index (exclusive).</param>
-        void Fn(double[] v, int startIdx, int endIdx);
+        void Fn(T[] v, int startIdx, int endIdx);
 
         /// <summary>
         /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector, 
@@ -80,6 +83,6 @@ namespace SharpNeat.Network
         /// The resulting post-activation levels are written back to this array/vector.</param>
         /// <param name="startIdx">Start index.</param>
         /// <param name="endIdx">End index (exclusive).</param>
-        void Fn(double[] v, double[] w, int startIdx, int endIdx);
+        void Fn(T[] v, T[] w, int startIdx, int endIdx);
     }
 }

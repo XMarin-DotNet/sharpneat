@@ -33,7 +33,7 @@ namespace SharpNeat.Decoders
             bool boundedOutput)
         {
             ConnectionInfo[] connInfoArr;
-            IActivationFunction[] activationFnArr;
+            IActivationFunction<double>[] activationFnArr;
             InternalDecode(networkDef, 
                            activationScheme.TimestepsPerActivation,
                            out connInfoArr, out activationFnArr);
@@ -57,7 +57,7 @@ namespace SharpNeat.Decoders
             bool boundedOutput)
         {
             ConnectionInfo[] connInfoArr;
-            IActivationFunction[] activationFnArr;
+            IActivationFunction<double>[] activationFnArr;
             InternalDecode(networkDef,
                            activationScheme.TimestepsPerActivation,
                            out connInfoArr, out activationFnArr);
@@ -85,7 +85,7 @@ namespace SharpNeat.Decoders
         private static void InternalDecode(INetworkDefinition networkDef,
                                            int timestepsPerActivation,
                                            out ConnectionInfo[] connInfoArr,
-                                           out IActivationFunction[] activationFnArray)
+                                           out IActivationFunction<double>[] activationFnArray)
         {
             // Create an array of ConnectionInfo(s) that represent the connectivity of the network.
             connInfoArr = CreateConnectionInfoArray(networkDef);
@@ -113,7 +113,7 @@ namespace SharpNeat.Decoders
             INodeList nodeList = networkDef.NodeList;
             int nodeCount = nodeList.Count;
             IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
-            activationFnArray = new IActivationFunction[nodeCount];
+            activationFnArray = new IActivationFunction<double>[nodeCount];
 
             for(int i=0; i<nodeCount; i++) {
                 activationFnArray[i] = activationFnLibrary.GetFunction(nodeList[i].ActivationFnId);

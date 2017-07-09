@@ -16,7 +16,7 @@ namespace SharpNeat.Network
     /// Leaky rectified linear activation unit (ReLU).
     /// Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
     /// </summary>
-    public class LeakyReLUShifted : IActivationFunction
+    public class LeakyReLUShifted : IActivationFunction<double>
     {
         public string Id => "LeakyReLUShifted";
 

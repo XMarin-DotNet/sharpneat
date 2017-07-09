@@ -17,7 +17,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// Bipolar sigmoid activation function. Output range is -1 to 1 instead of the more normal 0 to 1.
     /// </summary>
-    public class BipolarSigmoid : IActivationFunction
+    public class BipolarSigmoid : IActivationFunction<double>
     {
         public string Id => "BipolarSigmoid";
 

@@ -17,7 +17,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// The logistic function.
     /// </summary>
-    public class LogisticFunction : IActivationFunction
+    public class LogisticFunction : IActivationFunction<double>
     {
         public string Id => "LogisticFunction";
 

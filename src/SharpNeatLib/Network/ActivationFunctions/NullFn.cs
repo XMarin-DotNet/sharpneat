@@ -15,7 +15,7 @@ namespace SharpNeat.Network
     /// <summary>
     /// Null activation function. Returns zero regardless of input.
     /// </summary>
-    public class NullFn : IActivationFunction
+    public class NullFn : IActivationFunction<double>
     {
         public string Id => "NullFn";
 

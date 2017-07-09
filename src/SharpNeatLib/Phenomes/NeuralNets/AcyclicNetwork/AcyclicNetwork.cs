@@ -43,7 +43,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     //=== Fixed data. Network structure and activation functions/data.
         
         // Node activation function.
-        readonly VecFnSegment _activationFn;
+        readonly VecFnSegment<double> _activationFn;
 
         // Array of connection info.
         readonly ConnectionInfo[] _connInfoArr;
@@ -82,7 +82,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNetwork(VecFnSegment activationFn,
+        public AcyclicNetwork(VecFnSegment<double> activationFn,
                               ConnectionInfo[] connInfoArr,
                               LayerInfo[] layerInfoArr,
                               int[] outputNodeIdxArr,
