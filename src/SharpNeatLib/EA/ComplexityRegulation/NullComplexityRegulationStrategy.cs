@@ -9,21 +9,21 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
+
+namespace SharpNeat.EA.ComplexityRegulation
 {
     /// <summary>
-    /// Complexity ceiling types.
+    /// Null strategy. Fixed to Complexifying mode.
     /// </summary>
-    public enum ComplexityCeilingType
+    public class NullComplexityRegulationStrategy : IComplexityRegulationStrategy
     {
         /// <summary>
-        /// Defines an absolute ceiling on complexity.
+        /// Determine which complexity regulation mode the search should be in given the provided
+        /// NEAT algorithm stats.
         /// </summary>
-        Absolute,
-        /// <summary>
-        /// Defines a relative ceiling on complexity. E.g. relative to the complexity
-        /// at the end of the most recent simplification phase.
-        /// </summary>
-        Relative
+        public ComplexityRegulationMode DetermineMode(NeatAlgorithmStats stats)
+        {
+            return ComplexityRegulationMode.Complexifying;
+        }
     }
 }

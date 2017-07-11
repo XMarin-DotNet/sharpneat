@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.EvolutionAlgorithms
+namespace SharpNeat.EA
 {
     /// <summary>
     /// Parameters specific to the NEAT evolution algorithm.

@@ -13,7 +13,7 @@ using System;
 using System.Threading.Tasks;
 using System.Xml;
 using SharpNeat.Decoders;
-using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
+using SharpNeat.EA.ComplexityRegulation;
 
 namespace SharpNeat.Domains
 {

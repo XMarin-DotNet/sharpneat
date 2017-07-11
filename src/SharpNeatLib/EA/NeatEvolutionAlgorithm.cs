@@ -17,11 +17,11 @@ using Redzen.Numerics;
 using Redzen.Sorting;
 using SharpNeat.Core;
 using SharpNeat.DistanceMetrics;
-using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
+using SharpNeat.EA.ComplexityRegulation;
 using SharpNeat.SpeciationStrategies;
 using SharpNeat.Utils;
 
-namespace SharpNeat.EvolutionAlgorithms
+namespace SharpNeat.EA
 {
     /// <summary>
     /// Implementation of the NEAT evolution algorithm. 

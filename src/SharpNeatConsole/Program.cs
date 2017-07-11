@@ -16,7 +16,7 @@ using System.Xml;
 using log4net.Config;
 using SharpNeat.Core;
 using SharpNeat.Domains.Xor;
-using SharpNeat.EvolutionAlgorithms;
+using SharpNeat.EA;
 using SharpNeat.Genome.Neat;
 
 namespace SharpNeatConsole

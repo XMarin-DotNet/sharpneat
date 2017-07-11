@@ -24,8 +24,8 @@ using log4net.Config;
 using Redzen.Numerics;
 using SharpNeat.Core;
 using SharpNeat.Domains;
-using SharpNeat.EvolutionAlgorithms;
-using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
+using SharpNeat.EA;
+using SharpNeat.EA.ComplexityRegulation;
 using SharpNeat.Genome.Neat;
 using SharpNeat.Utils;
 

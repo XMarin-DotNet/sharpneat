@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using System.Xml;
 using log4net;
 
-using SharpNeat.EvolutionAlgorithms;
+using SharpNeat.EA;
 using SharpNeat.Genome.Neat;
 using SharpNeat.DistanceMetrics;
 using SharpNeat.Core;
 using SharpNeat.SpeciationStrategies;
-using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
+using SharpNeat.EA.ComplexityRegulation;
 using SharpNeat.Phenomes;
 using SharpNeat.Decoders.Neat;
 using SharpNeat.Decoders;

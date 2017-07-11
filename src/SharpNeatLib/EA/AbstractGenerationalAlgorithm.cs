@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 // Disable missing comment warnings for non-private variables.
 #pragma warning disable 1591
 
-namespace SharpNeat.EvolutionAlgorithms
+namespace SharpNeat.EA
 {
     /// <summary>
     /// Abstract class providing some common/baseline data and methods for implementations of IEvolutionAlgorithm.

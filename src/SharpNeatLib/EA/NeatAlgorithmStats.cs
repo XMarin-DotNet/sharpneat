@@ -12,7 +12,7 @@
 using System;
 using Redzen.Structures;
 
-namespace SharpNeat.EvolutionAlgorithms
+namespace SharpNeat.EA
 {
     /// <summary>
     /// Neat evolution algorithm statistics.

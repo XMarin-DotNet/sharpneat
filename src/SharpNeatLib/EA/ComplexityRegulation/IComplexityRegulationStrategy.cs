@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
+namespace SharpNeat.EA.ComplexityRegulation
 {
     /// <summary>
     /// Represents a complexity regulation strategy. 

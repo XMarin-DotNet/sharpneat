@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using SharpNeat.Core;
-using SharpNeat.EvolutionAlgorithms;
+using SharpNeat.EA;
 using SharpNeat.Genome.Neat;
 using SharpNeat.Phenomes;
 
