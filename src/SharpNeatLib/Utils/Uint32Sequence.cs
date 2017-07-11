@@ -14,26 +14,26 @@ namespace SharpNeat.Utils
     /// <summary>
     /// Conveniently encapsulates a single UInt32, which is incremented to produce new IDs.
     /// </summary>
-    public class Uint32Sequence
+    public class UInt32Sequence
     {
-        uint _nextId;
+        uint _next;
 
         #region Constructors
 
         /// <summary>
         /// Construct, setting the initial ID to zero.
         /// </summary>
-        public Uint32Sequence()
+        public UInt32Sequence()
         {
-            _nextId = 0;
+            _next = 0;
         }
 
         /// <summary>
         /// Construct, setting the initial ID to the value provided.
         /// </summary>
-        public Uint32Sequence(uint nextId)
+        public UInt32Sequence(uint nextId)
         {
-            _nextId = nextId;
+            _next = nextId;
         }
 
         #endregion
@@ -41,25 +41,26 @@ namespace SharpNeat.Utils
         #region Properties
 
         /// <summary>
-        /// Gets the next ID. IDs wrap around to zero when uint.MaxValue is reached. 
-        /// </summary>
-        public uint NextId
-        {
-            get
-            {   // ENHANCEMENT: Consider triggering an ID defragmentation here.
-                if (_nextId == uint.MaxValue) {
-                    _nextId = 0;
-                }
-                return _nextId++;
-            }
-        }
-
-        /// <summary>
         /// Get the next ID without incrementing (peek the ID).
         /// </summary>
         public uint Peek
         {
-            get { return _nextId; }
+            get { return _next; }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the next ID. IDs wrap around to zero when uint.MaxValue is reached. 
+        /// </summary>
+        public uint Next()
+        {
+            if (_next == uint.MaxValue) {
+                _next = 0;
+            }
+            return _next++;   
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace SharpNeat.Utils
         /// </summary>
         public void Reset()
         {
-            _nextId = 0;
+            _next = 0;
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace SharpNeat.Utils
         /// </summary>
         public void Reset(uint nextId)
         {
-            _nextId = nextId;
+            _next = nextId;
         }
 
         #endregion

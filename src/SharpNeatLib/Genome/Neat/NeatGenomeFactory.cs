@@ -39,8 +39,8 @@ namespace SharpNeat.Genome.Neat
         readonly NeatGenomeStats _stats = new NeatGenomeStats();
         readonly int _inputNeuronCount;
         readonly int _outputNeuronCount;
-        readonly Uint32Sequence _genomeIdGenerator;
-        readonly Uint32Sequence _innovationIdGenerator;
+        readonly UInt32Sequence _genomeIdGenerator;
+        readonly UInt32Sequence _innovationIdGenerator;
         int _searchMode;
 
         readonly KeyedCircularBuffer<ConnectionEndpoints,uint?> _addedConnectionBuffer 
@@ -70,8 +70,8 @@ namespace SharpNeat.Genome.Neat
             _neatGenomeParamsComplexifying = _neatGenomeParamsCurrent;
             _neatGenomeParamsSimplifying = NeatGenomeParameters.CreateSimplifyingParameters(_neatGenomeParamsComplexifying);
 
-            _genomeIdGenerator = new Uint32Sequence();
-            _innovationIdGenerator = new Uint32Sequence();
+            _genomeIdGenerator = new UInt32Sequence();
+            _innovationIdGenerator = new UInt32Sequence();
 
             _activationFnLibrary = DefaultActivationFunctionLibrary.CreateLibraryNeat(_neatGenomeParamsCurrent.ActivationFn);
         }
@@ -90,8 +90,8 @@ namespace SharpNeat.Genome.Neat
             _neatGenomeParamsComplexifying = _neatGenomeParamsCurrent;
             _neatGenomeParamsSimplifying = NeatGenomeParameters.CreateSimplifyingParameters(_neatGenomeParamsComplexifying);
 
-            _genomeIdGenerator = new Uint32Sequence();
-            _innovationIdGenerator = new Uint32Sequence();
+            _genomeIdGenerator = new UInt32Sequence();
+            _innovationIdGenerator = new UInt32Sequence();
         }
 
         /// <summary>
@@ -99,8 +99,8 @@ namespace SharpNeat.Genome.Neat
         /// </summary>
         public NeatGenomeFactory(int inputNeuronCount, int outputNeuronCount,
                                  NeatGenomeParameters neatGenomeParams,
-                                 Uint32Sequence genomeIdGenerator,
-                                 Uint32Sequence innovationIdGenerator)
+                                 UInt32Sequence genomeIdGenerator,
+                                 UInt32Sequence innovationIdGenerator)
         {
             _inputNeuronCount = inputNeuronCount;
             _outputNeuronCount = outputNeuronCount;
@@ -134,8 +134,8 @@ namespace SharpNeat.Genome.Neat
             _neatGenomeParamsComplexifying = _neatGenomeParamsCurrent;
             _neatGenomeParamsSimplifying = NeatGenomeParameters.CreateSimplifyingParameters(_neatGenomeParamsComplexifying);
 
-            _genomeIdGenerator = new Uint32Sequence();
-            _innovationIdGenerator = new Uint32Sequence();
+            _genomeIdGenerator = new UInt32Sequence();
+            _innovationIdGenerator = new UInt32Sequence();
         }
 
         /// <summary>
@@ -155,8 +155,8 @@ namespace SharpNeat.Genome.Neat
             _neatGenomeParamsComplexifying = _neatGenomeParamsCurrent;
             _neatGenomeParamsSimplifying = NeatGenomeParameters.CreateSimplifyingParameters(_neatGenomeParamsComplexifying);
 
-            _genomeIdGenerator = new Uint32Sequence();
-            _innovationIdGenerator = new Uint32Sequence();
+            _genomeIdGenerator = new UInt32Sequence();
+            _innovationIdGenerator = new UInt32Sequence();
         }
 
         /// <summary>
@@ -167,8 +167,8 @@ namespace SharpNeat.Genome.Neat
         public NeatGenomeFactory(int inputNeuronCount, int outputNeuronCount,
                                  IActivationFunctionLibrary activationFnLibrary,
                                  NeatGenomeParameters neatGenomeParams,
-                                 Uint32Sequence genomeIdGenerator,
-                                 Uint32Sequence innovationIdGenerator)
+                                 UInt32Sequence genomeIdGenerator,
+                                 UInt32Sequence innovationIdGenerator)
         {
             _inputNeuronCount = inputNeuronCount;
             _outputNeuronCount = outputNeuronCount;
@@ -189,7 +189,7 @@ namespace SharpNeat.Genome.Neat
         /// <summary>
         /// Gets the factory's genome ID generator.
         /// </summary>
-        public Uint32Sequence GenomeIdGenerator
+        public UInt32Sequence GenomeIdGenerator
         {
             get { return _genomeIdGenerator; }
         }
@@ -262,7 +262,7 @@ namespace SharpNeat.Genome.Neat
             List<NeatGenome> genomeList = new List<NeatGenome>(length);
             
             // Add an exact copy of the seed to the list.
-            NeatGenome newGenome = CreateGenomeCopy(seedGenome, _genomeIdGenerator.NextId, birthGeneration);
+            NeatGenome newGenome = CreateGenomeCopy(seedGenome, _genomeIdGenerator.Next(), birthGeneration);
             genomeList.Add(newGenome);
 
             // For the remainder we create mutated offspring from the seed.
@@ -298,7 +298,7 @@ namespace SharpNeat.Genome.Neat
             for(int seedIdx=0; idx<length && seedIdx<seedCount; idx++, seedIdx++)
             {
                 // Add an exact copy of the seed to the list.
-                NeatGenome newGenome = CreateGenomeCopy(seedGenomeList[seedIdx], _genomeIdGenerator.NextId, birthGeneration);
+                NeatGenome newGenome = CreateGenomeCopy(seedGenomeList[seedIdx], _genomeIdGenerator.Next(), birthGeneration);
                 genomeList.Add(newGenome);
             }
 
@@ -352,7 +352,7 @@ namespace SharpNeat.Genome.Neat
             // Create input neuron genes.
             for(int i=0; i<_inputNeuronCount; i++)
             {
-                NeuronGene neuronGene = CreateNeuronGene(_innovationIdGenerator.NextId, NodeType.Input);
+                NeuronGene neuronGene = CreateNeuronGene(_innovationIdGenerator.Next(), NodeType.Input);
                 inputNeuronGeneList.Add(neuronGene);
                 neuronGeneList.Add(neuronGene);
             }
@@ -360,7 +360,7 @@ namespace SharpNeat.Genome.Neat
             // Create output neuron genes. 
             for(int i=0; i<_outputNeuronCount; i++)
             {
-                NeuronGene neuronGene = CreateNeuronGene(_innovationIdGenerator.NextId, NodeType.Output);
+                NeuronGene neuronGene = CreateNeuronGene(_innovationIdGenerator.Next(), NodeType.Output);
                 outputNeuronGeneList.Add(neuronGene);
                 neuronGeneList.Add(neuronGene);
             }
@@ -372,7 +372,7 @@ namespace SharpNeat.Genome.Neat
 
             for(int srcIdx=0, i=0; srcIdx<srcCount; srcIdx++) {
                 for(int tgtIdx=0; tgtIdx<tgtCount; tgtIdx++) {
-                    connectionDefArr[i++] = new ConnectionDefinition(_innovationIdGenerator.NextId, srcIdx, tgtIdx);
+                    connectionDefArr[i++] = new ConnectionDefinition(_innovationIdGenerator.Next(), srcIdx, tgtIdx);
                 }
             }
 
@@ -409,7 +409,7 @@ namespace SharpNeat.Genome.Neat
             connectionGeneList.SortByInnovationId();
 
             // Create and return the completed genome object.
-            return CreateGenome(_genomeIdGenerator.NextId, birthGeneration,
+            return CreateGenome(_genomeIdGenerator.Next(), birthGeneration,
                                 neuronGeneList, connectionGeneList,
                                 _inputNeuronCount, _outputNeuronCount, false);
         }
@@ -463,7 +463,7 @@ namespace SharpNeat.Genome.Neat
         /// <summary>
         /// Gets the factory's innovation ID generator.
         /// </summary>
-        public Uint32Sequence InnovationIdGenerator
+        public UInt32Sequence InnovationIdGenerator
         {
             get { return _innovationIdGenerator; }
         }
@@ -525,7 +525,7 @@ namespace SharpNeat.Genome.Neat
         /// </summary>
         public uint NextGenomeId()
         {
-            return _genomeIdGenerator.NextId;
+            return _genomeIdGenerator.Next();
         }
 
         /// <summary>
@@ -533,7 +533,7 @@ namespace SharpNeat.Genome.Neat
         /// </summary>
         public uint NextInnovationId()
         {
-            return _innovationIdGenerator.NextId;
+            return _innovationIdGenerator.Next();
         }
 
         /// <summary>
