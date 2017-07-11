@@ -16,6 +16,7 @@ using SharpNeat.Network;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using SharpNeat.Neat;
 
 namespace SharpNeat.Genome.Neat
 {
@@ -544,8 +545,8 @@ namespace SharpNeat.Genome.Neat
             // Get IDs for the two new connections and a single neuron. This call will check the history 
             // buffer (AddedNeuronBuffer) for matching structures from previously added neurons (for the search as
             // a whole, not just on this genome).
-            AddedNeuronGeneStruct idStruct;
-            bool reusedIds = Mutate_AddNode_GetIDs(connectionToReplace.Id, out idStruct);
+            AddedNodeInfo addedNodeInfo;
+            bool reusedIds = Mutate_AddNode_GetIDs(connectionToReplace.Id, out addedNodeInfo);
 
             // Replace connection with two new connections and a new neuron. The first connection uses the weight
             // from the replaced connection (so it's functionally the same connection, but the ID is new). Ideally
@@ -555,14 +556,14 @@ namespace SharpNeat.Genome.Neat
             // maps the range 0..1 being output from the new neuron to something close to 0.5..1.0 when using a unipolar
             // sigmoid (depending on exact sigmoid function in use). Weaker weights reduce that range, ultimately a zero
             // weight always gives an output of 0.5 for a unipolar sigmoid.
-            NeuronGene newNeuronGene = _genomeFactory.CreateNeuronGene(idStruct.AddedNeuronId, NodeType.Hidden);
-            ConnectionGene newConnectionGene1 = new ConnectionGene(idStruct.AddedInputConnectionId,
+            NeuronGene newNeuronGene = _genomeFactory.CreateNeuronGene(addedNodeInfo.AddedNodeId, NodeType.Hidden);
+            ConnectionGene newConnectionGene1 = new ConnectionGene(addedNodeInfo.AddedInputConnectionId,
                                                                    connectionToReplace.SourceNodeId,
-                                                                   idStruct.AddedNeuronId,
+                                                                   addedNodeInfo.AddedNodeId,
                                                                    connectionToReplace.Weight);
 
-            ConnectionGene newConnectionGene2 = new ConnectionGene(idStruct.AddedOutputConnectionId,
-                                                                   idStruct.AddedNeuronId,
+            ConnectionGene newConnectionGene2 = new ConnectionGene(addedNodeInfo.AddedOutputConnectionId,
+                                                                   addedNodeInfo.AddedNodeId,
                                                                    connectionToReplace.TargetNodeId,
                                                                    _genomeFactory.NeatGenomeParameters.ConnectionWeightRange);
 
@@ -611,21 +612,21 @@ namespace SharpNeat.Genome.Neat
         /// split.
         /// </summary>
         /// <param name="connectionToReplaceId">ID of the connection that is being replaced.</param>
-        /// <param name="idStruct">Conveys the required IDs back to the caller.</param>
+        /// <param name="addedNodeInfo">Conveys the required IDs back to the caller.</param>
         /// <returns>Returns true if the IDs are existing IDs from a matching structure in the history buffer (AddedNeuronBuffer).</returns>
-        private bool Mutate_AddNode_GetIDs(uint connectionToReplaceId, out AddedNeuronGeneStruct idStruct)
+        private bool Mutate_AddNode_GetIDs(uint connectionToReplaceId, out AddedNodeInfo addedNodeInfo)
         {
             bool registerNewStruct = false;
-            if(_genomeFactory.AddedNeuronBuffer.TryGetValue(connectionToReplaceId, out idStruct))
+            if(_genomeFactory.AddedNodeBuffer.TryGetValue(connectionToReplaceId, out addedNodeInfo))
             {   
                 // Found existing matching structure.
                 // However we can only re-use the IDs from that structure if they aren't already present in the current genome;
                 // this is possible because genes can be acquired from other genomes via sexual reproduction.
                 // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
                 // structures throughout the population, which is the reason for ID re-use.
-                if(_neuronGeneList.BinarySearch(idStruct.AddedNeuronId) < 0
-                && _connectionGeneList.BinarySearch(idStruct.AddedInputConnectionId) < 0
-                && _connectionGeneList.BinarySearch(idStruct.AddedOutputConnectionId) < 0)             
+                if(_neuronGeneList.BinarySearch(addedNodeInfo.AddedNodeId) < 0
+                && _connectionGeneList.BinarySearch(addedNodeInfo.AddedInputConnectionId) < 0
+                && _connectionGeneList.BinarySearch(addedNodeInfo.AddedOutputConnectionId) < 0)             
                 {
                     // Return true to indicate re-use of existing IDs.
                     return true;
@@ -639,12 +640,12 @@ namespace SharpNeat.Genome.Neat
 
             // No pre-existing matching structure or if there is we already have some of its genes (from sexual reproduction).
             // Generate new IDs for this structure.
-            idStruct = new AddedNeuronGeneStruct(_genomeFactory.InnovationIdGenerator);
+            addedNodeInfo = new AddedNodeInfo(_genomeFactory.InnovationIdGenerator);
 
             // If the connectionToReplaceId was not found (above) then we register it along with the new structure 
             // it is being replaced with.
             if(registerNewStruct) {   
-                _genomeFactory.AddedNeuronBuffer.Enqueue(connectionToReplaceId, idStruct);
+                _genomeFactory.AddedNodeBuffer.Enqueue(connectionToReplaceId, addedNodeInfo);
             }
             return false;
         }

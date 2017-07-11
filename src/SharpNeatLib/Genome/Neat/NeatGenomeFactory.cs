@@ -17,6 +17,7 @@ using Redzen.Numerics;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Core;
+using SharpNeat.Neat;
 using SharpNeat.Network;
 using SharpNeat.Utils;
 
@@ -46,8 +47,8 @@ namespace SharpNeat.Genome.Neat
         readonly KeyedCircularBuffer<ConnectionEndpoints,uint?> _addedConnectionBuffer 
                 = new KeyedCircularBuffer<ConnectionEndpoints,uint?>(__INNOVATION_HISTORY_BUFFER_SIZE);
 
-        readonly KeyedCircularBuffer<uint,AddedNeuronGeneStruct> _addedNeuronBuffer 
-                = new KeyedCircularBuffer<uint,AddedNeuronGeneStruct>(__INNOVATION_HISTORY_BUFFER_SIZE);
+        readonly KeyedCircularBuffer<uint,AddedNodeInfo> _addedNodeBuffer 
+                = new KeyedCircularBuffer<uint,AddedNodeInfo>(__INNOVATION_HISTORY_BUFFER_SIZE);
 
         /// <summary>Random number generator associated with this factory.</summary>
         protected readonly IRandomSource _rng = RandomFactory.Create();
@@ -483,9 +484,9 @@ namespace SharpNeat.Genome.Neat
         /// identical neuron has been added to a genome elsewhere in the population. This allows re-use
         /// of the same innovation ID for like neurons.
         /// </summary>
-        public KeyedCircularBuffer<uint,AddedNeuronGeneStruct> AddedNeuronBuffer
+        public KeyedCircularBuffer<uint,AddedNodeInfo> AddedNodeBuffer
         {
-            get { return _addedNeuronBuffer; }
+            get { return _addedNodeBuffer; }
         }
 
         /// <summary>

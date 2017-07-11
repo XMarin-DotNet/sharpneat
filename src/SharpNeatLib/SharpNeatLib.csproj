@@ -120,8 +120,9 @@
     <Compile Include="Genome\HyperNeat\CppnNeuronGene.cs" />
     <None Include="Genome\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Genome\HyperNeat\CppnGenomeFactory.cs" />
-    <Compile Include="Genome\Neat\MetaNeatGenome.cs" />
     <Compile Include="Genome\Neat\NeatGenomeXmlIO-placeholder.cs" />
+    <Compile Include="Neat\AddedModeInfo.cs" />
+    <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
     <Compile Include="Network\ActivationFunctions\ArcSinH.cs" />
     <Compile Include="Network\ActivationFunctions\TanH.cs" />
     <Compile Include="Network\ActivationFunctions\MaxMinusOne.cs" />
@@ -159,7 +160,6 @@
     <Compile Include="Genome\Neat\NeatGenomeParameters.cs" />
     <Compile Include="Genome\Neat\NeuronGene.cs" />
     <Compile Include="Genome\Neat\NeuronGeneList.cs" />
-    <Compile Include="Genome\Neat\AddedNeuronGeneStruct.cs" />
     <Compile Include="Network\IConnectionList.cs" />
     <Compile Include="Network\INetworkConnection.cs" />
     <Compile Include="Network\INetworkDefinition.cs" />

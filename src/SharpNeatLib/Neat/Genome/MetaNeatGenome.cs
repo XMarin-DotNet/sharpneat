@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpNeat.Genome.Neat
+namespace SharpNeat.Neat.Genome
 {
     /// <summary>
     /// NeatGenome metadata, i.e. genome data that is invariant across all genomes in a population for the lifetime
