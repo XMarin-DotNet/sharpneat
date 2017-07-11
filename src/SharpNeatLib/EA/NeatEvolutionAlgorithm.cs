@@ -18,6 +18,7 @@ using Redzen.Sorting;
 using SharpNeat.Core;
 using SharpNeat.DistanceMetrics;
 using SharpNeat.EA.ComplexityRegulation;
+using SharpNeat.Genome.Neat;
 using SharpNeat.SpeciationStrategies;
 using SharpNeat.Utils;
 
@@ -30,15 +31,14 @@ namespace SharpNeat.EA
     ///     - Creating offspring via both sexual and asexual reproduction.
     /// </summary>
     /// <typeparam name="TGenome">The genome type that the algorithm will operate on.</typeparam>
-    public class NeatEvolutionAlgorithm<TGenome> : AbstractGenerationalAlgorithm<TGenome>
-        where TGenome : class, IGenome<TGenome>
+    public class NeatEvolutionAlgorithm : AbstractGenerationalAlgorithm<NeatGenome>
     {
         NeatEvolutionAlgorithmParameters _eaParams;
         readonly NeatEvolutionAlgorithmParameters _eaParamsComplexifying;
         readonly NeatEvolutionAlgorithmParameters _eaParamsSimplifying;
 
-        readonly ISpeciationStrategy<TGenome> _speciationStrategy;
-        IList<Specie<TGenome>> _specieList;
+        readonly ISpeciationStrategy<NeatGenome> _speciationStrategy;
+        IList<Specie<NeatGenome>> _specieList;
         /// <summary>Index of the specie that contains _currentBestGenome.</summary>
         int _bestSpecieIdx;
         readonly IRandomSource _rng = RandomFactory.Create();
@@ -59,7 +59,7 @@ namespace SharpNeat.EA
             _eaParamsComplexifying = _eaParams;
             _eaParamsSimplifying = _eaParams.CreateSimplifyingParameters();
             _stats = new NeatAlgorithmStats(_eaParams);
-            _speciationStrategy = new KMeansClusteringStrategy<TGenome>(new ManhattanDistanceMetric());
+            _speciationStrategy = new KMeansClusteringStrategy<NeatGenome>(new ManhattanDistanceMetric());
 
             _complexityRegulationMode = ComplexityRegulationMode.Complexifying;
             _complexityRegulationStrategy = new NullComplexityRegulationStrategy();
@@ -69,7 +69,7 @@ namespace SharpNeat.EA
         /// Constructs with the provided NeatEvolutionAlgorithmParameters and ISpeciationStrategy.
         /// </summary>
         public NeatEvolutionAlgorithm(NeatEvolutionAlgorithmParameters eaParams,
-                                      ISpeciationStrategy<TGenome> speciationStrategy,
+                                      ISpeciationStrategy<NeatGenome> speciationStrategy,
                                       IComplexityRegulationStrategy complexityRegulationStrategy)
         {
             _eaParams = eaParams;
@@ -90,7 +90,7 @@ namespace SharpNeat.EA
         /// Gets a list of all current genomes. The current population of genomes. These genomes
         /// are also divided into the species available through the SpeciesList property.
         /// </summary>
-        public IList<TGenome> GenomeList
+        public IList<NeatGenome> GenomeList
         {
             get { return _genomeList; }
         }
@@ -99,7 +99,7 @@ namespace SharpNeat.EA
         /// Gets a list of all current species. The genomes contained within the species are the same genomes
         /// available through the GenomeList property.
         /// </summary>
-        public IList<Specie<TGenome>> SpecieList
+        public IList<Specie<NeatGenome>> SpecieList
         {
             get { return _specieList; }
         }
@@ -131,9 +131,9 @@ namespace SharpNeat.EA
         /// <param name="genomeListEvaluator">The genome evaluation scheme for the evolution algorithm.</param>
         /// <param name="genomeFactory">The factory that was used to create the genomeList and which is therefore referenced by the genomes.</param>
         /// <param name="genomeList">An initial genome population.</param>
-        public override void Initialize(IGenomeListEvaluator<TGenome> genomeListEvaluator,
-                                        IGenomeFactory<TGenome> genomeFactory,
-                                        List<TGenome> genomeList)
+        public override void Initialize(IGenomeListEvaluator<NeatGenome> genomeListEvaluator,
+                                        IGenomeFactory<NeatGenome> genomeFactory,
+                                        List<NeatGenome> genomeList)
         {
             base.Initialize(genomeListEvaluator, genomeFactory, genomeList);
             Initialize();
@@ -146,8 +146,8 @@ namespace SharpNeat.EA
         /// <param name="genomeListEvaluator">The genome evaluation scheme for the evolution algorithm.</param>
         /// <param name="genomeFactory">The factory that was used to create the genomeList and which is therefore referenced by the genomes.</param>
         /// <param name="populationSize">The number of genomes to create for the initial population.</param>
-        public override void Initialize(IGenomeListEvaluator<TGenome> genomeListEvaluator,
-                                        IGenomeFactory<TGenome> genomeFactory,
+        public override void Initialize(IGenomeListEvaluator<NeatGenome> genomeListEvaluator,
+                                        IGenomeFactory<NeatGenome> genomeFactory,
                                         int populationSize)
         {
             base.Initialize(genomeListEvaluator, genomeFactory, populationSize);
@@ -187,7 +187,7 @@ namespace SharpNeat.EA
             SpecieStats[] specieStatsArr = CalcSpecieStats(out offspringCount);
 
             // Create offspring.
-            List<TGenome> offspringList = CreateOffspring(specieStatsArr, offspringCount);
+            List<NeatGenome> offspringList = CreateOffspring(specieStatsArr, offspringCount);
 
             // Trim species back to their elite genomes.
             bool emptySpeciesFlag = TrimSpeciesBackToElite(specieStatsArr);
@@ -499,7 +499,7 @@ namespace SharpNeat.EA
         /// Create the required number of offspring genomes, using specieStatsArr as the basis for selecting how
         /// many offspring are produced from each species.
         /// </summary>
-        private List<TGenome> CreateOffspring(SpecieStats[] specieStatsArr, int offspringCount)
+        private List<NeatGenome> CreateOffspring(SpecieStats[] specieStatsArr, int offspringCount)
         {
             // Build a DiscreteDistribution for selecting species for cross-species reproduction.
             // While we're in the loop we also pre-build a DiscreteDistribution for each specie;
@@ -524,7 +524,7 @@ namespace SharpNeat.EA
 
                 // For each specie we build a DiscreteDistribution for genome selection within 
                 // that specie. Fitter genomes have higher probability of selection.
-                List<TGenome> genomeList = _specieList[i].GenomeList;
+                List<NeatGenome> genomeList = _specieList[i].GenomeList;
                 double[] probabilities = new double[inst._selectionSizeInt];
                 for(int j=0; j<inst._selectionSizeInt; j++) {
                     probabilities[j] = genomeList[j].EvaluationInfo.Fitness;
@@ -536,11 +536,11 @@ namespace SharpNeat.EA
             DiscreteDistribution rwlSpecies = new DiscreteDistribution(specieFitnessArr);
 
             // Produce offspring from each specie in turn and store them in offspringList.
-            List<TGenome> offspringList = new List<TGenome>(offspringCount);
+            List<NeatGenome> offspringList = new List<NeatGenome>(offspringCount);
             for(int specieIdx=0; specieIdx<specieCount; specieIdx++)
             {
                 SpecieStats inst = specieStatsArr[specieIdx];
-                List<TGenome> genomeList = _specieList[specieIdx].GenomeList;
+                List<NeatGenome> genomeList = _specieList[specieIdx].GenomeList;
 
                 // Get DiscreteDistribution for genome selection.
                 DiscreteDistribution dist = distArr[specieIdx];
@@ -549,7 +549,7 @@ namespace SharpNeat.EA
                 for(int i=0; i<inst._offspringAsexualCount; i++)
                 {
                     int genomeIdx = dist.Sample(_rng);
-                    TGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
+                    NeatGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
                     offspringList.Add(offspring);
                 }
                 _stats._asexualOffspringCount += (ulong)inst._offspringAsexualCount;
@@ -568,7 +568,7 @@ namespace SharpNeat.EA
                 int matingsCount = 0;
                 for(; matingsCount<crossSpecieMatings; matingsCount++)
                 {
-                    TGenome offspring = CreateOffspring_CrossSpecieMating(dist, distArr, rwlSpecies, specieIdx, genomeList);
+                    NeatGenome offspring = CreateOffspring_CrossSpecieMating(dist, distArr, rwlSpecies, specieIdx, genomeList);
                     offspringList.Add(offspring);
                 }
 
@@ -580,7 +580,7 @@ namespace SharpNeat.EA
                     for(; matingsCount<inst._offspringSexualCount; matingsCount++)
                     {
                         int genomeIdx = dist.Sample(_rng);
-                        TGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
+                        NeatGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
                         offspringList.Add(offspring);
                     }
                 }
@@ -591,7 +591,7 @@ namespace SharpNeat.EA
                     {
                         // Select parent 1.
                         int parent1Idx = dist.Sample(_rng);
-                        TGenome parent1 = genomeList[parent1Idx];
+                        NeatGenome parent1 = genomeList[parent1Idx];
 
                         // Remove selected parent from set of possible outcomes.
                         DiscreteDistribution distTmp = dist.RemoveOutcome(parent1Idx);
@@ -600,14 +600,14 @@ namespace SharpNeat.EA
                         if(0 != distTmp.Probabilities.Length)
                         {   // Get the two parents to mate.
                             int parent2Idx = distTmp.Sample(_rng);
-                            TGenome parent2 = genomeList[parent2Idx];
-                            TGenome offspring = parent1.CreateOffspring(parent2, _currentGeneration);
+                            NeatGenome parent2 = genomeList[parent2Idx];
+                            NeatGenome offspring = parent1.CreateOffspring(parent2, _currentGeneration);
                             offspringList.Add(offspring);
                         }
                         else
                         {   // No other parent has a non-zero selection probability (they all have zero fitness).
                             // Fall back to asexual reproduction of the single genome with a non-zero fitness.
-                            TGenome offspring = parent1.CreateOffspring(_currentGeneration);
+                            NeatGenome offspring = parent1.CreateOffspring(_currentGeneration);
                             offspringList.Add(offspring);
                         }
                     }
@@ -626,11 +626,11 @@ namespace SharpNeat.EA
         /// <param name="rwlSpecies">DiscreteDistribution for selecting species. Based on relative fitness of species.</param>
         /// <param name="currentSpecieIdx">Current specie's index in _specieList</param>
         /// <param name="genomeList">Current specie's genome list.</param>
-        private TGenome CreateOffspring_CrossSpecieMating(DiscreteDistribution dist,
+        private NeatGenome CreateOffspring_CrossSpecieMating(DiscreteDistribution dist,
                                                           DiscreteDistribution[] distArr,
                                                           DiscreteDistribution rwlSpecies,
                                                           int currentSpecieIdx,
-                                                          IList<TGenome> genomeList)
+                                                          IList<NeatGenome> genomeList)
         {
             // Select parent from current specie.
             int parent1Idx = dist.Sample(_rng);
@@ -643,8 +643,8 @@ namespace SharpNeat.EA
             int parent2Idx = distArr[specie2Idx].Sample(_rng);
 
             // Get the two parents to mate.
-            TGenome parent1 = genomeList[parent1Idx];
-            TGenome parent2 = _specieList[specie2Idx].GenomeList[parent2Idx];
+            NeatGenome parent1 = genomeList[parent1Idx];
+            NeatGenome parent2 = _specieList[specie2Idx].GenomeList[parent2Idx];
             return parent1.CreateOffspring(parent2, _currentGeneration);
         }
 
@@ -663,7 +663,7 @@ namespace SharpNeat.EA
         protected void UpdateBestGenome()
         {
             // If all genomes have the same fitness (including zero) then we simply return the first genome.
-            TGenome bestGenome = null;
+            NeatGenome bestGenome = null;
             double bestFitness = -1.0;
             int bestSpecieIdx = -1;
 
@@ -672,7 +672,7 @@ namespace SharpNeat.EA
             {
                 // Get the specie's first genome. Genomes are sorted, therefore this is also the fittest 
                 // genome in the specie.
-                TGenome genome = _specieList[i].GenomeList[0];
+                NeatGenome genome = _specieList[i].GenomeList[0];
                 if(genome.EvaluationInfo.Fitness > bestFitness)
                 {
                     bestGenome = genome;
@@ -760,7 +760,7 @@ namespace SharpNeat.EA
 
             for(int i=0; i<specieCount; i++)
             {
-                SortUtils.SortUnstable(_specieList[i].GenomeList, GenomeFitnessComparer<TGenome>.Singleton, _rng);
+                SortUtils.SortUnstable(_specieList[i].GenomeList, GenomeFitnessComparer<NeatGenome>.Singleton, _rng);
                 minSize = Math.Min(minSize, _specieList[i].GenomeList.Count);
                 maxSize = Math.Max(maxSize, _specieList[i].GenomeList.Count);
             }
@@ -775,7 +775,7 @@ namespace SharpNeat.EA
         /// </summary>
         private void ClearAllSpecies()
         {
-            foreach(Specie<TGenome> specie in _specieList) {
+            foreach(Specie<NeatGenome> specie in _specieList) {
                 specie.GenomeList.Clear();
             }
         }
@@ -786,7 +786,7 @@ namespace SharpNeat.EA
         private void RebuildGenomeList()
         {
             _genomeList.Clear();
-            foreach(Specie<TGenome> specie in _specieList) {
+            foreach(Specie<NeatGenome> specie in _specieList) {
                 _genomeList.AddRange(specie.GenomeList);
             }
         }
@@ -801,7 +801,7 @@ namespace SharpNeat.EA
             int count = _specieList.Count;
             for(int i=0; i<count; i++)
             {
-                Specie<TGenome> specie = _specieList[i];
+                Specie<NeatGenome> specie = _specieList[i];
                 SpecieStats stats = specieStatsArr[i];
 
                 int removeCount = specie.GenomeList.Count - stats._eliteSizeInt;
@@ -821,9 +821,9 @@ namespace SharpNeat.EA
         /// <summary>
         /// Returns true if there is one or more empty species.
         /// </summary>
-        private bool TestForEmptySpecies(IList<Specie<TGenome>> specieList)
+        private bool TestForEmptySpecies(IList<Specie<NeatGenome>> specieList)
         {
-            foreach(Specie<TGenome> specie in specieList) {
+            foreach(Specie<NeatGenome> specie in specieList) {
                 if(specie.GenomeList.Count == 0) {
                     return true;
                 }

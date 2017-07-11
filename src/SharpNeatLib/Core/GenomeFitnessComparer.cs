@@ -18,7 +18,7 @@ namespace SharpNeat.Core
     /// (youngest first). Used by the selection routines to select the fittest and youngest genomes.
     /// </summary>
     public class GenomeFitnessComparer<TGenome> : IComparer<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         /// <summary>
         /// Pre-built comparer.

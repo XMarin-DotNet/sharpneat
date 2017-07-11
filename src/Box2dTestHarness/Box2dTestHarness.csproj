@@ -97,12 +97,6 @@
     <Content Include="Readme.txt" />
     <Content Include="Resources\sharpneat.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharpNeatDomainsExtra\SharpNeatDomainsExtra.csproj">
-      <Project>{3A1B9DEC-AECE-42F3-BAD9-9172482C43AB}</Project>
-      <Name>SharpNeatDomainsExtra</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

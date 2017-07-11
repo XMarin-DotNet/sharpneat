@@ -34,7 +34,7 @@ namespace SharpNeat.Genome.Neat
     /// are only stored in the same list as hidden nodes as an efficiency measure when producing offspring 
     /// and decoding genomes, otherwise it would probably make sense to store them in read-only lists.
     /// </summary>
-    public class NeatGenome : IGenome<NeatGenome>, INetworkDefinition
+    public class NeatGenome : IGenome, INetworkDefinition
     {
         #region Instance Fields
 

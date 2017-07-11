@@ -2,11 +2,11 @@
 using System.Windows.Forms;
 using Box2DX.Common;
 using Box2DX.Dynamics;
-using SharpNeat.DomainsExtra.Box2D;
 using Tao.OpenGl;
-using SharpNeat.DomainsExtra.SinglePoleBalancingBox2d;
-using SharpNeat.DomainsExtra.InvertedDoublePendulum;
-using SharpNeat.DomainsExtra.WalkerBox2d;
+//using SharpNeat.DomainsExtra.Box2D;
+//using SharpNeat.DomainsExtra.SinglePoleBalancingBox2d;
+//using SharpNeat.DomainsExtra.InvertedDoublePendulum;
+//using SharpNeat.DomainsExtra.WalkerBox2d;
 
 namespace SharpNeat.Box2dTestHarness
 {

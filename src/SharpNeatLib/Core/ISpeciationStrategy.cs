@@ -26,7 +26,7 @@ namespace SharpNeat.Core
     /// instance of the Specie class contains a list of all genomes within that specie.
     /// </summary>
     public interface ISpeciationStrategy<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         /// <summary>
         /// Speciates the genomes in genomeList into the number of species specified by specieCount

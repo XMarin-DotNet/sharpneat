@@ -43,7 +43,7 @@ namespace SharpNeatGUI
         IGuiNeatExperiment _selectedExperiment;
         IGenomeFactory<NeatGenome> _genomeFactory;
         List<NeatGenome> _genomeList;
-        NeatEvolutionAlgorithm<NeatGenome> _ea;
+        NeatEvolutionAlgorithm _ea;
         StreamWriter _logFileWriter = null;
         /// <summary>Number format for building filename when saving champ genomes.</summary>
         NumberFormatInfo _filenameNumberFormatter;

@@ -20,7 +20,7 @@ namespace SharpNeat.Core
     /// life/world scenario.
     /// </summary>
     public interface IGenomeListEvaluator<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         /// <summary>
         /// Gets the total number of individual genome evaluations that have been performed by this evaluator.

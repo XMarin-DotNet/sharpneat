@@ -27,7 +27,7 @@ namespace SharpNeat.SpeciationStrategies
     /// </summary>
     /// <typeparam name="TGenome">The genome type to apply clustering to.</typeparam>
     public class RandomClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         readonly IRandomSource _rng = RandomFactory.Create();
        

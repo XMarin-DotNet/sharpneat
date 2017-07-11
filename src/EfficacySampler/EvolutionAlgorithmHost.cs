@@ -14,7 +14,7 @@ namespace EfficacySampler
     {
         IGuiNeatExperiment _experiment;
         StopCondition _stopCond;
-        NeatEvolutionAlgorithm<NeatGenome> _ea;
+        NeatEvolutionAlgorithm _ea;
         Stopwatch _stopwatch;
 
         #region Constructor
@@ -81,12 +81,12 @@ namespace EfficacySampler
 
         #region Private Methods
 
-        private NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm()
+        private NeatEvolutionAlgorithm CreateEvolutionAlgorithm()
         {
             int popSize = _experiment.DefaultPopulationSize;
             IGenomeFactory<NeatGenome> genomeFactory = _experiment.CreateGenomeFactory();
             List<NeatGenome> genomeList = genomeFactory.CreateGenomeList(popSize, 0);
-            NeatEvolutionAlgorithm<NeatGenome> ea = _experiment.CreateEvolutionAlgorithm(genomeFactory, genomeList);
+            NeatEvolutionAlgorithm ea = _experiment.CreateEvolutionAlgorithm(genomeFactory, genomeList);
             return ea;
         }
 

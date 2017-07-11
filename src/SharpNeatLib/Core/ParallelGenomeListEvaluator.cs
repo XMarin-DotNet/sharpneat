@@ -22,7 +22,7 @@ namespace SharpNeat.Core
     /// Phenome evaluation is performed by a provided IPhenomeEvaluator.
     /// </summary>
     public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
         where TPhenome : class
     {
         readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;

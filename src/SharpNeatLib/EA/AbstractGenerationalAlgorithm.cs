@@ -26,7 +26,7 @@ namespace SharpNeat.EA
     /// </summary>
     /// <typeparam name="TGenome">The genome type that the algorithm will operate on.</typeparam>
     public abstract class AbstractGenerationalAlgorithm<TGenome> : IEvolutionAlgorithm<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         private static readonly ILog __log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

@@ -31,7 +31,7 @@ namespace SharpNeat.SpeciationStrategies
     /// </summary>
     /// <typeparam name="TGenome">The genome type to apply clustering to.</typeparam>
     public class ParallelKMeansClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         const int __MAX_KMEANS_LOOPS = 5;
         readonly IDistanceMetric _distanceMetric;

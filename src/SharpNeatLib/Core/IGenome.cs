@@ -18,7 +18,7 @@ namespace SharpNeat.Core
     /// if they are spawned from another IGenome. This allows all genomes to use the same set of parameters
     /// for spawning - which may change during evolution, e.g. in the case of phased searching in NEAT.
     /// </summary>
-    public interface IGenome<TGenome>
+    public interface IGenome
     {
         /// <summary>
         /// Gets the genome's unique ID. IDs are unique across all genomes created from a single 
@@ -61,20 +61,5 @@ namespace SharpNeat.Core
         /// The phenome in un-typed to prevent the class framework from becoming overly complex.
         /// </summary>
         object CachedPhenome { get; set; }
-
-        /// <summary>
-        /// Asexual reproduction.
-        /// </summary>
-        /// <param name="birthGeneration">The current evolution algorithm generation. 
-        /// Assigned to the new genome at its birth generation.</param>
-        TGenome CreateOffspring(uint birthGeneration);
-
-        /// <summary>
-        /// Sexual reproduction.
-        /// </summary>
-        /// <param name="parent">The other parent genome.</param>
-        /// <param name="birthGeneration">The current evolution algorithm generation. 
-        /// Assigned to the new genome at its birth generation.</param>
-        TGenome CreateOffspring(TGenome parent, uint birthGeneration);
     }
 }

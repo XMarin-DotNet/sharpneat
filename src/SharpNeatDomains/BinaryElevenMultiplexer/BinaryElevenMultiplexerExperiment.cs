@@ -176,7 +176,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
         /// of the algorithm are also constructed and connected up.
         /// Uses the experiments default population size defined in the experiment's config XML.
         /// </summary>
-        public NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm()
+        public NeatEvolutionAlgorithm CreateEvolutionAlgorithm()
         {
             return CreateEvolutionAlgorithm(_populationSize);
         }
@@ -187,7 +187,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
         /// This overload accepts a population size parameter that specifies how many genomes to create in an initial randomly
         /// generated population.
         /// </summary>
-        public NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm(int populationSize)
+        public NeatEvolutionAlgorithm CreateEvolutionAlgorithm(int populationSize)
         {
             // Create a genome factory with our neat genome parameters object and the appropriate number of input and output neuron genes.
             IGenomeFactory<NeatGenome> genomeFactory = CreateGenomeFactory();
@@ -204,7 +204,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
         /// of the algorithm are also constructed and connected up.
         /// This overload accepts a pre-built genome population and their associated/parent genome factory.
         /// </summary>
-        public NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm(IGenomeFactory<NeatGenome> genomeFactory, List<NeatGenome> genomeList)
+        public NeatEvolutionAlgorithm CreateEvolutionAlgorithm(IGenomeFactory<NeatGenome> genomeFactory, List<NeatGenome> genomeList)
         {
             // Create distance metric. Mismatched genes have a fixed distance of 10; for matched genes the distance is their weight difference.
             IDistanceMetric distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
@@ -214,7 +214,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
             IComplexityRegulationStrategy complexityRegulationStrategy = ExperimentUtils.CreateComplexityRegulationStrategy(_complexityRegulationStr, _complexityThreshold);
 
             // Create the evolution algorithm.
-            NeatEvolutionAlgorithm<NeatGenome> ea = new NeatEvolutionAlgorithm<NeatGenome>(_eaParams, speciationStrategy, complexityRegulationStrategy);
+            NeatEvolutionAlgorithm ea = new NeatEvolutionAlgorithm(_eaParams, speciationStrategy, complexityRegulationStrategy);
 
             // Create IBlackBox evaluator.
             BinaryElevenMultiplexerEvaluator evaluator = new BinaryElevenMultiplexerEvaluator();

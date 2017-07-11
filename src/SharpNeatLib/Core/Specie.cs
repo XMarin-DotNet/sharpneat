@@ -17,7 +17,7 @@ namespace SharpNeat.Core
     /// Represents a single specie within a speciated population.
     /// </summary>
     public class Specie<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         readonly uint _id;
         int _idx;

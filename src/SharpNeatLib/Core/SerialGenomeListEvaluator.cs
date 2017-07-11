@@ -25,7 +25,7 @@ namespace SharpNeat.Core
     /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
     /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
     public class SerialGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
         where TPhenome: class
     {
         readonly EvaluationMethod _evaluationMethod;

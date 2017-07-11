@@ -28,7 +28,7 @@ namespace SharpNeat.Core
     /// incremented.
     /// </summary>
     public class SelectiveGenomeListEvaluator<TGenome> : IGenomeListEvaluator<TGenome>
-        where TGenome : class, IGenome<TGenome>
+        where TGenome : class, IGenome
     {
         readonly IGenomeListEvaluator<TGenome> _innerEvaluator;
         readonly Predicate<TGenome> _selectionPredicate;
