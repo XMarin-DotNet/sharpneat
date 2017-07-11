@@ -125,7 +125,6 @@
     <Compile Include="Neat\AddedModeInfo.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
-    <Compile Include="Neat\NeatPopulationFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ArcSinH.cs" />
     <Compile Include="Network\ActivationFunctions\TanH.cs" />
     <Compile Include="Network\ActivationFunctions\MaxMinusOne.cs" />
