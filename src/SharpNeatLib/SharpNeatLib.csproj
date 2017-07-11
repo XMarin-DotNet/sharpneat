@@ -112,7 +112,10 @@
     <Compile Include="EA\ComplexityRegulation\DefaultComplexityRegulationStrategy.cs" />
     <Compile Include="EA\ComplexityRegulation\IComplexityRegulationStrategy.cs" />
     <Compile Include="EA\ComplexityRegulation\NullComplexityRegulationStrategy.cs" />
+    <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
+    <Compile Include="EA\EAParameters.cs" />
     <Compile Include="EA\EAStatistics.cs" />
+    <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
     <Compile Include="EA\IEvolutionAlgorithm.cs" />
     <Compile Include="EA\NeatAlgorithmStats.cs" />
     <Compile Include="EA\NeatEvolutionAlgorithm.cs" />
