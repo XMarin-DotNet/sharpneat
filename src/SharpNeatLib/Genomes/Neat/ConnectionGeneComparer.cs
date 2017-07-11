@@ -26,10 +26,10 @@ namespace SharpNeat.Genomes.Neat
         public int Compare(ConnectionGene x, ConnectionGene y)
         {
             // Test the most likely cases first.
-            if (x.InnovationId < y.InnovationId) {
+            if (x.Id < y.Id) {
                 return -1;
             } 
-            if (x.InnovationId > y.InnovationId) {
+            if (x.Id > y.Id) {
                 return 1;
             } 
             return 0;

@@ -24,7 +24,7 @@ namespace SharpNeat.Genomes.Neat
     public class ConnectionGeneListBuilder
     {
         readonly ConnectionGeneList _connectionGeneList;
-        readonly Dictionary<ConnectionEndpointsStruct,ConnectionGene> _connectionGeneDictionary;
+        readonly Dictionary<ConnectionEndpoints,ConnectionGene> _connectionGeneDictionary;
         readonly SortedDictionary<uint,NeuronGene> _neuronDictionary;
         // Note. connection gene innovation IDs always start above zero as they share the ID space with neurons, 
         // which always come first.
@@ -40,7 +40,7 @@ namespace SharpNeat.Genomes.Neat
         public ConnectionGeneListBuilder(int connectionCapacity)
         {
             _connectionGeneList = new ConnectionGeneList(connectionCapacity);
-            _connectionGeneDictionary = new Dictionary<ConnectionEndpointsStruct,ConnectionGene>(connectionCapacity);
+            _connectionGeneDictionary = new Dictionary<ConnectionEndpoints,ConnectionGene>(connectionCapacity);
             // TODO: Determine better initial capacity.
             _neuronDictionary = new SortedDictionary<uint,NeuronGene>();
         }
@@ -60,7 +60,7 @@ namespace SharpNeat.Genomes.Neat
         /// <summary>
         /// Gets the builder's dictionary of connection genes keyed on ConnectionEndpointsStruct.
         /// </summary>
-        public Dictionary<ConnectionEndpointsStruct,ConnectionGene> ConnectionGeneDictionary
+        public Dictionary<ConnectionEndpoints,ConnectionGene> ConnectionGeneDictionary
         {
             get { return _connectionGeneDictionary; }
         }
@@ -87,7 +87,7 @@ namespace SharpNeat.Genomes.Neat
         public void TryAddGene(ConnectionGene connectionGene, NeatGenome parentGenome, bool overwriteExisting)
         {
             // Check if a matching gene has already been added.
-            ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(connectionGene.SourceNodeId, connectionGene.TargetNodeId);
+            ConnectionEndpoints connectionKey = new ConnectionEndpoints(connectionGene.SourceNodeId, connectionGene.TargetNodeId);
             
             ConnectionGene existingConnectionGene;
             if(!_connectionGeneDictionary.TryGetValue(connectionKey, out existingConnectionGene))
@@ -96,9 +96,9 @@ namespace SharpNeat.Genomes.Neat
                 _connectionGeneDictionary.Add(connectionKey, connectionGeneCopy);
 
                 // Insert connection gene into a list. Use more efficient approach (append to end) if we know the gene belongs at the end.
-                if(connectionGeneCopy.InnovationId > _highestConnectionGeneId) {
+                if(connectionGeneCopy.Id > _highestConnectionGeneId) {
                     _connectionGeneList.Add(connectionGeneCopy);
-                    _highestConnectionGeneId = connectionGeneCopy.InnovationId;
+                    _highestConnectionGeneId = connectionGeneCopy.Id;
                 } else {
                     _connectionGeneList.InsertIntoPosition(connectionGeneCopy);
                 }

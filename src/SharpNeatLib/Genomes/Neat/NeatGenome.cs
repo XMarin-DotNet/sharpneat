@@ -198,7 +198,7 @@ namespace SharpNeat.Genomes.Neat
                     KeyValuePair<ulong,double>[] coordElemArray = new KeyValuePair<ulong,double>[count];
 
                     for(int i=0; i<count; i++) {
-                        coordElemArray[i] = new KeyValuePair<ulong,double>(list[i].InnovationId, list[i].Weight);
+                        coordElemArray[i] = new KeyValuePair<ulong,double>(list[i].Id, list[i].Weight);
                     }
                     _position = new CoordinateVector(coordElemArray);
                 }
@@ -535,7 +535,7 @@ namespace SharpNeat.Genomes.Neat
             // buffer (AddedNeuronBuffer) for matching structures from previously added neurons (for the search as
             // a whole, not just on this genome).
             AddedNeuronGeneStruct idStruct;
-            bool reusedIds = Mutate_AddNode_GetIDs(connectionToReplace.InnovationId, out idStruct);
+            bool reusedIds = Mutate_AddNode_GetIDs(connectionToReplace.Id, out idStruct);
 
             // Replace connection with two new connections and a new neuron. The first connection uses the weight
             // from the replaced connection (so it's functionally the same connection, but the ID is new). Ideally
@@ -813,7 +813,7 @@ namespace SharpNeat.Genomes.Neat
 
             // Check if a matching mutation has already occurred on another genome. 
             // If so then re-use the connection ID.
-            ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(sourceId, targetId);
+            ConnectionEndpoints connectionKey = new ConnectionEndpoints(sourceId, targetId);
             uint? existingConnectionId;
             ConnectionGene newConnectionGene;
             if(_genomeFactory.AddedConnectionBuffer.TryGetValue(connectionKey, out existingConnectionId))
@@ -836,8 +836,8 @@ namespace SharpNeat.Genomes.Neat
                 _connectionGeneList.Add(newConnectionGene);
 
                 // Register the new connection with the added connection history buffer.
-                _genomeFactory.AddedConnectionBuffer.Enqueue(new ConnectionEndpointsStruct(sourceId, targetId), 
-                                                             newConnectionGene.InnovationId);
+                _genomeFactory.AddedConnectionBuffer.Enqueue(new ConnectionEndpoints(sourceId, targetId), 
+                                                             newConnectionGene.Id);
             }
 
             // Track connections associated with each neuron.
@@ -1078,7 +1078,7 @@ namespace SharpNeat.Genomes.Neat
             ConnectionGene connectionGene2 = list2[list2Idx];
             for(;;)
             {
-                if(connectionGene2.InnovationId < connectionGene1.InnovationId)
+                if(connectionGene2.Id < connectionGene1.Id)
                 {   
                     // connectionGene2 is disjoint.
                     correlationResults.CorrelationItemList.Add(new CorrelationItem(CorrelationItemType.Disjoint, null, connectionGene2));
@@ -1087,7 +1087,7 @@ namespace SharpNeat.Genomes.Neat
                     // Move to the next gene in list2.
                     list2Idx++;
                 }
-                else if(connectionGene1.InnovationId == connectionGene2.InnovationId)
+                else if(connectionGene1.Id == connectionGene2.Id)
                 {
                     correlationResults.CorrelationItemList.Add(new CorrelationItem(CorrelationItemType.Match, connectionGene1, connectionGene2));
                     correlationResults.CorrelationStatistics.ConnectionWeightDelta += Math.Abs(connectionGene1.Weight - connectionGene2.Weight);
@@ -1255,30 +1255,30 @@ namespace SharpNeat.Genomes.Neat
                 return false;
             }
 
-            Dictionary<ConnectionEndpointsStruct, object> endpointDict = new Dictionary<ConnectionEndpointsStruct,object>(count);
+            Dictionary<ConnectionEndpoints, object> endpointDict = new Dictionary<ConnectionEndpoints,object>(count);
             
             // Initialise with the first connection's details.
             ConnectionGene connectionGene = _connectionGeneList[0];
-            prevId = connectionGene.InnovationId;
-            endpointDict.Add(new ConnectionEndpointsStruct(connectionGene.SourceNodeId, connectionGene.TargetNodeId), null);
+            prevId = connectionGene.Id;
+            endpointDict.Add(new ConnectionEndpoints(connectionGene.SourceNodeId, connectionGene.TargetNodeId), null);
 
             // Loop over remaining connections.
             for(int i=1; i<count; i++)
             {
                 connectionGene = _connectionGeneList[i];
-                if(connectionGene.InnovationId <= prevId) {
+                if(connectionGene.Id <= prevId) {
                     Debug.WriteLine("Connection gene is out of order and/or a duplicate.");
                     return false;
                 }
 
-                ConnectionEndpointsStruct key = new ConnectionEndpointsStruct(connectionGene.SourceNodeId, connectionGene.TargetNodeId);
+                ConnectionEndpoints key = new ConnectionEndpoints(connectionGene.SourceNodeId, connectionGene.TargetNodeId);
                 if(endpointDict.ContainsKey(key)) {
                     Debug.WriteLine("Connection gene error. A connection between the specified endpoints already exists.");
                     return false;
                 }
 
                 endpointDict.Add(key, null);
-                prevId = connectionGene.InnovationId;
+                prevId = connectionGene.Id;
             }
 
             // Check each neuron gene's list of source and target neurons.

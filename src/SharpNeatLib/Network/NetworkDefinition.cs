@@ -253,10 +253,10 @@ namespace SharpNeat.Network
 
             // Check for multiple connections between nodes.
             // Build a dictionary of connection endpoints.
-            Dictionary<ConnectionEndpointsStruct, object> endpointDict = new Dictionary<ConnectionEndpointsStruct,object>(count);
+            Dictionary<ConnectionEndpoints, object> endpointDict = new Dictionary<ConnectionEndpoints,object>(count);
             foreach(NetworkConnection conn in _connectionList)
             {
-                ConnectionEndpointsStruct key = new ConnectionEndpointsStruct(conn.SourceNodeId, conn.TargetNodeId);
+                ConnectionEndpoints key = new ConnectionEndpoints(conn.SourceNodeId, conn.TargetNodeId);
                 if(endpointDict.ContainsKey(key))
                 {
                     Debug.WriteLine("Connection error. A connection between the specified endpoints already exists.");

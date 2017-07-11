@@ -139,7 +139,7 @@
     <Compile Include="Network\CyclicNetworkTest.cs" />
     <Compile Include="Network\DefaultActivationFunctionLibrary.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
-    <Compile Include="Network\ConnectionEndpointsStruct.cs" />
+    <Compile Include="Network\ConnectionEndpoints.cs" />
     <Compile Include="Genomes\Neat\ConnectionGene.cs" />
     <Compile Include="Genomes\Neat\ConnectionGeneListBuilder.cs" />
     <Compile Include="Genomes\Neat\ConnectionMutationInfo.cs" />

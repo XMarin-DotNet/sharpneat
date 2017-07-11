@@ -43,8 +43,8 @@ namespace SharpNeat.Genomes.Neat
         readonly Uint32Sequence _innovationIdGenerator;
         int _searchMode;
 
-        readonly KeyedCircularBuffer<ConnectionEndpointsStruct,uint?> _addedConnectionBuffer 
-                = new KeyedCircularBuffer<ConnectionEndpointsStruct,uint?>(__INNOVATION_HISTORY_BUFFER_SIZE);
+        readonly KeyedCircularBuffer<ConnectionEndpoints,uint?> _addedConnectionBuffer 
+                = new KeyedCircularBuffer<ConnectionEndpoints,uint?>(__INNOVATION_HISTORY_BUFFER_SIZE);
 
         readonly KeyedCircularBuffer<uint,AddedNeuronGeneStruct> _addedNeuronBuffer 
                 = new KeyedCircularBuffer<uint,AddedNeuronGeneStruct>(__INNOVATION_HISTORY_BUFFER_SIZE);
@@ -473,7 +473,7 @@ namespace SharpNeat.Genomes.Neat
         /// identical connection has been added to a genome elsewhere in the population. This allows re-use
         /// of the same innovation ID for like connections.
         /// </summary>
-        public KeyedCircularBuffer<ConnectionEndpointsStruct,uint?> AddedConnectionBuffer 
+        public KeyedCircularBuffer<ConnectionEndpoints,uint?> AddedConnectionBuffer 
         {
             get { return _addedConnectionBuffer; }
         }

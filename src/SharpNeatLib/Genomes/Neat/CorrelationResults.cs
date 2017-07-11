@@ -72,17 +72,17 @@ namespace SharpNeat.Genomes.Neat
                         return false;
                     }
 
-                    if((item.ConnectionGene1.InnovationId != item.ConnectionGene2.InnovationId)
+                    if((item.ConnectionGene1.Id != item.ConnectionGene2.Id)
                     || (item.ConnectionGene1.SourceNodeId != item.ConnectionGene2.SourceNodeId)
                     || (item.ConnectionGene1.TargetNodeId != item.ConnectionGene2.TargetNodeId)) {
                         return false;
                     }
 
                     // Innovation ID's should be in order and not duplicated.
-                    if(item.ConnectionGene1.InnovationId <= prevInnovationId) {
+                    if(item.ConnectionGene1.Id <= prevInnovationId) {
                         return false;
                     }
-                    prevInnovationId = item.ConnectionGene1.InnovationId;
+                    prevInnovationId = item.ConnectionGene1.Id;
                 }
                 else // Disjoint or excess gene.
                 {
@@ -93,17 +93,17 @@ namespace SharpNeat.Genomes.Neat
                     }
                     if(item.ConnectionGene1 != null)
                     {
-                        if(item.ConnectionGene1.InnovationId <= prevInnovationId) {
+                        if(item.ConnectionGene1.Id <= prevInnovationId) {
                             return false;
                         }
-                        prevInnovationId = item.ConnectionGene1.InnovationId;
+                        prevInnovationId = item.ConnectionGene1.Id;
                     }
                     else // ConnectionGene2 is present.
                     {
-                        if(item.ConnectionGene2.InnovationId <= prevInnovationId) {
+                        if(item.ConnectionGene2.Id <= prevInnovationId) {
                             return false;
                         }
-                        prevInnovationId = item.ConnectionGene2.InnovationId;
+                        prevInnovationId = item.ConnectionGene2.Id;
                     }
                 }
             }

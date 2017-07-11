@@ -18,10 +18,21 @@ namespace SharpNeat.Genomes.Neat
     /// </summary>
     public class ConnectionGene : INetworkConnection
     {
-        uint _innovationId;
-        uint _sourceNodeId;
-        uint _targetNodeId;
-        double _weight;
+        #region Auto Properties
+
+        public uint Id { get; }
+        public uint SourceNodeId { get; }
+        public uint TargetNodeId { get; }
+        public double Weight { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this gene has been mutated. This allows the mutation routine to avoid mutating
+        /// genes it has already operated on. These flags are reset for all Connection genes within a NeatGenome on exiting
+        /// the mutation routine.
+        /// </summary>
+        public bool IsMutated { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Used by the connection mutation routine to flag mutated connections so that they aren't
@@ -29,79 +40,39 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         bool _isMutated = false;
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Copy constructor.
         /// </summary>
         public ConnectionGene(ConnectionGene copyFrom)
         {
-            _innovationId = copyFrom._innovationId;
-            _sourceNodeId = copyFrom._sourceNodeId;
-            _targetNodeId = copyFrom._targetNodeId;
-            _weight = copyFrom._weight;
+            this.Id = copyFrom.Id;
+            this.SourceNodeId = copyFrom.SourceNodeId;
+            this.TargetNodeId = copyFrom.TargetNodeId;
+            this.Weight = copyFrom.Weight;
         }
 
         /// <summary>
         /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
         /// </summary>
-        public ConnectionGene(uint innovationId, uint sourceNodeId, uint targetNodeId, double weight)
+        public ConnectionGene(uint id, uint sourceNodeId, uint targetNodeId, double weight)
         {
-            _innovationId = innovationId;
-            _sourceNodeId = sourceNodeId;
-            _targetNodeId = targetNodeId;
-            _weight = weight;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the gene's innovation ID.
-        /// </summary>
-        public uint InnovationId
-        {
-            get { return _innovationId; }
-            set { _innovationId = value; }
+            this.Id = id;
+            this.SourceNodeId = sourceNodeId;
+            this.TargetNodeId = targetNodeId;
+            this.Weight = weight;
         }
 
         /// <summary>
-        /// Gets or sets the gene's source neuron/node ID.
+        /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
         /// </summary>
-        public uint SourceNodeId
+        public ConnectionGene(uint id, ConnectionEndpoints connection, double weight)
         {
-            get { return _sourceNodeId; }
-            set { _sourceNodeId = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the gene's target neuron/node ID.
-        /// </summary>
-        public uint TargetNodeId
-        {
-            get { return _targetNodeId; }
-            set { _targetNodeId = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the gene's connection weight.
-        /// </summary>
-        public double Weight
-        {
-            get { return _weight; }
-            set { _weight = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this gene has been mutated. This allows the mutation routine to avoid mutating
-        /// genes it has already operated on. These flags are reset for all Connection genes within a NeatGenome on exiting
-        /// the mutation routine.
-        /// </summary>
-        public bool IsMutated
-        {
-            get { return _isMutated; }
-            set { _isMutated = value; }
+            this.Id = id;
+            this.SourceNodeId = connection.SourceId;
+            this.TargetNodeId = connection.TargetId;
+            this.Weight = weight;
         }
 
         #endregion

@@ -85,7 +85,7 @@ namespace SharpNeat.Genomes.Neat
             int idx=Count-1;
             for(; idx > -1; idx--)
             {
-                if(this[idx].InnovationId < connectionGene.InnovationId)
+                if(this[idx].Id < connectionGene.Id)
                 {   // Insert idx found.
                     break;
                 }
@@ -129,9 +129,9 @@ namespace SharpNeat.Genomes.Neat
 
                 // Note. we don't calculate this[i].InnovationId-innovationId because we are dealing with uint.
                 // ENHANCEMENT: List<T>[i] invokes a bounds check on each call. Can we avoid this?
-                if(this[i].InnovationId < innovationId) {
+                if(this[i].Id < innovationId) {
                     lo = i + 1;
-                } else if(this[i].InnovationId > innovationId) {
+                } else if(this[i].Id > innovationId) {
                     hi = i - 1;
                 } else {
                     return i;
@@ -163,10 +163,10 @@ namespace SharpNeat.Genomes.Neat
                 return true;
             }
 
-            uint prev = this[0].InnovationId;
+            uint prev = this[0].Id;
             for(int i=1; i<count; i++)
             {
-                if(this[i].InnovationId <= prev) {
+                if(this[i].Id <= prev) {
                     return false;
                 }
             }

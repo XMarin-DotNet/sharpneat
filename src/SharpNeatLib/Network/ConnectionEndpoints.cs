@@ -19,50 +19,40 @@ namespace SharpNeat.Network
     /// Represents a connection between two nodes. Used primarily as a key into a
     /// Dictionary that uniquely identifies connections by their end points.
     /// </summary>
-    public struct ConnectionEndpointsStruct : IEquatable<ConnectionEndpointsStruct> 
+    public struct ConnectionEndpoints : IEquatable<ConnectionEndpoints> 
     {
-        readonly uint _srcNodeId;
-        readonly uint _tgtNodeId;
+        #region Auto Properties
+
+        /// <summary>
+        /// Gets the source node ID.
+        /// </summary>
+        public uint SourceId { get; }
+        /// <summary>
+        /// Gets the target node ID.
+        /// </summary>
+        public uint TargetId { get; }
+
+        #endregion
 
         #region Constructor
 
         /// <summary>
         /// Construct with the provided source and target node IDs.
         /// </summary>
-        public ConnectionEndpointsStruct(uint sourceNodeId, uint targetNodeId)
+        public ConnectionEndpoints(uint srcId, uint tgtId)
         {
-            _srcNodeId = sourceNodeId;
-            _tgtNodeId = targetNodeId;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the source node ID.
-        /// </summary>
-        public uint SourceNodeId
-        {
-            get { return _srcNodeId; }
-        }
-
-        /// <summary>
-        /// Gets the target node ID.
-        /// </summary>
-        public uint TargetNodeId
-        {
-            get { return _tgtNodeId; }
+            this.SourceId = srcId;
+            this.TargetId = tgtId;
         }
 
         #endregion
 
         #region IEquatable
 
-        public bool Equals(ConnectionEndpointsStruct other)
+        public bool Equals(ConnectionEndpoints other)
         {
-            return (this.SourceNodeId == other.SourceNodeId) 
-                && (this.TargetNodeId == other.TargetNodeId);
+            return (this.SourceId == other.SourceId) 
+                && (this.TargetId == other.TargetId);
         }
 
         #endregion
@@ -71,8 +61,8 @@ namespace SharpNeat.Network
 
         public override bool Equals(object obj)
         {
-            if(obj is ConnectionEndpointsStruct) {
-                return this.Equals((ConnectionEndpointsStruct)obj);
+            if(obj is ConnectionEndpoints) {
+                return this.Equals((ConnectionEndpoints)obj);
             }
             return false;
         }
@@ -83,8 +73,8 @@ namespace SharpNeat.Network
             unchecked
             {
                 int v = (int)2166136261;
-                v = (v * 16777619) ^ (int)SourceNodeId;
-                v = (v * 16777619) ^ (int)TargetNodeId;
+                v = (v * 16777619) ^ (int)SourceId;
+                v = (v * 16777619) ^ (int)TargetId;
                 return v;
             }
         }
