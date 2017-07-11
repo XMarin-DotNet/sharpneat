@@ -107,7 +107,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the level of indirection described by outputNodeIdxArr.
             if(boundedOutput) {
-                _outputSignalArrayWrapper = new OutputMappingSignalArray(_activationArr, outputNodeIdxArr);
+                _outputSignalArrayWrapper = new BoundedMappingSignalArray(_activationArr, outputNodeIdxArr);
             } else {
                 _outputSignalArrayWrapper = new MappingSignalArray(_activationArr, outputNodeIdxArr);
             }

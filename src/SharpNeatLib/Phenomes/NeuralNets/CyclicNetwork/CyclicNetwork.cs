@@ -87,7 +87,7 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // Note. Output neurons follow input neurons in the arrays.
             if(boundedOutput) {
-                _outputSignalArrayWrapper = new OutputSignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
+                _outputSignalArrayWrapper = new BoundedSignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
             } else {
                 _outputSignalArrayWrapper = new SignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
             }

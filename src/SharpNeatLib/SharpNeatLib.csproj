@@ -198,8 +198,8 @@
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\ConnectionInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\HeterogeneousCyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
-    <Compile Include="Phenomes\OutputMappingSignalArray.cs" />
-    <Compile Include="Phenomes\OutputSignalArray.cs" />
+    <Compile Include="Phenomes\BoundedMappingSignalArray.cs" />
+    <Compile Include="Phenomes\BoundedSignalArray.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Network\NodeType.cs" />
     <Compile Include="Network\IActivationFunction.cs" />
