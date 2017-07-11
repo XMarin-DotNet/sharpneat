@@ -117,12 +117,15 @@
     <Compile Include="EA\AbstractGenerationalAlgorithm.cs" />
     <Compile Include="EA\NeatEvolutionAlgorithmParameters.cs" />
     <Compile Include="EA\ComplexityRegulation\ComplexityRegulationMode.cs" />
+    <Compile Include="EA\Population.cs" />
     <Compile Include="Genome\HyperNeat\CppnNeuronGene.cs" />
     <None Include="Genome\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Genome\HyperNeat\CppnGenomeFactory.cs" />
     <Compile Include="Genome\Neat\NeatGenomeXmlIO-placeholder.cs" />
     <Compile Include="Neat\AddedModeInfo.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
+    <Compile Include="Neat\NeatPopulation.cs" />
+    <Compile Include="Neat\NeatPopulationFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ArcSinH.cs" />
     <Compile Include="Network\ActivationFunctions\TanH.cs" />
     <Compile Include="Network\ActivationFunctions\MaxMinusOne.cs" />
@@ -226,6 +229,7 @@
     <Compile Include="SpeciationStrategies\RandomClusteringStrategy.cs" />
     <Compile Include="SpeciationStrategies\SpeciationUtils.cs" />
     <Compile Include="Utils\RandomFactory.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Utils\XmlIoUtils.cs" />
     <Compile Include="SharpNeatException.cs" />
     <Compile Include="Utils\Point2DDouble.cs" />
