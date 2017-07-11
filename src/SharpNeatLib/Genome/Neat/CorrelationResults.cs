@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// The results from comparing two NEAT genomes and correlating their connection genes.

@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using SharpNeat.View.Graph;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Network;
 
 namespace SharpNeat.Domains

@@ -12,7 +12,7 @@
 using System;
 using System.Windows.Forms;
 using SharpNeat.EvolutionAlgorithms;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Utils;
 using ZedGraph;
 using System.Drawing;

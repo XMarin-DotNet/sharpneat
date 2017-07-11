@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     public static class NeatGenomeXmlIO
     {

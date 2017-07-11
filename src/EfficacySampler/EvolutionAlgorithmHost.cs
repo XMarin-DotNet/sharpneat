@@ -6,7 +6,7 @@ using System.Threading;
 using SharpNeat.Core;
 using SharpNeat.Domains;
 using SharpNeat.EvolutionAlgorithms;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 
 namespace EfficacySampler
 {

@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// A single comparison item resulting from the comparison of two genomes. If the CorrelationItemType

@@ -26,7 +26,7 @@ using SharpNeat.Core;
 using SharpNeat.Domains;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Utils;
 
 namespace SharpNeatGUI

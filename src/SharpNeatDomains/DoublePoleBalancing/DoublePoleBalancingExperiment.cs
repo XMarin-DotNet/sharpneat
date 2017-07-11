@@ -14,7 +14,7 @@ using System.Xml;
 using log4net;
 
 using SharpNeat.EvolutionAlgorithms;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.DistanceMetrics;
 using SharpNeat.Core;
 using SharpNeat.SpeciationStrategies;

@@ -16,7 +16,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using SharpNeat.Core;
 using SharpNeat.Domains.BoxesVisualDiscrimination;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Phenomes;
 
 namespace SharpNeat.Domains

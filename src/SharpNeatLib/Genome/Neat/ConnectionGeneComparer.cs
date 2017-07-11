@@ -11,7 +11,7 @@
  */
 using System.Collections.Generic;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// Compares the innovation ID of ConnectionGenes.

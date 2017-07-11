@@ -12,7 +12,7 @@
 
 using SharpNeat.Utils;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// Represents an added neuron. When a neuron is added to a neural network in NEAT an existing

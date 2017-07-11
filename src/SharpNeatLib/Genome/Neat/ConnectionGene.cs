@@ -11,7 +11,7 @@
  */
 using SharpNeat.Network;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// A gene that represents a single connection between neurons in NEAT.

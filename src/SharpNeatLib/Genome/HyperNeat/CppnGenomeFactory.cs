@@ -10,11 +10,11 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Network;
 using SharpNeat.Utils;
 
-namespace SharpNeat.Genomes.HyperNeat
+namespace SharpNeat.Genome.HyperNeat
 {
     /// <summary>
     /// A sub-class of NeatGenomeFactory for creating CPPN genomes.

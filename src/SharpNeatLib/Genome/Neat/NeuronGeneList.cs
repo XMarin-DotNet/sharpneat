@@ -15,7 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SharpNeat.Network;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     // ENHANCEMENT: Consider switching to a SortedList[K,V] - which guarantees item sort order at all times. 
 

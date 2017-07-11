@@ -12,7 +12,7 @@
 using System;
 using SharpNeat.Core;
 using SharpNeat.DomainsExtra.Box2D;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Phenomes;
 
 namespace SharpNeat.DomainsExtra.InvertedDoublePendulum

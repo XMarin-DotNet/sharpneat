@@ -1,7 +1,7 @@
-﻿using SharpNeat.Genomes.Neat;
+﻿using SharpNeat.Genome.Neat;
 using SharpNeat.Network;
 
-namespace SharpNeat.Genomes.HyperNeat
+namespace SharpNeat.Genome.HyperNeat
 {
     public class CppnNeuronGene : NeuronGene
     {

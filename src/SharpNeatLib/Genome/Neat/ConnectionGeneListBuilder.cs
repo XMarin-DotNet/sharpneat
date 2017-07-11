@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using SharpNeat.Network;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// Used for building a list of connection genes. 

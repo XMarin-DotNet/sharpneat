@@ -11,7 +11,7 @@
  */
 using System.Drawing;
 using SharpNeat.Core;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Phenomes;
 using ZedGraph;
 

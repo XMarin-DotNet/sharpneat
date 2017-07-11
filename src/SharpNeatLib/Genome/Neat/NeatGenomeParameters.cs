@@ -14,7 +14,7 @@ using System;
 using Redzen.Numerics;
 using SharpNeat.Network;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// Represents parameters specific to NEAT genomes. E.g. parameters that describe probabilities

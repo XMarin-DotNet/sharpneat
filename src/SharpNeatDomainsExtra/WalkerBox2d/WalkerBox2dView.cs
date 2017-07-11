@@ -12,7 +12,7 @@
 using Redzen.Numerics;
 using SharpNeat.Core;
 using SharpNeat.DomainsExtra.Box2D;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Phenomes;
 using SharpNeat.Utils;
 

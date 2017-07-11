@@ -20,7 +20,7 @@ using SharpNeat.Core;
 using SharpNeat.Network;
 using SharpNeat.Utils;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// An IGenomeFactory for NeatGenomes. We use the factory as a means of generating an initial population either

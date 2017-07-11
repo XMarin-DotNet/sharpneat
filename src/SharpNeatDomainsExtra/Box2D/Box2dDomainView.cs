@@ -18,7 +18,7 @@ using Box2DX.Dynamics;
 using SharpNeat.Core;
 using SharpNeat.Domains;
 using SharpNeat.DomainsExtra.Box2D;
-using SharpNeat.Genomes.Neat;
+using SharpNeat.Genome.Neat;
 using SharpNeat.Phenomes;
 using Tao.OpenGl;
 

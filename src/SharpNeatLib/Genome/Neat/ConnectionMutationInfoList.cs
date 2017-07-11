@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using Redzen.Numerics;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// Represents a list of ConnectionMutationInfo objects. 

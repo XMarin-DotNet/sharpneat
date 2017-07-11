@@ -13,7 +13,7 @@
 using SharpNeat.Network;
 using System.Collections.Generic;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Genome.Neat
 {
     /// <summary>
     /// A gene that represents a single neuron in NEAT.
