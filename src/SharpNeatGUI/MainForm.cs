@@ -536,7 +536,7 @@ namespace SharpNeatGUI
 
             // Auxiliary fitness info.
             AuxFitnessInfo[] auxFitnessArr = _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr;
-            if(auxFitnessArr.Length > 0) {
+            if(auxFitnessArr?.Length > 0) {
                 txtStatsAlternativeFitness.Text = auxFitnessArr[0]._value.ToString("#.######");
             } else {
                 txtStatsAlternativeFitness.Text = "";

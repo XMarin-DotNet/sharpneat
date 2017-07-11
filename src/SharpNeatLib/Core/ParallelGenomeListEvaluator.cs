@@ -140,8 +140,7 @@ namespace SharpNeat.Core
                 else
                 {   
                     FitnessInfo fitnessInfo = _phenomeEvaluator.Evaluate(phenome);
-                    genome.EvaluationInfo.SetFitness(fitnessInfo._fitness);
-                    genome.EvaluationInfo.AuxFitnessArr = fitnessInfo._auxFitnessArr;
+                    genome.EvaluationInfo.SetFitness(fitnessInfo.FitnessArray[0]);
                 }
             });
         }
@@ -169,8 +168,7 @@ namespace SharpNeat.Core
                 else
                 {   
                     FitnessInfo fitnessInfo = _phenomeEvaluator.Evaluate(phenome);
-                    genome.EvaluationInfo.SetFitness(fitnessInfo._fitness);
-                    genome.EvaluationInfo.AuxFitnessArr = fitnessInfo._auxFitnessArr;
+                    genome.EvaluationInfo.SetFitness(fitnessInfo.FitnessArray[0]);
                 }
             });
         }

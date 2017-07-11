@@ -121,7 +121,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
             }
 
             // ENHANCEMENT: Adjust fitness scheme so that random agents are scored zero (currently they score 50% -> 1024).
-            return new FitnessInfo(fitness, fitness);
+            return new FitnessInfo(new double[] {fitness });
         }
 
         /// <summary>
