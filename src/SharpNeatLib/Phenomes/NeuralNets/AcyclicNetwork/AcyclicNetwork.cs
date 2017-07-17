@@ -181,6 +181,9 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx];
                 _activationFn(_activationArr, nodeIdx, layerInfo._endNodeIdx);
+
+                // Update nodeIdx to point at first node in the next layer.
+                nodeIdx = layerInfo._endNodeIdx;
             }
         }
 
